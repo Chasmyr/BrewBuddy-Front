@@ -1,9 +1,13 @@
-function App() {
+import { BrowserRouter } from "react-router"
+import AppRouter from "./routes/Router"
+import "./index.css"
+
+const App = () => {
 
   return (
-    <>
-      <p>Brew Buddy</p>
-    </>
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
   )
 }
 
