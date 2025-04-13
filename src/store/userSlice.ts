@@ -2,10 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export interface User {
     token: string | null
+    id: number | null
+    role: string | null
 }
 
 const initialState: User = {
-    token: null
+    token: null,
+    id: null,
+    role: null
 }
 
 export const userSlice = createSlice({
@@ -13,7 +17,15 @@ export const userSlice = createSlice({
     initialState,
     reducers: {
         setUserSlice: (state, action: PayloadAction<any>) => {
-            state.token = action.payload.accessToken
+            if(action.payload.accessToken) {
+                state.token = action.payload.accessToken
+            }
+            if(action.payload.id) {
+                state.id = action.payload.id
+            }
+            if(action.payload.role) {
+                state.role = action.payload.role
+            }
         },
         logout: (state) => {
             state.token = null

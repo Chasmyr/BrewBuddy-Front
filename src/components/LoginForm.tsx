@@ -1,14 +1,19 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material"
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, IconButton, InputAdornment, TextField, Typography } from "@mui/material"
+import { Alert, Box, Button, Checkbox, FormControlLabel, FormGroup, IconButton, InputAdornment, TextField, Typography } from "@mui/material"
 import { ChangeEvent, useEffect, useState } from "react"
 import { useApi } from "../hooks/useApi"
 import { useDispatch } from "react-redux"
-import { setUserSlice } from "../store/userSlice"
-import { useNavigate } from "react-router"
+import { setUserSlice, User } from "../store/userSlice"
+import { Link, useNavigate } from "react-router"
+import { AxiosError } from "axios"
 
 interface LoginFormData {
     email: string
     password: string
+}
+
+type ApiErrorResponse = {
+    error: string;
 }
 
 const LoginForm = () => {
@@ -19,9 +24,12 @@ const LoginForm = () => {
         password: ""
     })
     const [rememberMe, setRememberMe] = useState(false)
+    const [errorMessage, setErrorMessage] = useState("")
+    const [userDetails, setUserDetails] = useState<User | null>(null)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const {data, isLoading, error, fetchData} = useApi()
+
+    const {data, error, isLoading, fetchData} = useApi()
     
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -33,7 +41,7 @@ const LoginForm = () => {
         }))
     }
 
-    const handleCheckBox = (e:any) => {
+    const handleCheckBox = () => {
         setRememberMe(!rememberMe)
     }
 
@@ -43,22 +51,48 @@ const LoginForm = () => {
             data: formData,
             method: 'post'
         }
-        await fetchData("/api/login", axiosConfig)
+        if(!isLoading) {
+            const loginResponse = await fetchData("/api/login", axiosConfig)
+            if(loginResponse.accessToken) {
+                let axiosConfig2 = {
+                    method: 'get',
+                    headers: {
+                        Authorization: `Bearer ${loginResponse.accessToken}`
+                    }
+                }
+                const userInfo = await fetchData("/api/checkMe", axiosConfig2)
+                setUserDetails({
+                    ...loginResponse,
+                    ...userInfo
+                })
+            }
+        }
     }
 
     useEffect(() => {
-        if(data) {
+        if(userDetails) {
             dispatch(setUserSlice(data))
-            if(rememberMe) {
-                localStorage.setItem("accessToken", data?.accessToken)
+            if(rememberMe) { 
+                userDetails.token && localStorage.setItem("accessToken", userDetails.token)
+                userDetails.id && localStorage.setItem("id", userDetails.id.toString())
+                userDetails.role && localStorage.setItem("accessToken", userDetails.role)
             }
             navigate("/")
         }
-    }, [data])
+    }, [userDetails])
 
     useEffect(() => {
         if(error) {
-            console.log("error")
+            const axiosError = error as AxiosError<ApiErrorResponse>
+            if(axiosError.response) {
+                if(axiosError.response?.data.error === "InvalidCredentials") {
+                    setErrorMessage("Mail ou mot de passe incorrect.")
+                } else if (axiosError.response?.data.error === "Not Found") {
+                    setErrorMessage("Impossible de joindre le serveur.")
+                } else {
+                    setErrorMessage("Une erreur est survenue.")
+                }
+            }
         }
     }, [error])
 
@@ -96,14 +130,13 @@ const LoginForm = () => {
             <Typography 
                 variant="h2" 
                 fontSize={{
-                    xs: 28,
-                    sm: 36
+                    xs: 26,
+                    sm: 34
                 }}
                 sx={{
                     mb: {
-                        xs: 3,
-                        sm: 4,
-                        lg: 6
+                        sm: 2,
+                        lg: 4
                     },
                     display: {
                         xs: "none",
@@ -116,8 +149,17 @@ const LoginForm = () => {
             <Box
                 component="form"
                 onSubmit={handleSubmit}
-                width="70%"
+                width={{
+                    xs: "80%",
+                    sm: "75%",
+                    lg: "70%"
+                }}
             >   
+                {error && 
+                    <>
+                        <Alert severity="error" sx={{mb:2}}>{errorMessage}</Alert>
+                    </>
+                }
                 <Box
                     sx={{
                         width: "100%",
@@ -206,7 +248,7 @@ const LoginForm = () => {
                 sx={{
                     transform: {
                         xs: "translateY(3vh)",
-                        lg: "translateY(20vh)"
+                        lg: "translateY(10vh)"
                     }
                 }}
             >
@@ -216,7 +258,7 @@ const LoginForm = () => {
                         cursor: "pointer",
                     }}
                 >
-                    Je n'ai pas de compte
+                    <Link to="/register" style={{color: "black"}}>Je n'ai pas de compte</Link>
                 </Typography>
             </Box>
         </Box>

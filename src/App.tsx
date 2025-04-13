@@ -14,6 +14,14 @@ const App = () => {
     if(token) {
       dispatch(setUserSlice({"accessToken": token}))
     }
+    const uid = localStorage.getItem("id")
+    if(uid) {
+      dispatch(setUserSlice({"id": uid}))
+    }
+    const role = localStorage.getItem("role")
+    if(role) {
+      dispatch(setUserSlice({"role": role}))
+    }
   }, [])
 
   return (

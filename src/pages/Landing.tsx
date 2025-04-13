@@ -2,8 +2,6 @@ import { Box, ThemeProvider, Typography } from "@mui/material"
 import Footer from "../layout/Footer"
 import Header from "../layout/Header"
 import { headingFont } from "../themes/font"
-import { useSelector } from "react-redux"
-import { RootState } from "../store/store"
 
 const LandingPage = () => {
 
