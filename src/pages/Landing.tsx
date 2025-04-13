@@ -1,31 +1,39 @@
-import { Box, Typography } from "@mui/material"
+import { Box, ThemeProvider, Typography } from "@mui/material"
 import Footer from "../layout/Footer"
 import Header from "../layout/Header"
+import { headingFont } from "../themes/font"
+import { useSelector } from "react-redux"
+import { RootState } from "../store/store"
 
 const LandingPage = () => {
 
     return (
         <>
-            {/* <Header /> */}
+            <Header />
             <Box sx={{
                 background: "#2D2E2E",
                 height: "100vh",
                 display: "flex",
                 justifyContent: "center",
-                alignItems: "center"
+                alignItems: "center",
+                backgroundImage: "url('/assets/background_landing.png')",
+                backgroundPosition: "center",
+                backgroundSize: "cover"
                 }}>
                 <Box>
-                    <Typography variant="h2" color="#FFFCF2" sx={{fontSize: 92}}>
-                        Brew Buddy
-                    </Typography>
-                    <Box sx={{display: "flex"}}>
-                        <Typography variant="h2" color="#FFFCF2" sx={{fontSize: 32, pr: 1}}>
-                            L'art de la bière
+                    <ThemeProvider theme={headingFont}>
+                        <Typography variant="h2" color="#FFFCF2" sx={{fontSize: 92}} fontWeight="bold">
+                            Brew Buddy
                         </Typography>
-                        <Typography variant="h2" color="#F1A500" sx={{fontSize: 32}}>
-                            Amateur
-                        </Typography>
-                    </Box>
+                        <Box sx={{display: "flex"}}>
+                            <Typography variant="h2" color="#FFFCF2" sx={{fontSize: 46, pr: 1}} fontWeight="semi-bold">
+                                L'art de la bière
+                            </Typography>
+                            <Typography variant="h2" color="#F99926" sx={{fontSize: 46}} fontWeight="semi-bold">
+                                Amateur
+                            </Typography>
+                        </Box>
+                    </ThemeProvider>
                 </Box>
             </Box>
             <Box sx={{
@@ -64,11 +72,10 @@ const LandingPage = () => {
                 display: "flex",
                 justifyContent: "flex-end"
             }}>
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#F1A500" fillOpacity="1" d="M0,160L40,165.3C80,171,160,181,240,197.3C320,213,400,235,480,240C560,245,640,235,720,224C800,213,880,203,960,181.3C1040,160,1120,128,1200,128C1280,128,1360,160,1400,176L1440,192L1440,320L1400,320C1360,320,1280,320,1200,320C1120,320,1040,320,960,320C880,320,800,320,720,320C640,320,560,320,480,320C400,320,320,320,240,320C160,320,80,320,40,320L0,320Z"></path>
-                </svg>
+                <svg id="wave" viewBox="0 0 1440 190" version="1.1" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sw-gradient-0" x1="0" x2="0" y1="1" y2="0"><stop stopColor="rgba(249, 153, 38, 1)" offset="0%"></stop><stop stopColor="rgba(249, 153, 38, 1)" offset="100%"></stop></linearGradient></defs><path fill="url(#sw-gradient-0)" d="M0,60L48,60C96,60,192,60,288,80C384,100,480,140,576,133.3C672,127,768,73,864,66.7C960,60,1056,100,1152,106.7C1248,113,1344,87,1440,83.3C1536,80,1632,100,1728,90C1824,80,1920,40,2016,26.7C2112,13,2208,27,2304,43.3C2400,60,2496,80,2592,93.3C2688,107,2784,113,2880,113.3C2976,113,3072,107,3168,103.3C3264,100,3360,100,3456,100C3552,100,3648,100,3744,96.7C3840,93,3936,87,4032,100C4128,113,4224,147,4320,163.3C4416,180,4512,180,4608,163.3C4704,147,4800,113,4896,90C4992,67,5088,53,5184,63.3C5280,73,5376,107,5472,123.3C5568,140,5664,140,5760,140C5856,140,5952,140,6048,116.7C6144,93,6240,47,6336,26.7C6432,7,6528,13,6624,40C6720,67,6816,113,6864,136.7L6912,160L6912,200L6864,200C6816,200,6720,200,6624,200C6528,200,6432,200,6336,200C6240,200,6144,200,6048,200C5952,200,5856,200,5760,200C5664,200,5568,200,5472,200C5376,200,5280,200,5184,200C5088,200,4992,200,4896,200C4800,200,4704,200,4608,200C4512,200,4416,200,4320,200C4224,200,4128,200,4032,200C3936,200,3840,200,3744,200C3648,200,3552,200,3456,200C3360,200,3264,200,3168,200C3072,200,2976,200,2880,200C2784,200,2688,200,2592,200C2496,200,2400,200,2304,200C2208,200,2112,200,2016,200C1920,200,1824,200,1728,200C1632,200,1536,200,1440,200C1344,200,1248,200,1152,200C1056,200,960,200,864,200C768,200,672,200,576,200C480,200,384,200,288,200C192,200,96,200,48,200L0,200Z"></path></svg>    
             </Box>
             <Box sx={{
-                background: "#F1A500",
+                background: "#F99926",
                 height: "100vh",
                 display: "flex",
                 justifyContent: "center",
