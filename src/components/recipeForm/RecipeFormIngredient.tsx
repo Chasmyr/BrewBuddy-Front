@@ -22,10 +22,7 @@ const RecipeFormIngredient = () => {
                 flexDirection: "column",
                 width: "100%",
                 bgcolor: "#FFFCF2",
-                p: 6,
-                pt: 0,
-                borderBottomLeftRadius: 4,
-                borderBottomRightRadius: 4
+                px: 6
             }}
         >
             <Box
@@ -36,7 +33,7 @@ const RecipeFormIngredient = () => {
             >
                 <Typography
                     variant="h4"
-                    fontSize={26}
+                    fontSize={22}
                 >
                     Ingredients
                 </Typography>

@@ -17,9 +17,7 @@ const RecipeFormBase = () => {
                 flexDirection: "column",
                 width: "100%",
                 bgcolor: "#FFFCF2",
-                p: 6,
-                borderTopLeftRadius: 4,
-                borderTopRightRadius: 4
+                p: 6
             }}
         >   
             <Box
@@ -30,7 +28,7 @@ const RecipeFormBase = () => {
             >
                 <Typography
                     variant="h4"
-                    fontSize={26}
+                    fontSize={22}
                 >
                     Profil de la bière
                 </Typography>
