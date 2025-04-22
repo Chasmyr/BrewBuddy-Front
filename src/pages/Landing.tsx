@@ -39,11 +39,10 @@ const LandingPage = () => {
                 height: "100vh",
                 display: "flex",
                 justifyContent: "space-evenly",
-                alignItems: "center",
-                pt: 8
+                alignItems: "center"
             }}>
                     <Box sx={{
-                        backgroundImage: "url('/assets/blob.svg')",
+                        backgroundImage: "url('/assets/blob_bottle.png')",
                         width: "35vw",
                         height: "100vh",
                         backgroundRepeat: "no-repeat",
@@ -67,6 +66,36 @@ const LandingPage = () => {
             </Box>
             <Box sx={{
                 background: "#FFFCF2",
+                height: "100vh",
+                display: "flex",
+                justifyContent: "space-evenly",
+                alignItems: "center"
+            }}>
+                    <Box sx={{
+                        width: "35vw",
+                        height: "100vh",
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "center"
+                    }}>
+                        <Typography variant="h2" color="#424B54" sx={{fontSize: 24, fontWeight: 600}}>
+                            Découvrez notre kit de brassage !
+                        </Typography>
+                        <Typography variant="h2" color="#424B54" sx={{fontSize: 16, fontWeight: 500, mt: 2}}>
+                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                        </Typography>
+                    </Box>
+                    <Box sx={{
+                        backgroundImage: "url('/assets/blob_cap.png')",
+                        width: "35vw",
+                        height: "100vh",
+                        backgroundRepeat: "no-repeat",
+                        backgroundPosition: "center"
+                    }}>
+                    </Box>
+            </Box>
+            <Box sx={{
+                background: "#FFFCF2",
                 display: "flex",
                 justifyContent: "flex-end"
             }}>
@@ -76,10 +105,35 @@ const LandingPage = () => {
                 background: "#F99926",
                 height: "100vh",
                 display: "flex",
-                justifyContent: "center",
-                alignItems: "center"
+                justifyContent: "center"
             }}>
-
+                <Typography
+                    variant="h3"
+                    color="#FFFCF2"
+                    fontSize={28}
+                    sx={{
+                        pr: 1
+                    }}
+                >
+                    C'est aussi de
+                </Typography>
+                <Typography
+                    variant="h3"
+                    color="#A44200"
+                    fontSize={28}
+                >
+                    nombreuses 
+                </Typography>
+                <Typography
+                variant="h3"
+                color="#FFFCF2"
+                fontSize={28}
+                sx={{
+                    pl: 1
+                }}
+                >
+                    recettes 🍻
+                </Typography>
             </Box>
             <Footer />
         </>

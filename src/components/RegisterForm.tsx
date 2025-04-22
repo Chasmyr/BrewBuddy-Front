@@ -33,7 +33,7 @@ const RegisterForm = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     
-    const {data, error, isLoading, fetchData} = useApi()
+    const {error, isLoading, fetchData} = useApi()
     
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 

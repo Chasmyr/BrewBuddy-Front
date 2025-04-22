@@ -9,7 +9,9 @@ const Header = () => {
         <Box>
             <AppBar>
                 <Toolbar sx={{ background: "#2D2E2E", boxShadow: 1, display: "flex", justifyContent: "space-between", textAlign: "center"}}>
-                    <Typography variant="h3" component="div" sx={{flexGrow: 1, color: "#FFFCF2", fontSize: 18, cursor: "pointer" }}>
+                    <Typography variant="h3" component="div" sx={{flexGrow: 1, color: "#FFFCF2", fontSize: 18, cursor: "pointer" }}
+                        onClick={() => navigate('/recipe')}
+                    >
                         Recettes
                     </Typography>
                     <Typography variant="h3" component="div" sx={{flexGrow: 1, color: "#FFFCF2", fontSize: 18, cursor: "pointer" }}>
