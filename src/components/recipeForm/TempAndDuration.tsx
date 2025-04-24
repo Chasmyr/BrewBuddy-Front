@@ -26,7 +26,7 @@ const TempAndDuration: React.FC<TempAndDurationProps>  = ({title, temperature, s
                 }}
             >
                 <TextField 
-                    placeholder="Température"
+                    placeholder="Température (°C)"
                     type="number"
                     variant="standard"
                     slotProps={{
@@ -44,7 +44,7 @@ const TempAndDuration: React.FC<TempAndDurationProps>  = ({title, temperature, s
                     }}
                 />
                 <TextField 
-                    placeholder="Durée"
+                    placeholder="Durée (min)"
                     type="number"
                     variant="standard"
                     slotProps={{
