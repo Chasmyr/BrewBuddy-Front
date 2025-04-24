@@ -25,7 +25,7 @@ const RecipeBreadcrumb: React.FC<RecipeBreadcrumbPorps> = ({currentStep, setCurr
         >
             <Breadcrumbs 
             aria-label="recipe-breacrumb"
-            separator=">"
+            separator="→"
             sx={{
                 display: "flex",
                 justifyContent: "center",

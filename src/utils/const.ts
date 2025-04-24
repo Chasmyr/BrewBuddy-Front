@@ -15,7 +15,7 @@ export const ingrEx: IngredientType[] = [
       {
         "id": 39,
         "name": "Chinook (Pellets)",
-        "measureUnit": "g",
+        "measureUnit": "kg",
         "dosage": null,
         "category": "houblons"
       },

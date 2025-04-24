@@ -83,7 +83,7 @@ const RecipeFormBase = () => {
                             })
                         }
                     </Select>
-                    <SliderRecipeBase name="Amertume" value={amertumeValue} setValue={setAmertumeValue} />
+                    <SliderRecipeBase name="IBU" value={amertumeValue} setValue={setAmertumeValue} />
                 </Box>
             </Box>
         </Box>
