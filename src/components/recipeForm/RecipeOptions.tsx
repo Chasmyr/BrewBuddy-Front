@@ -30,6 +30,7 @@ const RecipeOptions: React.FC<RecipeOptionsProps> = ({currentStep, setCurrentSte
                 width: "100%",
                 bgcolor: "#FFFCF2",
                 px: 6,
+                pb: 2,
                 borderBottomLeftRadius: 4,
                 borderBottomRightRadius: 4
             }}
@@ -38,15 +39,15 @@ const RecipeOptions: React.FC<RecipeOptionsProps> = ({currentStep, setCurrentSte
                 <Button
                 onClick={handlePrev}
                 >
-                    PREV
+                    Précédent
                 </Button>
             )}
 
-            {currentStep < 3 && (
+            {currentStep < steps.length - 1 && (
                 <Button
                     onClick={handleNext}
                 >
-                    NEXT
+                    Suivant
                 </Button>
             )}
         </Box>

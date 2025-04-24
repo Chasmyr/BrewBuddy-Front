@@ -5,12 +5,16 @@ import RecipeFormIngredient from "../components/recipeForm/RecipeFormIngredient"
 import RecipeBreadcrumb from "../components/recipeForm/RecipeBreadcrumb"
 import { useState } from "react"
 import RecipeOptions from "../components/recipeForm/RecipeOptions"
+import RecipeFormMashing from "../components/recipeForm/RecipeFormMashing"
+import { recipeSteps } from "../utils/const"
+import RecipeFormBoiling from "../components/recipeForm/RecipeFormBoiling"
 
 
 const RecipePage = () => {
 
     const [currentStep, setCurrentStep] = useState(2)
-    const recipeSteps = ['Profil', 'Empâtage', 'Ebullition', 'Fermentation']
+    const [isMultiMashing, setIsMultiMashing] = useState(false)
+    const [isMashout, setIsMashout] = useState(false)
 
     return (
         <>
@@ -18,10 +22,10 @@ const RecipePage = () => {
             <Box
                 sx={{
                     width: "100%",
-                    minHeight: "100%",
+                    minHeight: "100vh",
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "center",
+                    justifyContent: "flex-start",
                     flexDirection: "column",
                     bgcolor: "#F99926",
                 }}
@@ -29,49 +33,45 @@ const RecipePage = () => {
                 <Box
                     sx={{
                         width: "80%",
-                        maxWidth: "800px",
-                        mb: 2,
-                        mt: 16,
-                        color: '#FFFCF2'
+                        maxWidth: "800px"
                     }}
                 >
-                    <Typography variant="h4">
-                        Créer ta propre recette de bière ! 🍻
-                    </Typography>
-                </Box>
-                <Box
-                    sx={{
-                        width: "80%",
-                        maxWidth: "800px",
-                        mb: 6
-                    }}
-                >   
-                    <RecipeBreadcrumb currentStep={currentStep} setCurrentStep={setCurrentStep} steps={recipeSteps}/>
-                    {currentStep === 0 && (
-                        <>
+                    <Box
+                        sx={{
+                            mb: 2,
+                            mt: 16,
+                            color: '#FFFCF2',
+                            width: "714px"
+                        }}
+                    >
+                        <Typography variant="h4">
+                            Créer ta propre recette de bière ! 🍻
+                        </Typography>
+                    </Box>
+                    <Box
+                        sx={{
+                            width: "714px",
+                            mb: 6,
+                        }}
+                    >   
+                        <RecipeBreadcrumb currentStep={currentStep} setCurrentStep={setCurrentStep} steps={recipeSteps}/>
+                        {currentStep === 0 && (
                             <RecipeFormBase />
+                        )}
+
+                        {currentStep === 1 && (
                             <RecipeFormIngredient />
-                        </>
-                    )}
+                        )}
 
-                    {currentStep === 1 && (
-                        <p>
-                            1
-                        </p>
-                    )}
+                        {currentStep === 2 && (
+                            <RecipeFormMashing isMulti={isMultiMashing} setIsMulti={setIsMultiMashing} isMashout={isMashout} setIsMashout={setIsMashout} />
+                        )}
 
-                    {currentStep === 2 && (
-                        <p>
-                            2
-                        </p>
-                    )}
-
-                    {currentStep === 3 && (
-                        <p>
-                            3
-                        </p>
-                    )}
-                    <RecipeOptions currentStep={currentStep} setCurrentStep={setCurrentStep} steps={recipeSteps} />
+                        {currentStep === 3 && (
+                            <RecipeFormBoiling />
+                        )}
+                        <RecipeOptions currentStep={currentStep} setCurrentStep={setCurrentStep} steps={recipeSteps} />
+                    </Box>
                 </Box>
             </Box>
         </>

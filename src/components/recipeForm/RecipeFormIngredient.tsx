@@ -22,7 +22,7 @@ const RecipeFormIngredient = () => {
                 flexDirection: "column",
                 width: "100%",
                 bgcolor: "#FFFCF2",
-                px: 6
+                p: 6
             }}
         >
             <Box
