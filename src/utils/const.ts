@@ -4,6 +4,12 @@ export const beerStyles = ["Pils", "IPA", "NEIPA", "Pale Ale", "Stout", "Porter"
 
 export const recipeSteps = ['Profil', 'Empâtage', 'Ebullition', 'Fermentation']
 
+export const mashoutStep = {
+    temperature: 77,
+    duration: 10,
+    mashout: true
+}
+
 export const ingrEx: IngredientType[] = [
     {
         "id": 38,

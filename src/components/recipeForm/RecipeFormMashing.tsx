@@ -3,10 +3,11 @@ import TempAndDuration from "./TempAndDuration"
 import SelectIngredient from "./SelectIngredient"
 import { IngredientType } from "../../type/ingredient"
 import { useEffect, useState } from "react"
-import { ingrEx } from "../../utils/const"
+import { ingrEx, mashoutStep } from "../../utils/const"
 import IngredientDetails from "./IngredientDetails"
 import { TemperatureAndDuration } from "../../type/recipeObject"
 import RecipeOptions from "./RecipeOptions"
+import { useSnackbar } from "../../context/SnackbarContext"
 
 type RecipeFormMashingProps = {
     isMulti: boolean,
@@ -22,6 +23,8 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
     const [mashingSteps, setMashingSteps] = useState<TemperatureAndDuration[]>([
         { temperature: 0, duration: 0 }
     ])
+    const [quantities, setQuantities] = useState<Record<number, number>>({})
+    const { showSnackbar } = useSnackbar()
 
     const handleChangeSwitchMulti = () => {
         if(malts.length > 0) {
@@ -33,6 +36,59 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
         if(malts.length > 0) {
             setIsMashout(!isMashout)
         }
+    }
+
+    const checkIfFormComplete = () => {
+
+        if(malts.length === 0) {
+            showSnackbar('Au moins un ingrédient est requis.', 'error')
+            return false
+        }
+        mashingSteps.map((step, index) => {
+            if(step.temperature === 0) {
+                showSnackbar(`La température du palier ${index + 1} ne peut pas être égale à 0.`, 'error')
+                return false
+            }
+            if(step.duration === 0) {
+                showSnackbar(`La durée du palier ${index + 1} ne peut pas être égale à 0.`, 'error')
+                return false
+            }
+        })
+
+        return false
+    }
+
+    const handleNext = () => {
+
+        // making the ingredient object for the recipe
+        const maltsIngredientsData = {
+            category: "malts",
+            ingredients: malts.map((malt) => ({
+                ingredientID: malt.id,
+                quantity: quantities[malt.id],
+                name: malt.name,
+                measureUnit: malt.measureUnit
+            }))
+        }
+
+        // making the steps object for the recipe
+        let mashingStepsData = [...mashingSteps]
+        
+        if(isMashout) {
+            mashingStepsData.push(mashoutStep)
+        }
+
+        let fullMashingStepObject = {
+            steps: mashingStepsData
+        }
+
+        if(isMulti) {
+            Object.assign(fullMashingStepObject, { multiStage: true }) 
+        }
+
+        // TODO => dispatch
+
+        return checkIfFormComplete()
     }
 
     useEffect(() => {
@@ -109,7 +165,16 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
                         }}
                     >
                         <SelectIngredient name="Malt(s)" value={malts} setValue={setMatls} options={ingrEx} />
-                        <IngredientDetails needQuantity={true} ingredients={malts} />
+                        <IngredientDetails 
+                            needQuantity={true} 
+                            ingredients={malts}
+                            onQuantityChange={(id: number, quantity: number) => {{
+                                setQuantities((prev) => ({
+                                    ...prev,
+                                    [id]: quantity
+                                }))
+                            }}}
+                        />
                     </Box>
                 </Box>
                 <Box
@@ -186,7 +251,7 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
                     }
                 </Box>
             </Box>
-            <RecipeOptions />
+            <RecipeOptions handleNext={handleNext} />
         </>
     )
 }

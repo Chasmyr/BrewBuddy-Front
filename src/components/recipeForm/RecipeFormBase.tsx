@@ -33,6 +33,7 @@ const RecipeFormBase = () => {
     }
 
     const handleNext = () => {
+        // TODO : modifier ebc ibu en back pour prendre l'array
         const beerProfil = {
             description: "",
             ebc: ebcValue[1],
@@ -40,6 +41,8 @@ const RecipeFormBase = () => {
             style: beerStyle,
             recipeName: beerName
         }
+
+        // TODO => dispatch
 
         return checkIfFormComplete()
     }

@@ -3,10 +3,11 @@ import { IngredientType } from "../../type/ingredient"
 
 type IngredientDetailsProps = {
     ingredients: IngredientType[],
-    needQuantity: boolean
+    needQuantity: boolean,
+    onQuantityChange: (id: number, quantity: number) => void
 }
 
-const IngredientDetails: React.FC<IngredientDetailsProps> = ({ingredients, needQuantity}) => {
+const IngredientDetails: React.FC<IngredientDetailsProps> = ({ingredients, needQuantity, onQuantityChange}) => {
 
     return (
         <Box
@@ -35,6 +36,10 @@ const IngredientDetails: React.FC<IngredientDetailsProps> = ({ingredients, needQ
                             variant="standard"
                             sx={{
                                 maxWidth: "140px"
+                            }}
+                            onChange={(e) => {
+                                const newQuantity = Number(e.target.value)
+                                onQuantityChange(ingredient.id, newQuantity)
                             }}
                             slotProps={{
                                 input: {
