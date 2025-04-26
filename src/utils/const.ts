@@ -1,4 +1,5 @@
 import { IngredientType } from "../type/ingredient"
+import { BoilingStep } from "../type/recipeObject"
 
 export const beerStyles = ["Pils", "IPA", "NEIPA", "Pale Ale", "Stout", "Porter"]
 
@@ -9,6 +10,33 @@ export const mashoutStep = {
     duration: 10,
     mashout: true
 }
+
+export const boilingStepEx: BoilingStep[] = [
+  {
+    whenToAdd: 0,
+    duration: 0,
+    ingredient: {
+      quantity: 100,
+      ingredientID: 1,
+    },
+  },
+  {
+    whenToAdd: 0,
+    duration: 0,
+    ingredient: {
+      quantity: 50,
+      ingredientID: 2,
+    },
+  },
+  {
+    whenToAdd: 0,
+    duration: 0,
+    ingredient: {
+      quantity: 25,
+      ingredientID: 3,
+    }
+  }
+]
 
 export const ingrEx: IngredientType[] = [
     {

@@ -55,7 +55,7 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
             }
         })
 
-        return false
+        return true
     }
 
     const handleNext = () => {
@@ -164,10 +164,11 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
                             flexDirection: "column"
                         }}
                     >
-                        <SelectIngredient name="Malt(s)" value={malts} setValue={setMatls} options={ingrEx} />
+                        <SelectIngredient name="Malt(s) *" value={malts} setValue={setMatls} options={ingrEx} />
                         <IngredientDetails 
                             needQuantity={true} 
                             ingredients={malts}
+                            minHeightUnder="60px"
                             onQuantityChange={(id: number, quantity: number) => {{
                                 setQuantities((prev) => ({
                                     ...prev,

@@ -5,7 +5,7 @@ export interface RecipeForm {
 }
 
 const initialState: RecipeForm = {
-    currentStep: 0
+    currentStep: 2
 }
 
 export const recipeFormSlice = createSlice({

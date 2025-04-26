@@ -4,15 +4,16 @@ import { IngredientType } from "../../type/ingredient"
 type IngredientDetailsProps = {
     ingredients: IngredientType[],
     needQuantity: boolean,
-    onQuantityChange: (id: number, quantity: number) => void
+    onQuantityChange: (id: number, quantity: number) => void,
+    minHeightUnder: string
 }
 
-const IngredientDetails: React.FC<IngredientDetailsProps> = ({ingredients, needQuantity, onQuantityChange}) => {
+const IngredientDetails: React.FC<IngredientDetailsProps> = ({ingredients, needQuantity, onQuantityChange, minHeightUnder}) => {
 
     return (
         <Box
             sx={{
-                minHeight: "60px",
+                minHeight: minHeightUnder,
                 mt: 1
             }}
         >
