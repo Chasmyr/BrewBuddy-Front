@@ -4,8 +4,11 @@ import { RootState } from "../../store/store"
 import { setCurrentStep } from "../../store/recipeFormSlice"
 import { recipeSteps } from "../../utils/const"
 
+type RecipeOptionsProps = {
+    handleNext: (...args: any[]) => any
+}
 
-const RecipeOptions = () => {
+const RecipeOptions: React.FC<RecipeOptionsProps> = ({handleNext}) => {
 
     const dispatch = useDispatch()
 
@@ -14,13 +17,13 @@ const RecipeOptions = () => {
         dispatch(setCurrentStep(step))
     } 
 
-    const handleNext = () => {
-        if (currentStep < recipeSteps.length - 1) {
-            handleSetCurrentStep(currentStep + 1)
+    const handleNextButton = () => {
+        if(handleNext() && currentStep < recipeSteps.length - 1) {
+                handleSetCurrentStep(currentStep + 1)
         }
     }
 
-    const handlePrev = () => {
+    const handlePrevButton = () => {
         if (currentStep > 0) {
             handleSetCurrentStep(currentStep - 1)
         }
@@ -42,7 +45,7 @@ const RecipeOptions = () => {
         >
             {currentStep > 0 && (
                 <Button
-                onClick={handlePrev}
+                onClick={handlePrevButton}
                 >
                     Précédent
                 </Button>
@@ -50,7 +53,7 @@ const RecipeOptions = () => {
 
             {currentStep < recipeSteps.length - 1 && (
                 <Button
-                    onClick={handleNext}
+                    onClick={handleNextButton}
                 >
                     Suivant
                 </Button>

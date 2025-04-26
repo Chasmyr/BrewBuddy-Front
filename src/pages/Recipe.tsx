@@ -3,7 +3,6 @@ import RecipeFormBase from "../components/recipeForm/RecipeFormBase"
 import Header from "../layout/Header"
 import RecipeBreadcrumb from "../components/recipeForm/RecipeBreadcrumb"
 import { useState } from "react"
-import RecipeOptions from "../components/recipeForm/RecipeOptions"
 import RecipeFormMashing from "../components/recipeForm/RecipeFormMashing"
 import RecipeFormBoiling from "../components/recipeForm/RecipeFormBoiling"
 import { useSelector } from "react-redux"
@@ -66,7 +65,6 @@ const RecipePage = () => {
                         {currentStep === 2 && (
                             <RecipeFormBoiling />
                         )}
-                        <RecipeOptions />
                     </Box>
                 </Box>
             </Box>

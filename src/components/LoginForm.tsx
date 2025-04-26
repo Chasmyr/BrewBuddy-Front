@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux"
 import { setUserSlice, User } from "../store/userSlice"
 import { Link, useNavigate } from "react-router"
 import { AxiosError } from "axios"
+import { useSnackbar } from "../context/SnackbarContext"
+import { checkEmailConstraints } from "../utils/constraintsFormatter"
 
 interface LoginFormData {
     email: string
@@ -24,10 +26,10 @@ const LoginForm = () => {
         password: ""
     })
     const [rememberMe, setRememberMe] = useState(false)
-    const [errorMessage, setErrorMessage] = useState("")
     const [userDetails, setUserDetails] = useState<User | null>(null)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const { showSnackbar } = useSnackbar()
 
     const {data, error, isLoading, fetchData} = useApi()
     
@@ -45,15 +47,33 @@ const LoginForm = () => {
         setRememberMe(!rememberMe)
     }
 
+    const checkIfFormComplete = () => {
+
+        if(!formData.email) {
+            showSnackbar("Le mail est requis.", "error")
+            return
+        }
+        if(!checkEmailConstraints(formData.email)) {
+            showSnackbar("Le format du mail n'est pas correct.", "error")
+            return
+        }
+        if(!formData.password) {
+            showSnackbar("Le mot de passe est requis.", "error")
+            return
+        }
+
+        return true
+    }
+
     const handleSubmit = async (e: any) => {
         e.preventDefault()
         const axiosConfig = {
             data: formData,
             method: 'post'
         }
-        if(!isLoading) {
+        if(!isLoading && checkIfFormComplete()) {
             const loginResponse = await fetchData("/api/login", axiosConfig)
-            if(loginResponse.accessToken) {
+            if(loginResponse) {
                 let axiosConfig2 = {
                     method: 'get',
                     headers: {
@@ -86,11 +106,11 @@ const LoginForm = () => {
             const axiosError = error as AxiosError<ApiErrorResponse>
             if(axiosError.response) {
                 if(axiosError.response?.data.error === "InvalidCredentials") {
-                    setErrorMessage("Mail ou mot de passe incorrect.")
+                    showSnackbar("Mail ou mot de passe incorrect.","error")
                 } else if (axiosError.response?.data.error === "Not Found") {
-                    setErrorMessage("Impossible de joindre le serveur.")
+                    showSnackbar("Impossible de joindre le serveur.","error")
                 } else {
-                    setErrorMessage("Une erreur est survenue.")
+                    showSnackbar("Une erreur est survenue.","error")
                 }
             }
         }
@@ -154,12 +174,7 @@ const LoginForm = () => {
                     sm: "75%",
                     lg: "70%"
                 }}
-            >   
-                {error && 
-                    <>
-                        <Alert severity="error" sx={{mb:2}}>{errorMessage}</Alert>
-                    </>
-                }
+            >
                 <Box
                     sx={{
                         width: "100%",

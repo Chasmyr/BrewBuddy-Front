@@ -7,6 +7,7 @@ import { setUserSlice, User } from "../store/userSlice"
 import { Link, useNavigate } from "react-router"
 import { checkEmailConstraints, checkPasswordConstraints } from "../utils/constraintsFormatter"
 import { AxiosError } from "axios"
+import { useSnackbar } from "../context/SnackbarContext"
 
 interface RegisterFormData {
     email: string
@@ -28,10 +29,10 @@ const RegisterForm = () => {
         pseudo: "",
         passwordCheck: ""
     })
-    const [errorMessage, setErrorMessage] = useState<string | null>(null)
     const [userDetails, setUserDetails] = useState<User | null>(null)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const { showSnackbar } = useSnackbar()
     
     const {error, isLoading, fetchData} = useApi()
     
@@ -47,34 +48,32 @@ const RegisterForm = () => {
 
     const checkIfFormComplete = () => {
 
-        let errors = 0
-        // controle du formulaire avant la soumission
         if(!formData.pseudo) {
-            setErrorMessage("Le nom d'utilisateur est requis.")
-            errors++
+            showSnackbar("Le nom d'utilisateur est requis.", "error")
+            return
         }
         if(!formData.email) {
-            setErrorMessage("Le mail est requis.")
-            errors++
-        }
-        if(!formData.password) {
-            setErrorMessage("Le mot de passe est requis.")
-            errors++
+            showSnackbar("Le mail est requis.", "error")
+            return
         }
         if(!checkEmailConstraints(formData.email)) {
-            setErrorMessage("Le format du mail n'est pas correct.")
-            errors++
+            showSnackbar("Le format du mail n'est pas correct.", "error")
+            return
+        }
+        if(!formData.password) {
+            showSnackbar("Le mot de passe est requis.", "error")
+            return
         }
         if(!checkPasswordConstraints(formData.password)) {
-            setErrorMessage("Le mot de passe ne correspond pas à nos normes de sécurité.")
-            errors++
+            showSnackbar("Le mot de passe ne correspond pas à nos normes de sécurité.", "error")
+            return
         }
         if(formData.password != formData.passwordCheck) {
-            setErrorMessage("Les mots de passe ne sont pas identiques.")
-            errors++
+            showSnackbar("Les mots de passe ne sont pas identiques.", "error")
+            return
         }
 
-        return errors === 0
+        return true
     }
 
     const handleSubmit = async (e: any) => {
@@ -86,7 +85,7 @@ const RegisterForm = () => {
                 method: 'post'
             }
             const createUserResponse = await fetchData("/api/users", axiosConfig)
-            if(createUserResponse.createdAt) {
+            if(createUserResponse) {
                 let response = null
                 if(!isLoading) {
                     const axiosConfig = {
@@ -127,11 +126,11 @@ const RegisterForm = () => {
             const axiosError = error as AxiosError<ApiErrorResponse>
             if(axiosError.response) {
                 if(axiosError.response?.data.error === "UserAlreadyExist") {
-                    setErrorMessage("Un compte éxiste déjà avec ce mail.")
+                    showSnackbar("Un compte éxiste déjà avec ce mail.", "error")
                 } else if (axiosError.response?.data.error === "Not Found") {
-                    setErrorMessage("Impossible de joindre le serveur.")
+                    showSnackbar("Impossible de joindre le serveur.", "error")
                 } else {
-                    setErrorMessage("Une erreur est survenue.")
+                    showSnackbar("Une erreur est survenue.", "error")
                 }
             }
         }
@@ -201,11 +200,6 @@ const RegisterForm = () => {
                     lg: "70%"
                 }}
             >   
-                {errorMessage && 
-                    <>
-                        <Alert severity="error" sx={{mb:2}}>{errorMessage}</Alert>
-                    </>
-                }
                 <Box
                     sx={{
                         width: "100%",

@@ -4,6 +4,7 @@ import "./index.css"
 import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { setUserSlice } from "./store/userSlice"
+import { SnackbarProvider } from "./context/SnackbarContext"
 
 const App = () => {
 
@@ -25,9 +26,11 @@ const App = () => {
   }, [])
 
   return (
-    <BrowserRouter>
-      <AppRouter />
-    </BrowserRouter>
+    <SnackbarProvider>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </SnackbarProvider>
   )
 }
 

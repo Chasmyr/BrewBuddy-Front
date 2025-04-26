@@ -6,6 +6,7 @@ import { useEffect, useState } from "react"
 import { ingrEx } from "../../utils/const"
 import IngredientDetails from "./IngredientDetails"
 import { TemperatureAndDuration } from "../../type/recipeObject"
+import RecipeOptions from "./RecipeOptions"
 
 type RecipeFormMashingProps = {
     isMulti: boolean,
@@ -58,132 +59,135 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
     }, [isMulti])
 
     return (
-        <Box
-            sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
-                flexDirection: "column",
-                width: "100%",
-                bgcolor: "#FFFCF2",
-                p: 6
-            }}
-        >
+        <>
             <Box
                 sx={{
-                    mb: 4,
-                    width: "100%",
                     display: "flex",
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    alignContent: "center",
+                    flexDirection: "column",
+                    width: "100%",
+                    bgcolor: "#FFFCF2",
+                    p: 6
                 }}
             >
-                <Typography
-                    variant="h3"
-                    fontSize={22}
-                >
-                    Empâtage
-                </Typography>
-            </Box>
-            <Box
-                sx={{
-                    mb: 2,
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column"
-                }}
-            >
-                <Typography
-                    variant="h4"
-                    fontSize={22}
-                >
-                    Ingrédients
-                </Typography>
                 <Box
                     sx={{
-                        display: "flex",
+                        mb: 4,
                         width: "100%",
-                        my:2,
+                        display: "flex",
+                        justifyContent: "center"
+                    }}
+                >
+                    <Typography
+                        variant="h3"
+                        fontSize={22}
+                    >
+                        Empâtage
+                    </Typography>
+                </Box>
+                <Box
+                    sx={{
+                        mb: 2,
+                        width: "100%",
+                        display: "flex",
                         flexDirection: "column"
                     }}
                 >
-                    <SelectIngredient name="Malt(s)" value={malts} setValue={setMatls} options={ingrEx} />
-                    <IngredientDetails needQuantity={true} ingredients={malts} />
+                    <Typography
+                        variant="h4"
+                        fontSize={22}
+                    >
+                        Ingrédients
+                    </Typography>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            width: "100%",
+                            my:2,
+                            flexDirection: "column"
+                        }}
+                    >
+                        <SelectIngredient name="Malt(s)" value={malts} setValue={setMatls} options={ingrEx} />
+                        <IngredientDetails needQuantity={true} ingredients={malts} />
+                    </Box>
                 </Box>
-            </Box>
-            <Box
-                sx={{
-                    mb: 2,
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "space-between"
-                }}
-            >
-                <Typography
-                    variant="h4"
-                    fontSize={22}
+                <Box
+                    sx={{
+                        mb: 2,
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "space-between"
+                    }}
                 >
-                    Palier
-                </Typography>
-                <Box>
-                    <FormControlLabel 
-                        control={
-                            <Switch
-                                checked={isMashout}
-                                onChange={handleChangeSwitchMashout}
-                            />
-                        }
-                        label="Mash-out"
-                    />
-                    <FormControlLabel 
-                        control={
-                            <Switch
-                                checked={isMulti}
-                                onChange={handleChangeSwitchMulti}
-                            />
-                        }
-                        label="Multi-palier"
-                    />
+                    <Typography
+                        variant="h4"
+                        fontSize={22}
+                    >
+                        Palier
+                    </Typography>
+                    <Box>
+                        <FormControlLabel 
+                            control={
+                                <Switch
+                                    checked={isMashout}
+                                    onChange={handleChangeSwitchMashout}
+                                />
+                            }
+                            label="Mash-out"
+                        />
+                        <FormControlLabel 
+                            control={
+                                <Switch
+                                    checked={isMulti}
+                                    onChange={handleChangeSwitchMulti}
+                                />
+                            }
+                            label="Multi-palier"
+                        />
+                    </Box>
                 </Box>
-            </Box>
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignContent: "center",
-                    flexDirection: "column",
-                    mt:2
-                }}
-            >
-                {malts.length === 0 ?
-                        <Box
-                            sx={{
-                                display: "flex",
-                                justifyContent: "center"
-                            }}
-                        >
-                            <Typography color="text.disabled" sx={{ fontStyle: 'italic' }}>Veuillez sélectionner au moins un ingrédient.</Typography>
-                        </Box>
-                    :
-                        isMulti ?
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignContent: "center",
+                        flexDirection: "column",
+                        mt:2
+                    }}
+                >
+                    {malts.length === 0 ?
                             <Box
                                 sx={{
                                     display: "flex",
-                                    flexDirection: "column",
-                                    width: "100%",
-                                    justifyContent: "center",
-                                    alignContent: "center",
-                                    gap: 2
+                                    justifyContent: "center"
                                 }}
                             >
-                                <TempAndDuration title="Palier 1" ingredient={null} setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={0}/>
-                                <TempAndDuration title="Palier 2" ingredient={null} setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={1}/>
-                                <TempAndDuration title="Palier 3" ingredient={null} setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={2}/>
+                                <Typography color="text.disabled" sx={{ fontStyle: 'italic', mt: 5 }}>Veuillez sélectionner au moins un ingrédient.</Typography>
                             </Box>
                         :
-                            <TempAndDuration title="Palier" ingredient={null} setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={0}/>
-                }
+                            isMulti ?
+                                <Box
+                                    sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        width: "100%",
+                                        justifyContent: "center",
+                                        alignContent: "center",
+                                        gap: 2
+                                    }}
+                                >
+                                    <TempAndDuration title="Palier 1" ingredient={null} setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={0}/>
+                                    <TempAndDuration title="Palier 2" ingredient={null} setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={1}/>
+                                    <TempAndDuration title="Palier 3" ingredient={null} setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={2}/>
+                                </Box>
+                            :
+                                <TempAndDuration title="Palier" ingredient={null} setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={0}/>
+                    }
+                </Box>
             </Box>
-        </Box>
+            <RecipeOptions />
+        </>
     )
 }
 
