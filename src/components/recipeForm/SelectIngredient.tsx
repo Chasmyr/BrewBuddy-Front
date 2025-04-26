@@ -48,21 +48,25 @@ const SelectIngredient: React.FC<SelectIngredientProps> = ({name, value, setValu
 
     return (
         <Box sx={{width: "100%"}}>
-            <Typography gutterBottom sx={{mb:0}}>
-                {name}
-            </Typography>
-            <Box sx={{width: "100%"}}>
-                <FormControl sx={{width: "100%"}}>
-                    <Select
-                        multiple
-                        fullWidth
-                        sx={{
-                            minHeight: "65px"
-                        }}
-                        value={value.map((ingredient) => ingredient.id)}
-                        input={<OutlinedInput label="ingredient" notched={false} />}
-                        onChange={handleChange}
-                        renderValue={() => (
+            <FormControl sx={{width: "100%"}}>
+                <Select
+                    multiple
+                    fullWidth
+                    displayEmpty
+                    sx={{
+                        minHeight: "65px"
+                    }}
+                    aria-placeholder={name}
+                    value={value.map((ingredient) => ingredient.id)}
+                    input={<OutlinedInput notched={false} />}
+                    onChange={handleChange}
+                    renderValue={(selected) => {
+
+                        if(selected.length === 0) {
+                            return <Typography color="text.disabled">{name}</Typography>
+                        }
+
+                        return (
                             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                             {value.map((ingredient) => (
                                 <Chip 
@@ -79,20 +83,20 @@ const SelectIngredient: React.FC<SelectIngredientProps> = ({name, value, setValu
                                 />
                             ))}
                             </Box>
-                        )}
-                        MenuProps={MenuProps}
-                    >
-                        {options.map((ingredient) => (
-                            <MenuItem
-                                key={ingredient.id}
-                                value={ingredient.id}
-                            >
-                                {ingredient.name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </FormControl>
-            </Box>
+                        )
+                    }}
+                    MenuProps={MenuProps}
+                >
+                    {options.map((ingredient) => (
+                        <MenuItem
+                            key={ingredient.id}
+                            value={ingredient.id}
+                        >
+                            {ingredient.name}
+                        </MenuItem>
+                    ))}
+                </Select>
+            </FormControl>
         </Box>
     )
 }

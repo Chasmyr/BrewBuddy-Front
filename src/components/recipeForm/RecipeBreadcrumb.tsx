@@ -1,13 +1,17 @@
 import { Box, Breadcrumbs, Link, Typography } from "@mui/material"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../../store/store"
+import { setCurrentStep } from "../../store/recipeFormSlice"
+import { recipeSteps } from "../../utils/const"
 
-type RecipeBreadcrumbPorps = {
-    currentStep: number,
-    setCurrentStep: React.Dispatch<React.SetStateAction<number>>,
-    steps: string[]
-}
+const RecipeBreadcrumb = () => {
 
-const RecipeBreadcrumb: React.FC<RecipeBreadcrumbPorps> = ({currentStep, setCurrentStep, steps}) => {
+    const dispatch = useDispatch()
 
+    const currentStep = useSelector((state: RootState) => state.recipeForm.currentStep)
+    const handleSetCurrentStep = (step: number) => {
+        dispatch(setCurrentStep(step))
+    } 
 
     return (
         <Box
@@ -32,7 +36,7 @@ const RecipeBreadcrumb: React.FC<RecipeBreadcrumbPorps> = ({currentStep, setCurr
                 pt:4
             }}
             >
-                {steps.map((label, index) => {
+                {recipeSteps.map((label, index) => {
                     const isPast = index < currentStep
                     const isCurrent = index === currentStep
 
@@ -41,7 +45,7 @@ const RecipeBreadcrumb: React.FC<RecipeBreadcrumbPorps> = ({currentStep, setCurr
                             <Link
                                 key={label}
                                 underline="hover"
-                                onClick={() => setCurrentStep(index)} 
+                                onClick={() => handleSetCurrentStep(index)} 
                                 color="inherit"
                                 sx={{cursor: 'pointer'}}
                             >

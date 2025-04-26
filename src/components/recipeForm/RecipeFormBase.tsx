@@ -5,8 +5,8 @@ import { useState } from "react"
 
 const RecipeFormBase = () => {
 
-    const [amertumeValue, setAmertumeValue] = useState(30)
-    const [ebcValue, setEbcValue] = useState(42)
+    const [amertumeValue, setAmertumeValue] = useState<number[]>([1, 40])
+    const [ebcValue, setEbcValue] = useState<number[]>([10, 56])
 
     return (
         <Box
@@ -23,11 +23,13 @@ const RecipeFormBase = () => {
             <Box
                 sx={{
                     mb: 4,
-                    width: "100%"
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center"
                 }}
             >
                 <Typography
-                    variant="h4"
+                    variant="h3"
                     fontSize={22}
                 >
                     Profil de la bière
@@ -45,14 +47,14 @@ const RecipeFormBase = () => {
                     }}
                 >
                     <TextField
-                        label="nom"
+                        label="Nom de la bière"
                         required
                         fullWidth
                         sx={{
                             maxWidth: "300px"
                         }}
                     />
-                    <SliderRecipeBase name="EBC" value={ebcValue} setValue={setEbcValue} />
+                    <SliderRecipeBase name="EBC" value={ebcValue} setValue={setEbcValue} max={140} />
                 </Box>
                 <Box
                     sx={{
@@ -83,7 +85,7 @@ const RecipeFormBase = () => {
                             })
                         }
                     </Select>
-                    <SliderRecipeBase name="IBU" value={amertumeValue} setValue={setAmertumeValue} />
+                    <SliderRecipeBase name="IBU" value={amertumeValue} setValue={setAmertumeValue} max={150} />
                 </Box>
             </Box>
         </Box>

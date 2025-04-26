@@ -1,23 +1,28 @@
 import { Box, Button } from "@mui/material"
-
-type RecipeOptionsProps = {
-    currentStep: number,
-    setCurrentStep: React.Dispatch<React.SetStateAction<number>>,
-    steps: string[]
-}
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../../store/store"
+import { setCurrentStep } from "../../store/recipeFormSlice"
+import { recipeSteps } from "../../utils/const"
 
 
-const RecipeOptions: React.FC<RecipeOptionsProps> = ({currentStep, setCurrentStep, steps}) => {
+const RecipeOptions = () => {
+
+    const dispatch = useDispatch()
+
+    const currentStep = useSelector((state: RootState) => state.recipeForm.currentStep)
+    const handleSetCurrentStep = (step: number) => {
+        dispatch(setCurrentStep(step))
+    } 
 
     const handleNext = () => {
-        if (currentStep < steps.length - 1) {
-            setCurrentStep((prev) => prev + 1)
+        if (currentStep < recipeSteps.length - 1) {
+            handleSetCurrentStep(currentStep + 1)
         }
     }
 
     const handlePrev = () => {
         if (currentStep > 0) {
-            setCurrentStep((prev) => prev - 1)
+            handleSetCurrentStep(currentStep - 1)
         }
     }
 
@@ -43,7 +48,7 @@ const RecipeOptions: React.FC<RecipeOptionsProps> = ({currentStep, setCurrentSte
                 </Button>
             )}
 
-            {currentStep < steps.length - 1 && (
+            {currentStep < recipeSteps.length - 1 && (
                 <Button
                     onClick={handleNext}
                 >

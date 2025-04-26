@@ -1,21 +1,18 @@
-import { Box, Grid, Input, Slider, Typography } from "@mui/material"
+import { Box, Grid, Slider, Typography } from "@mui/material"
 import React from "react"
 
 type SliderProps = {
     name: string,
-    value: number,
-    setValue: React.Dispatch<React.SetStateAction<number>>
+    value: number[],
+    setValue: React.Dispatch<React.SetStateAction<number[]>>,
+    max: number
 }
 
-const SliderRecipeBase: React.FC<SliderProps> = ({name, value, setValue}) => {
+const SliderRecipeBase: React.FC<SliderProps> = ({name, value, setValue, max}) => {
 
-    const handleSliderChange = (event: Event, newValue: number) => {
+    const handleChange = (event: Event, newValue: number | number[]) => {
         event.preventDefault()
-        setValue(newValue)
-    }
-
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(event.target.value === '' ? 0 : Number(event.target.value))
+        setValue(newValue as [number, number])
     }
 
     return (
@@ -26,27 +23,14 @@ const SliderRecipeBase: React.FC<SliderProps> = ({name, value, setValue}) => {
             <Grid container spacing={2} sx={{ alignItems: "center" }}>
                 <Grid size="grow">
                     <Slider 
-                        value={typeof value === 'number' ? value : 0}
+                        value={value}
                         defaultValue={0}
-                        onChange={handleSliderChange}
+                        onChange={handleChange}
+                        valueLabelDisplay="auto"
+                        min={1}
+                        max={max}
                         sx={{
                             width: "250px"
-                        }}
-                    />
-                </Grid>
-                <Grid>
-                    <Input
-                        value={value}
-                        size="small"
-                        onChange={handleInputChange}
-                        sx={{
-                            maxWidth: "45px"
-                        }}
-                        inputProps={{
-                            step: 1,
-                            min: 0,
-                            max: 100,
-                            type: 'number'
                         }}
                     />
                 </Grid>

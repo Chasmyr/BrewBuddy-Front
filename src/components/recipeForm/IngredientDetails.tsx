@@ -11,7 +11,8 @@ const IngredientDetails: React.FC<IngredientDetailsProps> = ({ingredients, needQ
     return (
         <Box
             sx={{
-                minHeight: "100px"
+                minHeight: "60px",
+                mt: 1
             }}
         >
             {ingredients.map((ingredient) => (
@@ -33,7 +34,7 @@ const IngredientDetails: React.FC<IngredientDetailsProps> = ({ingredients, needQ
                             type="number"
                             variant="standard"
                             sx={{
-                                maxWidth: "100px"
+                                maxWidth: "140px"
                             }}
                             slotProps={{
                                 input: {

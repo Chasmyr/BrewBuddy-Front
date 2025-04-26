@@ -1,18 +1,18 @@
 import { Box, Typography } from "@mui/material"
 import RecipeFormBase from "../components/recipeForm/RecipeFormBase"
 import Header from "../layout/Header"
-import RecipeFormIngredient from "../components/recipeForm/RecipeFormIngredient"
 import RecipeBreadcrumb from "../components/recipeForm/RecipeBreadcrumb"
 import { useState } from "react"
 import RecipeOptions from "../components/recipeForm/RecipeOptions"
 import RecipeFormMashing from "../components/recipeForm/RecipeFormMashing"
-import { recipeSteps } from "../utils/const"
 import RecipeFormBoiling from "../components/recipeForm/RecipeFormBoiling"
+import { useSelector } from "react-redux"
+import { RootState } from "../store/store"
 
 
 const RecipePage = () => {
 
-    const [currentStep, setCurrentStep] = useState(2)
+    const currentStep = useSelector((state: RootState) => state.recipeForm.currentStep)
     const [isMultiMashing, setIsMultiMashing] = useState(false)
     const [isMashout, setIsMashout] = useState(false)
 
@@ -54,23 +54,19 @@ const RecipePage = () => {
                             mb: 6,
                         }}
                     >   
-                        <RecipeBreadcrumb currentStep={currentStep} setCurrentStep={setCurrentStep} steps={recipeSteps}/>
+                        <RecipeBreadcrumb />
                         {currentStep === 0 && (
                             <RecipeFormBase />
                         )}
 
                         {currentStep === 1 && (
-                            <RecipeFormIngredient />
-                        )}
-
-                        {currentStep === 2 && (
                             <RecipeFormMashing isMulti={isMultiMashing} setIsMulti={setIsMultiMashing} isMashout={isMashout} setIsMashout={setIsMashout} />
                         )}
 
-                        {currentStep === 3 && (
+                        {currentStep === 2 && (
                             <RecipeFormBoiling />
                         )}
-                        <RecipeOptions currentStep={currentStep} setCurrentStep={setCurrentStep} steps={recipeSteps} />
+                        <RecipeOptions />
                     </Box>
                 </Box>
             </Box>
