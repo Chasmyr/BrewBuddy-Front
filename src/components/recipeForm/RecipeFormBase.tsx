@@ -14,6 +14,8 @@ const RecipeFormBase = () => {
 
     const { showSnackbar } = useSnackbar()
 
+    // TODO => Ajouter textArea pour la description
+
     const handleBeerName = (e: ChangeEvent<HTMLInputElement>) => {
         setBeerName(e.target.value)
     }
@@ -34,13 +36,13 @@ const RecipeFormBase = () => {
 
     const handleNext = () => {
         // TODO : modifier ebc ibu en back pour prendre l'array
-        const beerProfil = {
-            description: "",
-            ebc: ebcValue[1],
-            ibu: amertumeValue[1],
-            style: beerStyle,
-            recipeName: beerName
-        }
+        // const beerProfil = {
+        //     description: "",
+        //     ebc: ebcValue[1],
+        //     ibu: amertumeValue[1],
+        //     style: beerStyle,
+        //     recipeName: beerName
+        // }
 
         // TODO => dispatch
 

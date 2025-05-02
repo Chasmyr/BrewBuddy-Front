@@ -18,7 +18,6 @@ type RecipeFormMashingProps = {
 
 const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMulti, isMashout, setIsMashout}) => {
 
-
     const [malts, setMatls] = useState<IngredientType[]>([])
     const [mashingSteps, setMashingSteps] = useState<TemperatureAndDuration[]>([
         { temperature: 0, duration: 0 }
@@ -42,18 +41,22 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
 
         if(malts.length === 0) {
             showSnackbar('Au moins un ingrédient est requis.', 'error')
-            return false
+            return
         }
-        mashingSteps.map((step, index) => {
-            if(step.temperature === 0) {
+        
+        for (let index = 0; index < mashingSteps.length; index++) {
+            const step = mashingSteps[index];
+        
+            if (step.temperature === 0) {
                 showSnackbar(`La température du palier ${index + 1} ne peut pas être égale à 0.`, 'error')
                 return false
             }
-            if(step.duration === 0) {
+        
+            if (step.duration === 0) {
                 showSnackbar(`La durée du palier ${index + 1} ne peut pas être égale à 0.`, 'error')
                 return false
             }
-        })
+        }
 
         return true
     }

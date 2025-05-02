@@ -22,6 +22,8 @@ export default function BoilingStepItem({ ingredientName, whenToAdd, duration, o
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2,
+                transform: 'translateY(10px)',
+                animation: 'fadeInMove 0.8s ease-out forwards'
             }}
         >
         {showPostBoilingCheckbox ? (
@@ -48,12 +50,13 @@ export default function BoilingStepItem({ ingredientName, whenToAdd, duration, o
             :
                 <Typography variant="h6">{ingredientName}</Typography>
         }
-
+        
         <TextField
             label="Quand ajouter (min)"
             type="number"
             variant="outlined"
             size="small"
+            disabled={postBoiling}
             value={whenToAdd}
             onChange={(e) => onChange('whenToAdd', Number(e.target.value))}
             slotProps={{

@@ -43,7 +43,7 @@ export function SortableList<T>({ items, onReorder, renderItem, getItemId }: Sor
 
   return (
     <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <SortableContext items={items.map(getItemId)} strategy={verticalListSortingStrategy}>
+      <SortableContext items={items.map((item) => getItemId(item))} strategy={verticalListSortingStrategy}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           {items.map((item, index) => (
             <DraggableItem key={getItemId(item)} id={getItemId(item)}>

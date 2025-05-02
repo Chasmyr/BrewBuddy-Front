@@ -10,6 +10,8 @@ type IngredientDetailsProps = {
 
 const IngredientDetails: React.FC<IngredientDetailsProps> = ({ingredients, needQuantity, onQuantityChange, minHeightUnder}) => {
 
+    // TODO => animation d'apparition du détail
+
     return (
         <Box
             sx={{
