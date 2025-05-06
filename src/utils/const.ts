@@ -3,7 +3,7 @@ import { BoilingStep } from "../type/recipeObject"
 
 export const beerStyles = ["Pils", "IPA", "NEIPA", "Pale Ale", "Stout", "Porter"]
 
-export const recipeSteps = ['Profil', 'Empâtage', 'Ebullition', 'Fermentation']
+export const recipeSteps = ['Profil', 'Empâtage', 'Ebullition', 'Fermentation', "Validation"]
 
 export const mashoutStep = {
     temperature: 77,

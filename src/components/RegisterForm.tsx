@@ -152,7 +152,7 @@ const RegisterForm = () => {
                 alignItems: "center",
                 bgcolor: "#FFFCF2",
                 paddingTop: {
-                    xs: 8,
+                    xs: 0,
                     sm: 4,
                     lg: 8
                 },
@@ -165,6 +165,10 @@ const RegisterForm = () => {
                     xs: 0,
                     sm: 6,
                     lg: 0
+                },
+                mt: {
+                    sm: 3,
+                    lg: 0
                 }
             }}
         >
@@ -176,12 +180,9 @@ const RegisterForm = () => {
                 }}
                 sx={{
                     mb: {
+                        xs: 4,
                         sm: 2,
                         lg: 3
-                    },
-                    display: {
-                        xs: "none",
-                        sm: "block"
                     },
                     mt: {
                         sm: 2,
@@ -210,7 +211,7 @@ const RegisterForm = () => {
                         variant="h6" 
                         fontWeight="semi-bold"
                     > 
-                        Nom d'utiliser
+                        Nom d'utilisateur
                     </Typography>
                     <TextField 
                         placeholder="Nom d'utilisateur"

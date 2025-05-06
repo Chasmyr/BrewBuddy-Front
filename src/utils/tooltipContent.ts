@@ -1,0 +1,8 @@
+export const ebcTooltipContent = "Test EBC"
+export const ibuTooltipContent = "Test IBU"
+export const boilingIngredientToolTipContent = "Test boiling"
+export const postBoilingTooltipContent = "Test hors feu"
+export const multiPalierTooltipContent = "Test multi palier"
+export const mashoutTooltipContent = "Test mash-out"
+export const fermentationIngredientToolTipContent = "Test fermentation"
+export const fermentationIngredientDiversTooltipContent = "Test Divers"

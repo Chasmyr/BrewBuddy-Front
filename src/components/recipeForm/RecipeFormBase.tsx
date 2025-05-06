@@ -1,9 +1,10 @@
 import { Box, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Typography } from "@mui/material"
 import { beerStyles } from "../../utils/const"
-import SliderRecipeBase from "./SliderRecipeBase"
+import SliderRecipeBase from "./recipeFormComponents/SliderRecipeBase"
 import { ChangeEvent, useState } from "react"
-import RecipeOptions from "./RecipeOptions"
+import RecipeOptions from "./recipeFormComponents/RecipeOptions"
 import { useSnackbar } from "../../context/SnackbarContext"
+import { ebcTooltipContent, ibuTooltipContent } from "../../utils/tooltipContent"
 
 const RecipeFormBase = () => {
 
@@ -11,10 +12,9 @@ const RecipeFormBase = () => {
     const [ebcValue, setEbcValue] = useState<number[]>([10, 56])
     const [beerName, setBeerName] = useState<string>("")
     const [beerStyle, setBeerStyle] = useState<string>("Pils")
+    const [beerDescription, setBeerDescription] = useState<string>("")
 
     const { showSnackbar } = useSnackbar()
-
-    // TODO => Ajouter textArea pour la description
 
     const handleBeerName = (e: ChangeEvent<HTMLInputElement>) => {
         setBeerName(e.target.value)
@@ -24,6 +24,10 @@ const RecipeFormBase = () => {
         setBeerStyle(e.target.value)
     }
 
+    const handleBeerDescription = (e: ChangeEvent<HTMLInputElement>) => {
+        setBeerDescription(e.target.value)
+    }
+
     const checkIfFormComplete = () => {
 
         if(!beerName) {
@@ -31,22 +35,31 @@ const RecipeFormBase = () => {
             return false
         }
 
+        if(!beerDescription) {
+            showSnackbar('La description de la recette est requise.', 'error')
+            return false
+        }
+
         return true
     }
 
     const handleNext = () => {
-        // TODO : modifier ebc ibu en back pour prendre l'array
-        // const beerProfil = {
-        //     description: "",
-        //     ebc: ebcValue[1],
-        //     ibu: amertumeValue[1],
-        //     style: beerStyle,
-        //     recipeName: beerName
-        // }
 
-        // TODO => dispatch
-
-        return checkIfFormComplete()
+        if(checkIfFormComplete()) {
+            // TODO : modifier ebc ibu en back pour prendre l'array
+            // const beerProfil = {
+            //     description: beerDescription,
+            //     ebc: ebcValue[1],
+            //     ibu: amertumeValue[1],
+            //     style: beerStyle,
+            //     recipeName: beerName
+            // }
+    
+            // TODO => dispatch
+            return true
+        } else {
+            return false
+        }
     }
 
     return (
@@ -57,9 +70,15 @@ const RecipeFormBase = () => {
                     justifyContent: "center",
                     alignContent: "center",
                     flexDirection: "column",
-                    width: "100%",
+                    width: {
+                        md: "calc(100% - 96px)",
+                        sm: "calc(100% - 48px)"
+                    },
                     bgcolor: "#FFFCF2",
-                    p: 6
+                    p: {
+                        xs: 3,
+                        md: 6
+                    },
                 }}
             >   
                 <Box
@@ -72,7 +91,10 @@ const RecipeFormBase = () => {
                 >
                     <Typography
                         variant="h3"
-                        fontSize={22}
+                        fontSize={{
+                            xs: 20,
+                            sm: 22
+                        }}
                     >
                         Profil de la bière
                     </Typography>
@@ -83,54 +105,108 @@ const RecipeFormBase = () => {
                     <Box
                         sx={{
                             display: "flex",
-                            flexDirection: "row",
                             justifyContent: "space-between",
-                            mb:2
+                            alignItems: "center",
+                            flexDirection: {
+                                xs: "column",
+                                sm: "row"
+                            }
                         }}
                     >
-                        <TextField
-                            label="Nom de la bière"
-                            required
-                            fullWidth
-                            value={beerName}
-                            onChange={handleBeerName}
+                        <Box
                             sx={{
-                                maxWidth: "300px"
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: {
+                                    xs: "center",
+                                    sm: "flex-start"
+                                },
+                                width: "100%"
                             }}
-                        />
-                        <SliderRecipeBase name="EBC" value={ebcValue} setValue={setEbcValue} max={140} />
+                        >
+                            <TextField
+                                label="Nom de la bière"
+                                required
+                                fullWidth
+                                value={beerName}
+                                onChange={handleBeerName}
+                                sx={{
+                                    maxWidth: {
+                                        xs: "100%",
+                                        sm: "300px"
+                                    },
+                                    mt: 2,
+                                    width: "100%"
+                                }}
+                            />
+                            <Select
+                                id="beerStyle"
+                                label="Style"
+                                fullWidth
+                                sx={{
+                                    maxWidth: {
+                                        xs: "100%",
+                                        sm: "300px"
+                                    },
+                                    mt: {
+                                        xs: 3,
+                                        sm: 2
+                                    },
+                                    width: "100%"
+                                }}
+                                value={beerStyle}
+                                onChange={handleBeerStyle}
+                                input={<OutlinedInput label="beerStyle" notched={false} />}
+                            >
+                                {
+                                    beerStyles.map((beerStyle) => {
+                                        return (
+                                            <MenuItem 
+                                                value={beerStyle}
+                                            >
+                                                {beerStyle}
+                                            </MenuItem>
+                                        )
+                                    })
+                                }
+                            </Select>
+                        </Box>
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "space-between",
+                                alignItems: {
+                                    xs: "flex-end",
+                                    lg: "flex-start"
+                                },
+                                width: "100%",
+                                mt: {
+                                    xs: 4,
+                                    sm: 0
+                                }
+                            }}
+                        >
+                            <SliderRecipeBase name="EBC" value={ebcValue} setValue={setEbcValue} max={140} tooltipContent={ebcTooltipContent} />
+                            <SliderRecipeBase name="IBU" value={amertumeValue} setValue={setAmertumeValue} max={150} tooltipContent={ibuTooltipContent} />
+                        </Box>
                     </Box>
                     <Box
                         sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between"
+                            width: "100%",
+                            mt:3,
+                            mb: 4
                         }}
                     >
-                        <Select
-                            id="beerStyle"
-                            label="Style"
+                        <TextField 
                             fullWidth
-                            sx={{
-                                maxWidth: "300px"
-                            }}
-                            value={beerStyle}
-                            onChange={handleBeerStyle}
-                            input={<OutlinedInput label="beerStyle" notched={false} />}
-                        >
-                            {
-                                beerStyles.map((beerStyle) => {
-                                    return (
-                                        <MenuItem 
-                                            value={beerStyle}
-                                        >
-                                            {beerStyle}
-                                        </MenuItem>
-                                    )
-                                })
-                            }
-                        </Select>
-                        <SliderRecipeBase name="IBU" value={amertumeValue} setValue={setAmertumeValue} max={150} />
+                            value={beerDescription}
+                            onChange={handleBeerDescription}
+                            id="beer-desc"
+                            placeholder="Description..."
+                            multiline
+                            rows={3}
+                        />
                     </Box>
                 </Box>
             </Box>

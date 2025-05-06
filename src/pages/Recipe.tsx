@@ -1,38 +1,48 @@
 import { Box, Typography } from "@mui/material"
 import RecipeFormBase from "../components/recipeForm/RecipeFormBase"
 import Header from "../layout/Header"
-import RecipeBreadcrumb from "../components/recipeForm/RecipeBreadcrumb"
-import { useState } from "react"
+import RecipeBreadcrumb from "../components/recipeForm/recipeFormComponents/RecipeBreadcrumb"
 import RecipeFormMashing from "../components/recipeForm/RecipeFormMashing"
 import RecipeFormBoiling from "../components/recipeForm/RecipeFormBoiling"
 import { useSelector } from "react-redux"
 import { RootState } from "../store/store"
+import RecipeFormFermentation from "../components/recipeForm/RecipeFormFermentation"
 
 
 const RecipePage = () => {
 
     const currentStep = useSelector((state: RootState) => state.recipeForm.currentStep)
-    const [isMultiMashing, setIsMultiMashing] = useState(false)
-    const [isMashout, setIsMashout] = useState(false)
 
     return (
         <>
             <Header />
             <Box
                 sx={{
-                    width: "100%",
+                    width: "100vw",
                     minHeight: "100vh",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "flex-start",
                     flexDirection: "column",
-                    bgcolor: "#F99926",
+                    bgcolor: {
+                        xs: "#FFFCF2",
+                        sm: "#F99926"
+                    },
                 }}
             >
                 <Box
                     sx={{
-                        width: "80%",
-                        maxWidth: "800px"
+                        width: {
+                            xl: "45%",
+                            lg: "60%",
+                            md: "70%",
+                            sm: "90%",
+                            xs: "100%"
+                        },
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexDirection: "column",
                     }}
                 >
                     <Box
@@ -40,7 +50,8 @@ const RecipePage = () => {
                             mb: 2,
                             mt: 16,
                             color: '#FFFCF2',
-                            width: "714px"
+                            width: "100%",
+                            display: { xs: 'none', sm: 'block' }
                         }}
                     >
                         <Typography variant="h4">
@@ -49,8 +60,10 @@ const RecipePage = () => {
                     </Box>
                     <Box
                         sx={{
-                            width: "714px",
+                            width: "100%",
                             mb: 6,
+                            mt: {xs: 10, sm: 0},
+                            height: "100%"
                         }}
                     >   
                         <RecipeBreadcrumb />
@@ -59,11 +72,15 @@ const RecipePage = () => {
                         )}
 
                         {currentStep === 1 && (
-                            <RecipeFormMashing isMulti={isMultiMashing} setIsMulti={setIsMultiMashing} isMashout={isMashout} setIsMashout={setIsMashout} />
+                            <RecipeFormMashing />
                         )}
 
                         {currentStep === 2 && (
                             <RecipeFormBoiling />
+                        )}
+
+                        {currentStep === 3 && (
+                            <RecipeFormFermentation />
                         )}
                     </Box>
                 </Box>

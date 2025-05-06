@@ -13,7 +13,7 @@ export const SnackbarProvider = ({ children }: { children: React.ReactNode }) =>
   const [severity, setSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('success')
   const [progress, setProgress] = useState(100)
 
-  const duration = 3000
+  const duration = 4000
 
   const showSnackbar = (msg: string, sev: 'success' | 'error' | 'warning' | 'info' = 'success') => {
     setMessage(msg)

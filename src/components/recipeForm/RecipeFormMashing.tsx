@@ -1,28 +1,25 @@
-import { Box, FormControlLabel, Switch, Typography } from "@mui/material"
-import TempAndDuration from "./TempAndDuration"
-import SelectIngredient from "./SelectIngredient"
+import { Box, FormControlLabel, IconButton, Switch, Tooltip, Typography } from "@mui/material"
+import TempAndDuration from "./recipeFormComponents/TempAndDuration"
+import SelectIngredient from "./recipeFormComponents/SelectIngredient"
 import { IngredientType } from "../../type/ingredient"
 import { useEffect, useState } from "react"
 import { ingrEx, mashoutStep } from "../../utils/const"
-import IngredientDetails from "./IngredientDetails"
+import IngredientDetails from "./recipeFormComponents/IngredientDetails"
 import { TemperatureAndDuration } from "../../type/recipeObject"
-import RecipeOptions from "./RecipeOptions"
+import RecipeOptions from "./recipeFormComponents/RecipeOptions"
 import { useSnackbar } from "../../context/SnackbarContext"
+import { InfoOutlineRounded } from "@mui/icons-material"
+import { mashoutTooltipContent, multiPalierTooltipContent } from "../../utils/tooltipContent"
 
-type RecipeFormMashingProps = {
-    isMulti: boolean,
-    setIsMulti: React.Dispatch<React.SetStateAction<boolean>>,
-    isMashout: boolean,
-    setIsMashout: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMulti, isMashout, setIsMashout}) => {
+const RecipeFormMashing = () => {
 
     const [malts, setMatls] = useState<IngredientType[]>([])
     const [mashingSteps, setMashingSteps] = useState<TemperatureAndDuration[]>([
         { temperature: 0, duration: 0 }
     ])
     const [quantities, setQuantities] = useState<Record<number, number>>({})
+    const [isMulti, setIsMulti] = useState<boolean>(false)
+    const [isMashout, setIsMashout] = useState<boolean>(false)
     const { showSnackbar } = useSnackbar()
 
     const handleChangeSwitchMulti = () => {
@@ -41,8 +38,21 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
 
         if(malts.length === 0) {
             showSnackbar('Au moins un ingrédient est requis.', 'error')
-            return
+            return false
         }
+
+        if(Object.keys(quantities).length != malts.length) {
+            showSnackbar(`Merci de renseigner la quantité pour chaque ingrédient.`, 'error')
+            return false
+        }
+
+        Object.entries(quantities).forEach(([key, value]) => {
+            const ingredientId = Number(key)
+            if(value === 0) {
+                showSnackbar(`La quantité pour l'ingrédient ${ingrEx.find((ingredient) => ingredient.id === ingredientId)?.name} ne peut pas être égale à 0.`, 'error')
+                return false
+            }
+        })
         
         for (let index = 0; index < mashingSteps.length; index++) {
             const step = mashingSteps[index];
@@ -63,35 +73,37 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
 
     const handleNext = () => {
 
-        // making the ingredient object for the recipe
-        const maltsIngredientsData = {
-            category: "malts",
-            ingredients: malts.map((malt) => ({
-                ingredientID: malt.id,
-                quantity: quantities[malt.id],
-                name: malt.name,
-                measureUnit: malt.measureUnit
-            }))
-        }
-
-        // making the steps object for the recipe
-        let mashingStepsData = [...mashingSteps]
-        
-        if(isMashout) {
-            mashingStepsData.push(mashoutStep)
-        }
-
-        let fullMashingStepObject = {
-            steps: mashingStepsData
-        }
-
-        if(isMulti) {
-            Object.assign(fullMashingStepObject, { multiStage: true }) 
-        }
-
         // TODO => dispatch
-
-        return checkIfFormComplete()
+        if(checkIfFormComplete()) {
+            // making the ingredient object for the recipe
+            // const maltsIngredientsData = {
+            //     category: "malts",
+            //     ingredients: malts.map((malt) => ({
+            //         ingredientID: malt.id,
+            //         quantity: quantities[malt.id],
+            //         name: malt.name,
+            //         measureUnit: malt.measureUnit
+            //     }))
+            // }
+    
+            // making the steps object for the recipe
+            let mashingStepsData = [...mashingSteps]
+            
+            if(isMashout) {
+                mashingStepsData.push(mashoutStep)
+            }
+    
+            let fullMashingStepObject = {
+                steps: mashingStepsData
+            }
+    
+            if(isMulti) {
+                Object.assign(fullMashingStepObject, { multiStage: true }) 
+            }
+            return true
+        } else {
+            return false
+        }
     }
 
     useEffect(() => {
@@ -122,12 +134,18 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
             <Box
                 sx={{
                     display: "flex",
-                    justifyContent: "center",
-                    alignContent: "center",
+                    justifyContent: "flex-start",
+                    alignItems: "center",
                     flexDirection: "column",
-                    width: "100%",
+                    width: {
+                        md: "calc(100% - 96px)",
+                        sm: "calc(100% - 48px)"
+                    },
                     bgcolor: "#FFFCF2",
-                    p: 6
+                    p: {
+                        xs: 3,
+                        md: 6
+                    },
                 }}
             >
                 <Box
@@ -140,7 +158,10 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
                 >
                     <Typography
                         variant="h3"
-                        fontSize={22}
+                        fontSize={{
+                            xs: 20,
+                            sm: 22
+                        }}
                     >
                         Empâtage
                     </Typography>
@@ -155,7 +176,10 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
                 >
                     <Typography
                         variant="h4"
-                        fontSize={22}
+                        fontSize={{
+                            xs: 18,
+                            sm: 20
+                        }}
                     >
                         Ingrédients
                     </Typography>
@@ -186,34 +210,94 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
                         mb: 2,
                         width: "100%",
                         display: "flex",
-                        justifyContent: "space-between"
+                        justifyContent: "space-between",
+                        alignItems: {
+                            xs: "flex-start",
+                            sm: "center"
+                        },
+                        flexDirection: {
+                            xs: "column",
+                            sm: "row"
+                        }
                     }}
                 >
                     <Typography
                         variant="h4"
-                        fontSize={22}
+                        fontSize={{
+                            xs: 18,
+                            sm: 20
+                        }}
+                        sx={{
+                            mb: {
+                                xs: 2,
+                                sm: 0
+                            }
+                        }}
                     >
                         Palier
                     </Typography>
                     <Box>
-                        <FormControlLabel 
-                            control={
-                                <Switch
-                                    checked={isMashout}
-                                    onChange={handleChangeSwitchMashout}
-                                />
-                            }
-                            label="Mash-out"
-                        />
-                        <FormControlLabel 
-                            control={
-                                <Switch
-                                    checked={isMulti}
-                                    onChange={handleChangeSwitchMulti}
-                                />
-                            }
-                            label="Multi-palier"
-                        />
+                        <>
+                            <FormControlLabel 
+                                sx={{
+                                    mr: 0,
+                                    '& .MuiFormControlLabel-label': {
+                                        fontSize: {
+                                            xs: "14px",
+                                            sm: "16px"
+                                        },
+                                    }
+                                }}
+                                control={
+                                    <Switch
+                                        checked={isMashout}
+                                        onChange={handleChangeSwitchMashout}
+                                    />
+                                }
+                                label="Mash-out"
+                            />
+                            <Tooltip
+                                sx={{mr: 2}}
+                                placement="top"
+                                arrow
+                                enterTouchDelay={0}
+                                title={mashoutTooltipContent}
+                            >
+                                <IconButton size="small">
+                                    <InfoOutlineRounded color="action" />
+                                </IconButton>
+                            </Tooltip>
+                        </>
+                        <>
+                            <FormControlLabel 
+                                sx={{
+                                    mr: 0,
+                                    '& .MuiFormControlLabel-label': {
+                                        fontSize: {
+                                            xs: "14px",
+                                            sm: "16px"
+                                        },
+                                    }
+                                }}
+                                control={
+                                    <Switch
+                                        checked={isMulti}
+                                        onChange={handleChangeSwitchMulti}
+                                    />
+                                }
+                                label="Multi-palier"
+                            />
+                            <Tooltip
+                                placement="top"
+                                arrow
+                                enterTouchDelay={0}
+                                title={multiPalierTooltipContent}
+                            >
+                                <IconButton size="small">
+                                    <InfoOutlineRounded color="action" />
+                                </IconButton>
+                            </Tooltip>
+                        </>
                     </Box>
                 </Box>
                 <Box
@@ -222,7 +306,9 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
                         justifyContent: "space-between",
                         alignContent: "center",
                         flexDirection: "column",
-                        mt:2
+                        mt:2,
+                        mb: 8,
+                        width: "100%"
                     }}
                 >
                     {malts.length === 0 ?
@@ -246,12 +332,12 @@ const RecipeFormMashing: React.FC<RecipeFormMashingProps>  = ({isMulti, setIsMul
                                         gap: 2
                                     }}
                                 >
-                                    <TempAndDuration title="Palier 1" ingredient={null} setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={0}/>
-                                    <TempAndDuration title="Palier 2" ingredient={null} setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={1}/>
-                                    <TempAndDuration title="Palier 3" ingredient={null} setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={2}/>
+                                    <TempAndDuration title="Palier 1" setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={0} isFermenting={false}/>
+                                    <TempAndDuration title="Palier 2" setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={1} isFermenting={false}/>
+                                    <TempAndDuration title="Palier 3" setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={2} isFermenting={false}/>
                                 </Box>
                             :
-                                <TempAndDuration title="Palier" ingredient={null} setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={0}/>
+                                <TempAndDuration title="Palier" setTemperatureAndDuration={setMashingSteps} temperatureAndDuration={mashingSteps} index={0} isFermenting={false}/>
                     }
                 </Box>
             </Box>

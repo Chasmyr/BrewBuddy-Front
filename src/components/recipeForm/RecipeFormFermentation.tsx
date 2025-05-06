@@ -1,0 +1,238 @@
+import { InfoOutlineRounded } from "@mui/icons-material"
+import { Box, IconButton, Tooltip, Typography } from "@mui/material"
+import { fermentationIngredientToolTipContent } from "../../utils/tooltipContent"
+import SelectMultipleIngredients from "./recipeFormComponents/SelectMultipeIngredients"
+import { useState } from "react"
+import { IngredientType } from "../../type/ingredient"
+import { ingrEx } from "../../utils/const"
+import TempAndDuration from "./recipeFormComponents/TempAndDuration"
+import { TemperatureAndDuration } from "../../type/recipeObject"
+import { useSnackbar } from "../../context/SnackbarContext"
+import RecipeOptions from "./recipeFormComponents/RecipeOptions"
+
+type SelectedIngredient = {
+    id: string // UUID unique par sélection d'ingrédient
+    ingredient: IngredientType
+}
+
+export interface FermentingSteps extends TemperatureAndDuration {
+    name: string
+}
+
+export interface IngredientWithQuantity extends IngredientType {
+    quantity: number
+}
+
+const RecipeFormFermentation = () => {
+    const [allIngredients, setAllIngredients] = useState<SelectedIngredient[]>([])
+    const [fermentingSteps, setFermentingSteps] = useState<FermentingSteps[] | any>([])
+    const { showSnackbar } = useSnackbar()
+
+    const checkIfFormComplete = () => {
+
+        if(allIngredients.length === 0) {
+            showSnackbar("Au moins un ingrédient est requis.", 'error')
+            return false
+        }
+
+        if(allIngredients.filter((ingredient) => ingredient.ingredient.category === "levures").length === 0) {
+            showSnackbar("Au moins une levure est requise.", 'error')
+            return false
+        }
+
+        if(allIngredients.filter((ingredient) => ingredient.ingredient.category === "sucres").length === 0) {
+            showSnackbar("Au moins un sucre est requis.", 'error')
+            return false
+        }
+
+        if(fermentingSteps.length === 0) {
+            showSnackbar("Merci de renseigner les valeurs des différentes fermentations.", 'error')
+            return false
+        }
+
+        for (let index = 0; index < fermentingSteps.length; index++) {
+            const step = fermentingSteps[index]
+
+            if(step === undefined) {
+                showSnackbar(`Merci de renseigner les valeurs de toutes les fermentations`, 'error')
+                return false
+            }
+
+            let fermentationName
+
+            if (step.name = "primary") {
+                fermentationName = "Primaire"
+            } else if (step.name = "secondary") {
+                fermentationName = "Secondaire"
+            } else if (step.name = "refermenting") {
+                fermentationName = "Refermentation"
+            }
+
+            if(step.duration === 0) {
+                showSnackbar(`La durée de la fermentation ${fermentationName} ne peut pas être égale à 0.`, 'error')
+                return false
+            }
+
+            if(step.temperature === 0) {
+                showSnackbar(`La température de la fermentation ${fermentationName} ne peut pas être égale à 0.`, 'error')
+                return false
+            }
+        }
+        
+
+        if(fermentingSteps.length != 3) {
+            showSnackbar("Merci de renseigner les valeurs des différentes fermentations.", 'error')
+            return false
+        }
+
+        return true
+    }
+
+    const handleNext = () => {
+        if(checkIfFormComplete()) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    return (
+        <Box
+            sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
+                flexDirection: "column",
+                width: {
+                    md: "calc(100% - 96px)",
+                    sm: "calc(100% - 48px)"
+                },
+                bgcolor: "#FFFCF2",
+                p: {
+                    xs: 3,
+                    md: 6
+                },
+            }}
+        >
+            <Box sx={{ mb: 2, width: "100%", display: "flex", justifyContent: "center" }}>
+                <Typography variant="h4" fontSize={22}>
+                Fermentation
+                </Typography>
+            </Box>
+            <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignContent: "center"
+                    }}
+                >
+                    <Typography variant="h4" fontSize={22}>
+                    Ingrédients
+                    </Typography>
+                    <Tooltip
+                        placement="top"
+                        arrow
+                        enterTouchDelay={0}
+                        title={fermentationIngredientToolTipContent}
+                    >
+                        <IconButton size="small">
+                            <InfoOutlineRounded color="action" />
+                        </IconButton>
+                    </Tooltip>
+                </Box>
+                <Box sx={{ display: "flex", width: "100%", my: 2, flexDirection: "column" }}>
+                    <SelectMultipleIngredients
+                        title="Levure(s)*"
+                        allIngredients={allIngredients}
+                        setAllIngredients={setAllIngredients}
+                        options={ingrEx}
+                        category="levures"
+                    />
+                    <SelectMultipleIngredients
+                        title="Sucre(s)*"
+                        allIngredients={allIngredients}
+                        setAllIngredients={setAllIngredients}
+                        options={ingrEx}
+                        category="sucres"
+                    />
+                    <SelectMultipleIngredients
+                        title="Houblon(s)"
+                        allIngredients={allIngredients}
+                        setAllIngredients={setAllIngredients}
+                        options={ingrEx}
+                        category="houblons"
+                    />
+                </Box>
+            </Box>
+            <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignContent: "center",
+                        flexDirection: "column",
+                        mb: 4
+                    }}
+            >
+                <Typography
+                sx={{
+                    mb:2
+                }}
+                    variant="h4"
+                    fontSize={22}
+                >
+                    Fermentation
+                </Typography>
+                {allIngredients.length === 0 ?
+                        <Box
+                            sx={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignContent: "center",
+                                flexDirection: "column",
+                                minHeight: "214px"
+                            }}
+                        >
+                            <Typography color="text.disabled" sx={{ fontStyle: 'italic', my: 5, textAlign: "center" }}>Veuillez sélectionner au moins un ingrédient.</Typography>
+                        </Box>
+                    :
+                        <Box
+                            sx={{
+                                display: "flex",
+                                flexDirection: "column",
+                                width: "100%",
+                                justifyContent: "center",
+                                alignContent: "center",
+                                gap: 2
+                            }}
+                        >
+                            <TempAndDuration 
+                                title="Primaire" 
+                                setTemperatureAndDuration={setFermentingSteps} 
+                                temperatureAndDuration={fermentingSteps} 
+                                index={0}
+                                isFermenting={true}
+                            />
+                            <TempAndDuration 
+                                title="Secondaire"
+                                setTemperatureAndDuration={setFermentingSteps}
+                                temperatureAndDuration={fermentingSteps}
+                                index={1}
+                                isFermenting={true}
+                            />
+                            <TempAndDuration 
+                                title="Refermentation"
+                                setTemperatureAndDuration={setFermentingSteps}
+                                temperatureAndDuration={fermentingSteps}
+                                index={2}
+                                isFermenting={true}
+                            />
+                        </Box> 
+                }
+            </Box>
+            <RecipeOptions handleNext={handleNext} />
+        </Box>
+    )
+}
+
+export default RecipeFormFermentation
