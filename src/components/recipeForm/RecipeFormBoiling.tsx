@@ -1,6 +1,5 @@
 import { Box, IconButton, Tooltip, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-import { ingrEx } from "../../utils/const"
 import { SortableList } from "./recipeFormComponents/SortableList"
 import BoilingIngredientCard from "./recipeFormComponents/BoilingIngredientCard"
 import { InfoOutlineRounded } from "@mui/icons-material"
@@ -13,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { transformAllIngredientsIntoDesiredObject } from "../../utils/dataTransformRecipe"
 import { setBeerBoilingSteps, setBeerIngredients } from "../../store/recipeFormSlice"
 import { RootState } from "../../store/store"
+import { IngredientType } from "../../type/ingredient"
 
 export interface BoilingStepCurrent extends BoilingStep {
     id: string
@@ -20,27 +20,32 @@ export interface BoilingStepCurrent extends BoilingStep {
 
 
 const RecipeFormBoiling = () => {
+
+    const [ingredientsHoublonsList, setIngredientsHoublonsList] = useState<IngredientType[]>([])
+    const [ingredientsSucresList, setIngredientsSucresList] = useState<IngredientType[]>([])
+    const [ingredientsDiversList, setIngredientsDiversList] = useState<IngredientType[]>([])
     const [allIngredients, setAllIngredients] = useState<SelectedIngredient[]>([])
     const [boilingSteps, setBoilingSteps] = useState<BoilingStepCurrent[]>([])
 
     const { showSnackbar } = useSnackbar()
     const dispatch = useDispatch()
     const currentRecipe = useSelector((state: RootState) => state.recipeForm.recipe)
+    const ingredients = useSelector((state: RootState) => state.ingredient.ingredients)
 
     const getIngredientName = (ingredientID: number) => {
-        const ingredient = ingrEx.find((ing) => ing.id === ingredientID)
+        const ingredient = ingredients.find((ing) => ing.id === ingredientID)
         return ingredient ? ingredient.name : "Ingrédient inconnu"
     }
 
     const getIngredientMeasureUnit = (ingredientID: number) => {
-        const ingredient = ingrEx.find((ing) => ing.id === ingredientID)
+        const ingredient = ingredients.find((ing) => ing.id === ingredientID)
         return ingredient ? ingredient.measureUnit : "Ingrédient inconnu"
     }
 
     const lastHoublonIndex = (() => {
         const indices = boilingSteps
             .map((step, i) => ({
-                category: ingrEx.find((ing) => ing.id === step.ingredient.ingredientID)?.category,
+                category: ingredients.find((ing) => ing.id === step.ingredient.ingredientID)?.category,
                 index: i
             }))
             .filter(({ category }) => category === "houblons")
@@ -60,17 +65,17 @@ const RecipeFormBoiling = () => {
             const step = boilingSteps[index]
 
             if(step.ingredient.quantity === 0) {
-                showSnackbar(`La quantité pour l'ingrédient ${ingrEx.find((ingredient) => ingredient.id === step.ingredient.ingredientID)?.name} ne peut pas être égale à 0.`, 'error')
+                showSnackbar(`La quantité pour l'ingrédient $ ingredients.find((ingredient) => ingredient.id === step.ingredient.ingredientID)?.name} ne peut pas être égale à 0.`, 'error')
                 return false
             }
 
             if(step.duration === 0) {
-                showSnackbar(`La durée d'ébulittion de l'ingrédient ${ingrEx.find((ingredient) => ingredient.id === step.ingredient.ingredientID)?.name} ne peut pas être égale à 0.`, 'error')
+                showSnackbar(`La durée d'ébulittion de l'ingrédient $ ingredients.find((ingredient) => ingredient.id === step.ingredient.ingredientID)?.name} ne peut pas être égale à 0.`, 'error')
                 return false
             }
 
             if(index >= 1 && step.whenToAdd < boilingSteps[index-1].whenToAdd && !step.postBoiling) {
-                showSnackbar(`Le moment d'ajout de l'ingrédient ${ingrEx.find((ingredient) => ingredient.id === step.ingredient.ingredientID)?.name} ne peut pas être inférieur au précécent.`, 'error')
+                showSnackbar(`Le moment d'ajout de l'ingrédient $ ingredients.find((ingredient) => ingredient.id === step.ingredient.ingredientID)?.name} ne peut pas être inférieur au précécent.`, 'error')
                 return false
             }
         }
@@ -121,6 +126,15 @@ const RecipeFormBoiling = () => {
         return [...updatedOldSteps, ...newSteps]
         })
     }, [allIngredients])
+
+    
+    useEffect(() => {
+        if(ingredients.length > 0) {
+            setIngredientsHoublonsList(ingredients.filter((ingredient) => ingredient.category === "houblons"))
+            setIngredientsSucresList(ingredients.filter((ingredient) => ingredient.category === "sucres"))
+            setIngredientsDiversList(ingredients.filter((ingredient) => ingredient.category === "divers"))
+        }
+    }, [])
 
     return (
         <>
@@ -178,21 +192,21 @@ const RecipeFormBoiling = () => {
                     title="Houblon(s)*"
                     allIngredients={allIngredients}
                     setAllIngredients={setAllIngredients}
-                    options={ingrEx}
+                    options={ingredientsHoublonsList}
                     category="houblons"
                 />
                 <SelectMultipleIngredients
                     title="Sucre(s)"
                     allIngredients={allIngredients}
                     setAllIngredients={setAllIngredients}
-                    options={ingrEx}
+                    options={ingredientsSucresList}
                     category="sucres"
                 />
                 <SelectMultipleIngredients
                     title="Divers(s)"
                     allIngredients={allIngredients}
                     setAllIngredients={setAllIngredients}
-                    options={ingrEx}
+                    options={ingredientsDiversList}
                     category="divers"
                 />
                 </Box>

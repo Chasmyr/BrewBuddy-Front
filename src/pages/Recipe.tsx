@@ -41,6 +41,8 @@ const RecipePage = () => {
                 }
             }
             fetchIngredient()
+        } else {
+            setIsFormLoading(false)
         }
     }, [])
 

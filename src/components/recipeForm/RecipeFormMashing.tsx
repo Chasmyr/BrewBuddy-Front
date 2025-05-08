@@ -3,7 +3,7 @@ import TempAndDuration from "./recipeFormComponents/TempAndDuration"
 import SelectIngredient from "./recipeFormComponents/SelectIngredient"
 import { IngredientType } from "../../type/ingredient"
 import { useEffect, useState } from "react"
-import { ingrEx, mashoutStep } from "../../utils/const"
+import { mashoutStep } from "../../utils/const"
 import IngredientDetails from "./recipeFormComponents/IngredientDetails"
 import RecipeOptions from "./recipeFormComponents/RecipeOptions"
 import { useSnackbar } from "../../context/SnackbarContext"
@@ -18,6 +18,7 @@ import { MashingSteps } from "../../type/recipeObject"
 
 const RecipeFormMashing = () => {
 
+    const [ingredientsMaltList, setIngredientsMaltList] = useState<IngredientType[]>([])
     const [malts, setMatls] = useState<IngredientType[]>([])
     const [mashingSteps, setMashingSteps] = useState<MashingSteps[]>([
         { temperature: 0, duration: 0, mashout: false }
@@ -29,6 +30,7 @@ const RecipeFormMashing = () => {
     const { showSnackbar } = useSnackbar()
     const dispatch = useDispatch()
     const currentRecipe = useSelector((state: RootState) => state.recipeForm.recipe)
+    const ingredients = useSelector((state: RootState) => state.ingredient.ingredients)
 
     const handleChangeSwitchMulti = () => {
         if(malts.length > 0) {
@@ -57,7 +59,7 @@ const RecipeFormMashing = () => {
         Object.entries(quantities).forEach(([key, value]) => {
             const ingredientId = Number(key)
             if(value === 0) {
-                showSnackbar(`La quantité pour l'ingrédient ${ingrEx.find((ingredient) => ingredient.id === ingredientId)?.name} ne peut pas être égale à 0.`, 'error')
+                showSnackbar(`La quantité pour l'ingrédient ${ingredients.find((ingredient) => ingredient.id === ingredientId)?.name} ne peut pas être égale à 0.`, 'error')
                 return false
             }
         })
@@ -151,7 +153,7 @@ const RecipeFormMashing = () => {
                 let maltsFromStore: IngredientType[] = []
                 let quantitiesFromStore: Record<number, number> = {}
                 maltCategory.ingredients.map((ingredient) => {
-                    const ingredientFromDatabase = ingrEx.filter((ingr) => ingr.id === ingredient.ingredientID)
+                    const ingredientFromDatabase = ingredients.filter((ingr) => ingr.id === ingredient.ingredientID)
                     quantitiesFromStore[ingredient.ingredientID] = ingredient.quantity
                     maltsFromStore.push(ingredientFromDatabase[0])
                 })
@@ -174,6 +176,12 @@ const RecipeFormMashing = () => {
         }
 
     }, [currentRecipe])
+
+    useEffect(() => {
+        if(ingredients.length > 0) {
+            setIngredientsMaltList(ingredients.filter((ingredient) => ingredient.category === "malts"))
+        }
+    }, [])
 
     return (
         <>
@@ -237,7 +245,7 @@ const RecipeFormMashing = () => {
                             flexDirection: "column"
                         }}
                     >
-                        <SelectIngredient name="Malt(s) *" value={malts} setValue={setMatls} options={ingrEx} />
+                        <SelectIngredient name="Malt(s) *" value={malts} setValue={setMatls} options={ingredientsMaltList} />
                         <IngredientDetails 
                             ingredients={malts}
                             minHeightUnder="60px"

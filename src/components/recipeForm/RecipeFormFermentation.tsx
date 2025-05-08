@@ -2,17 +2,25 @@ import { InfoOutlineRounded } from "@mui/icons-material"
 import { Box, IconButton, Tooltip, Typography } from "@mui/material"
 import { fermentationIngredientToolTipContent } from "../../utils/tooltipContent"
 import SelectMultipleIngredients from "./recipeFormComponents/SelectMultipeIngredients"
-import { useState } from "react"
-import { ingrEx } from "../../utils/const"
+import { useEffect, useState } from "react"
 import TempAndDuration from "./recipeFormComponents/TempAndDuration"
 import { FermentingSteps, SelectedIngredient } from "../../type/recipeObject"
 import { useSnackbar } from "../../context/SnackbarContext"
 import RecipeOptions from "./recipeFormComponents/RecipeOptions"
+import { IngredientType } from "../../type/ingredient"
+import { useSelector } from "react-redux"
+import { RootState } from "../../store/store"
 
 const RecipeFormFermentation = () => {
+
+    const [ingredientsLevuresList, setIngredientsLevuresList] = useState<IngredientType[]>([])
+    const [ingredientsSucresList, setIngredientsSucresList] = useState<IngredientType[]>([])
+    const [ingredientsHoublonsList, setIngredientsHoublonsList] = useState<IngredientType[]>([])
     const [allIngredients, setAllIngredients] = useState<SelectedIngredient[]>([])
     const [fermentingSteps, setFermentingSteps] = useState<FermentingSteps[] | any>([])
+
     const { showSnackbar } = useSnackbar()
+    const ingredients = useSelector((state: RootState) => state.ingredient.ingredients)
 
     const checkIfFormComplete = () => {
 
@@ -82,6 +90,14 @@ const RecipeFormFermentation = () => {
         }
     }
 
+    useEffect(() => {
+        if(ingredients.length > 0) {
+            setIngredientsLevuresList(ingredients.filter((ingredient) => ingredient.category === "levures"))
+            setIngredientsSucresList(ingredients.filter((ingredient) => ingredient.category === "sucres"))
+            setIngredientsHoublonsList(ingredients.filter((ingredient) => ingredient.category === "houblons"))
+        }
+    }, [])
+
     return (
         <Box
             sx={{
@@ -137,21 +153,21 @@ const RecipeFormFermentation = () => {
                         title="Levure(s)*"
                         allIngredients={allIngredients}
                         setAllIngredients={setAllIngredients}
-                        options={ingrEx}
+                        options={ingredientsLevuresList}
                         category="levures"
                     />
                     <SelectMultipleIngredients
                         title="Sucre(s)*"
                         allIngredients={allIngredients}
                         setAllIngredients={setAllIngredients}
-                        options={ingrEx}
+                        options={ingredientsSucresList}
                         category="sucres"
                     />
                     <SelectMultipleIngredients
                         title="Houblon(s)"
                         allIngredients={allIngredients}
                         setAllIngredients={setAllIngredients}
-                        options={ingrEx}
+                        options={ingredientsHoublonsList}
                         category="houblons"
                     />
                 </Box>
