@@ -8,7 +8,7 @@ export interface RecipeForm {
 }
 
 const initialState: RecipeForm = {
-    currentStep: 3,
+    currentStep: 0,
     recipe: baseStateRecipe
 }
 

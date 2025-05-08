@@ -84,7 +84,7 @@ const RecipeFormBoiling = () => {
             const transformedRecipeIngredient = transformAllIngredientsIntoDesiredObject(allIngredients, boilingSteps)
             dispatch(setBeerIngredients(transformedRecipeIngredient))
             dispatch(setBeerBoilingSteps(boilingSteps))
-            return false
+            return true
         } else {
             return false
         }
