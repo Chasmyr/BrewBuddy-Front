@@ -3,12 +3,12 @@ import { IngredientType } from "../../../type/ingredient"
 
 type IngredientDetailsProps = {
     ingredients: IngredientType[],
-    needQuantity: boolean,
     onQuantityChange: (id: number, quantity: number) => void,
-    minHeightUnder: string
+    minHeightUnder: string,
+    quantities: Record<number, number>
 }
 
-const IngredientDetails: React.FC<IngredientDetailsProps> = ({ingredients, needQuantity, onQuantityChange, minHeightUnder}) => {
+const IngredientDetails: React.FC<IngredientDetailsProps> = ({ingredients, onQuantityChange, minHeightUnder, quantities}) => {
 
     // TODO => animation d'apparition du détail
 
@@ -32,31 +32,30 @@ const IngredientDetails: React.FC<IngredientDetailsProps> = ({ingredients, needQ
                     <Typography variant="h6" fontSize={16}>
                         {ingredient.name}
                     </Typography>
-                    {needQuantity && (
-                        <TextField 
-                            placeholder="Quantité"
-                            type="number"
-                            variant="standard"
-                            sx={{
-                                maxWidth: "140px"
-                            }}
-                            onChange={(e) => {
-                                const newQuantity = Number(e.target.value)
-                                onQuantityChange(ingredient.id, newQuantity)
-                            }}
-                            slotProps={{
-                                input: {
-                                    endAdornment:
-                                        <InputAdornment position="end">{ingredient.measureUnit}</InputAdornment>
-                                }
-                            }}
-                            onKeyDown={(e) => {
-                                if (['e', 'E', '+', '-', '.'].includes(e.key)) {
-                                  e.preventDefault()
-                                }
-                            }}
-                        />
-                    )}
+                    <TextField 
+                        placeholder="Quantité"
+                        type="number"
+                        variant="standard"
+                        value={quantities[ingredient.id] ?? ""}
+                        sx={{
+                            maxWidth: "140px"
+                        }}
+                        onChange={(e) => {
+                            const newQuantity = Number(e.target.value)
+                            onQuantityChange(ingredient.id, newQuantity)
+                        }}
+                        slotProps={{
+                            input: {
+                                endAdornment:
+                                    <InputAdornment position="end">{ingredient.measureUnit}</InputAdornment>
+                            }
+                        }}
+                        onKeyDown={(e) => {
+                            if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+                                e.preventDefault()
+                            }
+                        }}
+                    />
                 </Box>
             ))}
         </Box>

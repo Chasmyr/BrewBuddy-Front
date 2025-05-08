@@ -1,5 +1,5 @@
 import { IngredientType } from "../type/ingredient"
-import { BoilingStep } from "../type/recipeObject"
+import { CreateRecipe } from "../type/recipeObject"
 
 export const beerStyles = ["Pils", "IPA", "NEIPA", "Pale Ale", "Stout", "Porter"]
 
@@ -11,32 +11,51 @@ export const mashoutStep = {
     mashout: true
 }
 
-export const boilingStepEx: BoilingStep[] = [
-  {
-    whenToAdd: 0,
-    duration: 0,
-    ingredient: {
-      quantity: 100,
-      ingredientID: 1,
-    },
+export const baseStateRecipe: CreateRecipe = {
+  isRecipeDoneWriting: false,
+  isInBlackList: false,
+  profil: {
+    recipeName: "",
+    description: "",
+    style: "Pils",
+    ebc: [10, 56],
+    ibu: [1, 40]
   },
-  {
-    whenToAdd: 0,
-    duration: 0,
-    ingredient: {
-      quantity: 50,
-      ingredientID: 2,
+  recipeIngredients: [],
+  steps: {
+    mashing: {
+      multiStage: false,
+      steps: [
+        {
+          temperature: 0,
+          duration: 0,
+          mashout: false
+        }
+      ]
     },
-  },
-  {
-    whenToAdd: 0,
-    duration: 0,
-    ingredient: {
-      quantity: 25,
-      ingredientID: 3,
+    boiling: [],
+    fermenting: {
+      totalDurationOfBaseFermenting: 0,
+      steps: [
+        {
+          name: "primary",
+          temperature: 0,
+          duration: 0
+        },
+        {
+          name: "secondary",
+          temperature: 0,
+          duration: 0
+        },
+        {
+          name: "refermenting",
+          temperature: 0,
+          duration: 0
+        }
+      ]
     }
   }
-]
+}
 
 export const ingrEx: IngredientType[] = [
     {
@@ -65,7 +84,7 @@ export const ingrEx: IngredientType[] = [
         "name": "Chinook (Cônes)",
         "measureUnit": "g",
         "dosage": null,
-        "category": "houblons"
+        "category": "sucres"
       },
       {
         "id": 42,
@@ -79,7 +98,7 @@ export const ingrEx: IngredientType[] = [
         "name": "Cascade (Cryo)",
         "measureUnit": "g",
         "dosage": null,
-        "category": "houblons"
+        "category": "divers"
       },
       {
         "id": 44,

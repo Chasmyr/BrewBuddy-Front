@@ -1,12 +1,11 @@
 import { DeviceThermostat, Timer } from "@mui/icons-material"
-import { Box, InputAdornment, TextField, Typography } from "@mui/material"
-import { TemperatureAndDuration } from "../../../type/recipeObject"
-import { FermentingSteps } from "../RecipeFormFermentation"
+import { Box, Fade, InputAdornment, TextField, Typography } from "@mui/material"
+import { FermentingSteps, MashingSteps, TemperatureAndDuration } from "../../../type/recipeObject"
 
 type TempAndDurationProps = {
     title: string
     temperatureAndDuration: TemperatureAndDuration[],
-    setTemperatureAndDuration: React.Dispatch<React.SetStateAction<TemperatureAndDuration[] | FermentingSteps[]>>,
+    setTemperatureAndDuration: React.Dispatch<React.SetStateAction<TemperatureAndDuration[] | FermentingSteps[] | MashingSteps[]>>,
     index: number,
     isFermenting: boolean
 }
@@ -37,71 +36,73 @@ const TempAndDuration: React.FC<TempAndDurationProps>  = ({title, temperatureAnd
     }
 
     return (
-        <Box sx={{width: "100%"}}>
-            {title && (
-                <Typography gutterBottom sx={{mb:1}}>
-                    {title}
-                </Typography>
-            )}
-            <Box
-                sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "100%"
-                }}
-            >
-                <TextField 
-                    placeholder="Température (°C)"
-                    type="number"
-                    variant="standard"
-                    value={temperatureAndDuration[index]?.temperature || ''}
-                    onChange={(e) => handleInputChange('temperature', Number(e.target.value), title)}
-                    slotProps={{
-                        input: {
-                            endAdornment:
-                                <InputAdornment position="end">
-                                    <DeviceThermostat />
-                                </InputAdornment>
-                        }
-                    }}
-                    onKeyDown={(e) => {
-                        if (['e', 'E', '+', '-', '.'].includes(e.key)) {
-                            e.preventDefault()
-                        }
-                    }}
+        <Fade in={true} timeout={300}>
+            <Box sx={{width: "100%"}}>
+                {title && (
+                    <Typography gutterBottom sx={{mb:1}}>
+                        {title}
+                    </Typography>
+                )}
+                <Box
                     sx={{
-                        width: {
-                            xs: "48%"
-                        }
+                        display: "flex",
+                        justifyContent: "space-between",
+                        width: "100%"
                     }}
-                />
-                <TextField 
-                    placeholder={isFermenting ? "Durée (jours)" : "Durée (min)"}
-                    type="number"
-                    variant="standard"
-                    value={temperatureAndDuration[index]?.duration || ''}
-                    onChange={(e) => handleInputChange('duration', Number(e.target.value), title)}
-                    slotProps={{
-                        input: {
-                            endAdornment:
-                                <InputAdornment position="end">
-                                    <Timer />
-                                </InputAdornment>
-                        }
-                    }}
-                    onKeyDown={(e) => {
-                        if (['e', 'E', '+', '-', '.'].includes(e.key)) {
-                            e.preventDefault()
-                        }
-                    }}
-                    sx={{
-                        width: {
-                            xs: "48%"
-                        }
-                    }}
-                />
+                >
+                    <TextField 
+                        placeholder="Température (°C)"
+                        type="number"
+                        variant="standard"
+                        value={temperatureAndDuration[index]?.temperature || ''}
+                        onChange={(e) => handleInputChange('temperature', Number(e.target.value), title)}
+                        slotProps={{
+                            input: {
+                                endAdornment:
+                                    <InputAdornment position="end">
+                                        <DeviceThermostat />
+                                    </InputAdornment>
+                            }
+                        }}
+                        onKeyDown={(e) => {
+                            if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+                                e.preventDefault()
+                            }
+                        }}
+                        sx={{
+                            width: {
+                                xs: "48%"
+                            }
+                        }}
+                    />
+                    <TextField 
+                        placeholder={isFermenting ? "Durée (jours)" : "Durée (min)"}
+                        type="number"
+                        variant="standard"
+                        value={temperatureAndDuration[index]?.duration || ''}
+                        onChange={(e) => handleInputChange('duration', Number(e.target.value), title)}
+                        slotProps={{
+                            input: {
+                                endAdornment:
+                                    <InputAdornment position="end">
+                                        <Timer />
+                                    </InputAdornment>
+                            }
+                        }}
+                        onKeyDown={(e) => {
+                            if (['e', 'E', '+', '-', '.'].includes(e.key)) {
+                                e.preventDefault()
+                            }
+                        }}
+                        sx={{
+                            width: {
+                                xs: "48%"
+                            }
+                        }}
+                    />
+                </Box>
             </Box>
-        </Box>
+        </Fade>
     )
 }
 

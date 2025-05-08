@@ -18,15 +18,14 @@ const RecipePage = () => {
             <Header />
             <Box
                 sx={{
-                    width: "100vw",
+                    width: "100%",
                     minHeight: "100vh",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "flex-start",
                     flexDirection: "column",
                     bgcolor: {
-                        xs: "#FFFCF2",
-                        sm: "#F99926"
+                        xs: "#F99926"
                     },
                 }}
             >
@@ -37,7 +36,7 @@ const RecipePage = () => {
                             lg: "60%",
                             md: "70%",
                             sm: "90%",
-                            xs: "100%"
+                            xs: "95%"
                         },
                         display: "flex",
                         alignItems: "center",

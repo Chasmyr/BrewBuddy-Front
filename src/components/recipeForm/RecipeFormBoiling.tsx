@@ -1,6 +1,5 @@
 import { Box, IconButton, Tooltip, Typography } from "@mui/material"
 import { useEffect, useState } from "react"
-import { IngredientType } from "../../type/ingredient"
 import { ingrEx } from "../../utils/const"
 import { SortableList } from "./recipeFormComponents/SortableList"
 import BoilingIngredientCard from "./recipeFormComponents/BoilingIngredientCard"
@@ -9,27 +8,24 @@ import { boilingIngredientToolTipContent } from "../../utils/tooltipContent"
 import RecipeOptions from "./recipeFormComponents/RecipeOptions"
 import { useSnackbar } from "../../context/SnackbarContext"
 import SelectMultipleIngredients from "./recipeFormComponents/SelectMultipeIngredients"
+import { BoilingStep, SelectedIngredient } from "../../type/recipeObject"
+import { useDispatch, useSelector } from "react-redux"
+import { transformAllIngredientsIntoDesiredObject } from "../../utils/dataTransformRecipe"
+import { setBeerBoilingSteps, setBeerIngredients } from "../../store/recipeFormSlice"
+import { RootState } from "../../store/store"
 
-type SelectedIngredient = {
-    id: string // UUID unique par sélection d'ingrédient
-    ingredient: IngredientType
+export interface BoilingStepCurrent extends BoilingStep {
+    id: string
 }
 
-type BoilingStep = {
-    id: string // UUID pour dnd-kit
-    whenToAdd: number
-    duration: number
-    postBoiling?: boolean
-    ingredient: {
-        quantity: number
-        ingredientID: number
-    }
-}
 
 const RecipeFormBoiling = () => {
     const [allIngredients, setAllIngredients] = useState<SelectedIngredient[]>([])
-    const [boilingSteps, setBoilingSteps] = useState<BoilingStep[]>([])
+    const [boilingSteps, setBoilingSteps] = useState<BoilingStepCurrent[]>([])
+
     const { showSnackbar } = useSnackbar()
+    const dispatch = useDispatch()
+    const currentRecipe = useSelector((state: RootState) => state.recipeForm.recipe)
 
     const getIngredientName = (ingredientID: number) => {
         const ingredient = ingrEx.find((ing) => ing.id === ingredientID)
@@ -85,7 +81,10 @@ const RecipeFormBoiling = () => {
     const handleNext = () => {
 
         if(checkIfFormComplete()) {
-            return true
+            const transformedRecipeIngredient = transformAllIngredientsIntoDesiredObject(allIngredients, boilingSteps)
+            dispatch(setBeerIngredients(transformedRecipeIngredient))
+            dispatch(setBeerBoilingSteps(boilingSteps))
+            return false
         } else {
             return false
         }
@@ -95,7 +94,7 @@ const RecipeFormBoiling = () => {
         setBoilingSteps((prevSteps) => {
         const existingIds = new Set(prevSteps.map((step) => step.id))
 
-        const newSteps: BoilingStep[] = []
+        const newSteps: BoilingStepCurrent[] = []
         allIngredients.forEach((ingredientEntry) => {
             if (!existingIds.has(ingredientEntry.id)) {
                 newSteps.push({
@@ -143,7 +142,12 @@ const RecipeFormBoiling = () => {
             }}
             >
             <Box sx={{ mb: 2, width: "100%", display: "flex", justifyContent: "center" }}>
-                <Typography variant="h4" fontSize={22}>
+                <Typography variant="h3" 
+                    fontSize={{
+                        xs: 20,
+                        sm: 22
+                    }}
+                >
                 Ebullition
                 </Typography>
             </Box>

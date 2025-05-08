@@ -5,22 +5,30 @@ import { IngredientType } from "../../type/ingredient"
 import { useEffect, useState } from "react"
 import { ingrEx, mashoutStep } from "../../utils/const"
 import IngredientDetails from "./recipeFormComponents/IngredientDetails"
-import { TemperatureAndDuration } from "../../type/recipeObject"
 import RecipeOptions from "./recipeFormComponents/RecipeOptions"
 import { useSnackbar } from "../../context/SnackbarContext"
 import { InfoOutlineRounded } from "@mui/icons-material"
 import { mashoutTooltipContent, multiPalierTooltipContent } from "../../utils/tooltipContent"
+import { useDispatch, useSelector } from "react-redux"
+import { setBeerIngredients, setBeerMashingSteps } from "../../store/recipeFormSlice"
+import { RootState } from "../../store/store"
+import { MashingSteps } from "../../type/recipeObject"
+
+
 
 const RecipeFormMashing = () => {
 
     const [malts, setMatls] = useState<IngredientType[]>([])
-    const [mashingSteps, setMashingSteps] = useState<TemperatureAndDuration[]>([
-        { temperature: 0, duration: 0 }
+    const [mashingSteps, setMashingSteps] = useState<MashingSteps[]>([
+        { temperature: 0, duration: 0, mashout: false }
     ])
     const [quantities, setQuantities] = useState<Record<number, number>>({})
     const [isMulti, setIsMulti] = useState<boolean>(false)
     const [isMashout, setIsMashout] = useState<boolean>(false)
+
     const { showSnackbar } = useSnackbar()
+    const dispatch = useDispatch()
+    const currentRecipe = useSelector((state: RootState) => state.recipeForm.recipe)
 
     const handleChangeSwitchMulti = () => {
         if(malts.length > 0) {
@@ -73,19 +81,20 @@ const RecipeFormMashing = () => {
 
     const handleNext = () => {
 
-        // TODO => dispatch
         if(checkIfFormComplete()) {
             // making the ingredient object for the recipe
-            // const maltsIngredientsData = {
-            //     category: "malts",
-            //     ingredients: malts.map((malt) => ({
-            //         ingredientID: malt.id,
-            //         quantity: quantities[malt.id],
-            //         name: malt.name,
-            //         measureUnit: malt.measureUnit
-            //     }))
-            // }
-    
+            const maltsIngredientsData = [
+                {
+                    category: "malts",
+                    ingredients: malts.map((malt) => ({
+                        ingredientID: malt.id,
+                        quantity: quantities[malt.id],
+                        name: malt.name,
+                        measureUnit: malt.measureUnit
+                    }))
+                }
+            ]
+
             // making the steps object for the recipe
             let mashingStepsData = [...mashingSteps]
             
@@ -94,12 +103,12 @@ const RecipeFormMashing = () => {
             }
     
             let fullMashingStepObject = {
-                steps: mashingStepsData
+                steps: mashingStepsData,
+                multiStage: isMulti
             }
-    
-            if(isMulti) {
-                Object.assign(fullMashingStepObject, { multiStage: true }) 
-            }
+
+            dispatch(setBeerIngredients(maltsIngredientsData))
+            dispatch(setBeerMashingSteps(fullMashingStepObject))
             return true
         } else {
             return false
@@ -115,19 +124,56 @@ const RecipeFormMashing = () => {
 
     useEffect(() => {
         if (isMulti) {
+            setMashingSteps((prev) => {
+                const normalSteps = prev.filter(step => !step.mashout)
+                const mashoutStep = prev.find(step => step.mashout)
 
-          setMashingSteps((prev) => {
-            const newSteps = [...prev];
-            while (newSteps.length < 3) {
-              newSteps.push({ temperature: 0, duration: 0 });
-            }
-            return newSteps.slice(0, 3)
-          })
+                while (normalSteps.length < 3) {
+                    normalSteps.push({ temperature: 0, duration: 0, mashout: false })
+                }
+                const baseSteps = normalSteps.slice(0, 3)
+
+                if(mashoutStep) {
+                    return [...baseSteps, mashoutStep]
+                }
+
+                return baseSteps
+            })
         } else {
-          
-          setMashingSteps((prev) => prev.slice(0, 1))
+            setMashingSteps((prev) => prev.slice(0, 1))
         }
     }, [isMulti])
+
+    useEffect(() => {
+
+        if(currentRecipe.recipeIngredients.length > 0 && currentRecipe.recipeIngredients.some((category) => category.category === "malts" )) {
+            currentRecipe.recipeIngredients.filter((cat) => cat.category === "malts").forEach(maltCategory => {
+                let maltsFromStore: IngredientType[] = []
+                let quantitiesFromStore: Record<number, number> = {}
+                maltCategory.ingredients.map((ingredient) => {
+                    const ingredientFromDatabase = ingrEx.filter((ingr) => ingr.id === ingredient.ingredientID)
+                    quantitiesFromStore[ingredient.ingredientID] = ingredient.quantity
+                    maltsFromStore.push(ingredientFromDatabase[0])
+                })
+                setMatls(maltsFromStore)
+                setQuantities(quantitiesFromStore)
+            })
+        }
+
+        if(currentRecipe.steps.mashing.steps != mashingSteps) {
+            let mashoutStepFromStore = currentRecipe.steps.mashing.steps.filter((step) => step === mashoutStep)
+            if(mashoutStepFromStore.length > 0) {
+                setIsMashout(true)
+                if(currentRecipe.steps.mashing.multiStage) {
+                    setIsMulti(true)
+                } else {
+                    setIsMulti(false)
+                }
+            }
+            setMashingSteps(currentRecipe.steps.mashing.steps)
+        }
+
+    }, [currentRecipe])
 
     return (
         <>
@@ -193,9 +239,9 @@ const RecipeFormMashing = () => {
                     >
                         <SelectIngredient name="Malt(s) *" value={malts} setValue={setMatls} options={ingrEx} />
                         <IngredientDetails 
-                            needQuantity={true} 
                             ingredients={malts}
                             minHeightUnder="60px"
+                            quantities={quantities}
                             onQuantityChange={(id: number, quantity: number) => {{
                                 setQuantities((prev) => ({
                                     ...prev,

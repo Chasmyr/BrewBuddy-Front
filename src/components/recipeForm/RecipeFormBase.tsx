@@ -1,10 +1,13 @@
 import { Box, MenuItem, OutlinedInput, Select, SelectChangeEvent, TextField, Typography } from "@mui/material"
 import { beerStyles } from "../../utils/const"
 import SliderRecipeBase from "./recipeFormComponents/SliderRecipeBase"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import RecipeOptions from "./recipeFormComponents/RecipeOptions"
 import { useSnackbar } from "../../context/SnackbarContext"
 import { ebcTooltipContent, ibuTooltipContent } from "../../utils/tooltipContent"
+import { useDispatch, useSelector } from "react-redux"
+import { setBeerProfil } from "../../store/recipeFormSlice"
+import { RootState } from "../../store/store"
 
 const RecipeFormBase = () => {
 
@@ -14,7 +17,10 @@ const RecipeFormBase = () => {
     const [beerStyle, setBeerStyle] = useState<string>("Pils")
     const [beerDescription, setBeerDescription] = useState<string>("")
 
+    const currentRecipe = useSelector((state: RootState) => state.recipeForm.recipe)
+
     const { showSnackbar } = useSnackbar()
+    const dispatch = useDispatch()
 
     const handleBeerName = (e: ChangeEvent<HTMLInputElement>) => {
         setBeerName(e.target.value)
@@ -43,19 +49,37 @@ const RecipeFormBase = () => {
         return true
     }
 
+    useEffect(() => {
+        if(currentRecipe.profil.description != beerDescription) {
+            setBeerDescription(currentRecipe.profil.description)
+        }
+        if(currentRecipe.profil.recipeName != beerName) {
+            setBeerName(currentRecipe.profil.recipeName)
+        }
+        if(currentRecipe.profil.style != beerStyle) {
+            setBeerStyle(currentRecipe.profil.style)
+        }
+        if(currentRecipe.profil.ebc != ebcValue) {
+            setEbcValue(currentRecipe.profil.ebc)
+        }
+        if(currentRecipe.profil.ibu != amertumeValue) {
+            setAmertumeValue(currentRecipe.profil.ibu)
+        }
+    }, [currentRecipe])
+
     const handleNext = () => {
 
         if(checkIfFormComplete()) {
             // TODO : modifier ebc ibu en back pour prendre l'array
-            // const beerProfil = {
-            //     description: beerDescription,
-            //     ebc: ebcValue[1],
-            //     ibu: amertumeValue[1],
-            //     style: beerStyle,
-            //     recipeName: beerName
-            // }
+            const beerProfil = {
+                description: beerDescription,
+                ebc: ebcValue,
+                ibu: amertumeValue,
+                style: beerStyle,
+                recipeName: beerName
+            }
     
-            // TODO => dispatch
+            dispatch(setBeerProfil(beerProfil))
             return true
         } else {
             return false

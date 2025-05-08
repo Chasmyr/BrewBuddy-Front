@@ -33,7 +33,13 @@ const SliderRecipeBase: React.FC<SliderProps> = ({name, value, setValue, max, to
         >
             <Box
                 sx={{
-                    width: "100%",
+                    width: {
+                        xs: "100%",
+                        sm: "230px",
+                        md: "260px",
+                        lg: "300px",
+                        xl: "400px"
+                    },
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",

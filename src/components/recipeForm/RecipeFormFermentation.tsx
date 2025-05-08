@@ -3,25 +3,11 @@ import { Box, IconButton, Tooltip, Typography } from "@mui/material"
 import { fermentationIngredientToolTipContent } from "../../utils/tooltipContent"
 import SelectMultipleIngredients from "./recipeFormComponents/SelectMultipeIngredients"
 import { useState } from "react"
-import { IngredientType } from "../../type/ingredient"
 import { ingrEx } from "../../utils/const"
 import TempAndDuration from "./recipeFormComponents/TempAndDuration"
-import { TemperatureAndDuration } from "../../type/recipeObject"
+import { FermentingSteps, SelectedIngredient } from "../../type/recipeObject"
 import { useSnackbar } from "../../context/SnackbarContext"
 import RecipeOptions from "./recipeFormComponents/RecipeOptions"
-
-type SelectedIngredient = {
-    id: string // UUID unique par sélection d'ingrédient
-    ingredient: IngredientType
-}
-
-export interface FermentingSteps extends TemperatureAndDuration {
-    name: string
-}
-
-export interface IngredientWithQuantity extends IngredientType {
-    quantity: number
-}
 
 const RecipeFormFermentation = () => {
     const [allIngredients, setAllIngredients] = useState<SelectedIngredient[]>([])
@@ -115,7 +101,12 @@ const RecipeFormFermentation = () => {
             }}
         >
             <Box sx={{ mb: 2, width: "100%", display: "flex", justifyContent: "center" }}>
-                <Typography variant="h4" fontSize={22}>
+                <Typography variant="h3"
+                    fontSize={{
+                        xs: 20,
+                        sm: 22
+                    }}
+                >
                 Fermentation
                 </Typography>
             </Box>
