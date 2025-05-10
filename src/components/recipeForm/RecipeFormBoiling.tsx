@@ -9,15 +9,10 @@ import { useSnackbar } from "../../context/SnackbarContext"
 import SelectMultipleIngredients from "./recipeFormComponents/SelectMultipeIngredients"
 import { BoilingStep, SelectedIngredient } from "../../type/recipeObject"
 import { useDispatch, useSelector } from "react-redux"
-import { transformAllIngredientsIntoDesiredObject } from "../../utils/dataTransformRecipe"
+import { transformAllIngredientsIntoDesiredObjectBoiling } from "../../utils/dataTransformRecipe"
 import { setBeerBoilingSteps, setBeerIngredients } from "../../store/recipeFormSlice"
 import { RootState } from "../../store/store"
 import { IngredientType } from "../../type/ingredient"
-
-export interface BoilingStepCurrent extends BoilingStep {
-    id: string
-}
-
 
 const RecipeFormBoiling = () => {
 
@@ -25,7 +20,7 @@ const RecipeFormBoiling = () => {
     const [ingredientsSucresList, setIngredientsSucresList] = useState<IngredientType[]>([])
     const [ingredientsDiversList, setIngredientsDiversList] = useState<IngredientType[]>([])
     const [allIngredients, setAllIngredients] = useState<SelectedIngredient[]>([])
-    const [boilingSteps, setBoilingSteps] = useState<BoilingStepCurrent[]>([])
+    const [boilingSteps, setBoilingSteps] = useState<BoilingStep[]>([])
 
     const { showSnackbar } = useSnackbar()
     const dispatch = useDispatch()
@@ -65,17 +60,17 @@ const RecipeFormBoiling = () => {
             const step = boilingSteps[index]
 
             if(step.ingredient.quantity === 0) {
-                showSnackbar(`La quantité pour l'ingrédient $ ingredients.find((ingredient) => ingredient.id === step.ingredient.ingredientID)?.name} ne peut pas être égale à 0.`, 'error')
+                showSnackbar(`La quantité pour l'ingrédient ${ingredients.find((ingredient) => ingredient.id === step.ingredient.ingredientID)?.name} ne peut pas être égale à 0.`, 'error')
                 return false
             }
 
             if(step.duration === 0) {
-                showSnackbar(`La durée d'ébulittion de l'ingrédient $ ingredients.find((ingredient) => ingredient.id === step.ingredient.ingredientID)?.name} ne peut pas être égale à 0.`, 'error')
+                showSnackbar(`La durée d'ébulittion de l'ingrédient ${ingredients.find((ingredient) => ingredient.id === step.ingredient.ingredientID)?.name} ne peut pas être égale à 0.`, 'error')
                 return false
             }
 
             if(index >= 1 && step.whenToAdd < boilingSteps[index-1].whenToAdd && !step.postBoiling) {
-                showSnackbar(`Le moment d'ajout de l'ingrédient $ ingredients.find((ingredient) => ingredient.id === step.ingredient.ingredientID)?.name} ne peut pas être inférieur au précécent.`, 'error')
+                showSnackbar(`Le moment d'ajout de l'ingrédient ${ingredients.find((ingredient) => ingredient.id === step.ingredient.ingredientID)?.name} ne peut pas être inférieur au précécent.`, 'error')
                 return false
             }
         }
@@ -86,7 +81,7 @@ const RecipeFormBoiling = () => {
     const handleNext = () => {
 
         if(checkIfFormComplete()) {
-            const transformedRecipeIngredient = transformAllIngredientsIntoDesiredObject(allIngredients, boilingSteps)
+            const transformedRecipeIngredient = transformAllIngredientsIntoDesiredObjectBoiling(allIngredients, boilingSteps)
             dispatch(setBeerIngredients(transformedRecipeIngredient))
             dispatch(setBeerBoilingSteps(boilingSteps))
             return true
@@ -99,7 +94,7 @@ const RecipeFormBoiling = () => {
         setBoilingSteps((prevSteps) => {
         const existingIds = new Set(prevSteps.map((step) => step.id))
 
-        const newSteps: BoilingStepCurrent[] = []
+        const newSteps: BoilingStep[] = []
         allIngredients.forEach((ingredientEntry) => {
             if (!existingIds.has(ingredientEntry.id)) {
                 newSteps.push({
@@ -133,6 +128,35 @@ const RecipeFormBoiling = () => {
             setIngredientsHoublonsList(ingredients.filter((ingredient) => ingredient.category === "houblons"))
             setIngredientsSucresList(ingredients.filter((ingredient) => ingredient.category === "sucres"))
             setIngredientsDiversList(ingredients.filter((ingredient) => ingredient.category === "divers"))
+        }
+
+        if(currentRecipe.steps.boiling.length > 0) {
+            setBoilingSteps(currentRecipe.steps.boiling)
+            let allIngredientsFromStore: SelectedIngredient[] = []
+            currentRecipe.recipeIngredients.map((ingredientCategory) => {
+
+                currentRecipe.steps.boiling.map((boilingStep) => {
+
+                    if(ingredientCategory.category === "houblons" || ingredientCategory.category === "sucres" || ingredientCategory.category === "divers") {
+
+                        ingredientCategory.ingredients.map((ingredient) => {
+                            if(boilingStep.id === ingredient.uuid) {
+                                const foundIngredient = ingredients.find((ingredientToFind) => ingredientToFind.id === ingredient.ingredientID)
+                                
+                                if(foundIngredient) {
+                                    allIngredientsFromStore.push(
+                                        {
+                                            id: ingredient.uuid, 
+                                            ingredient: foundIngredient
+                                        }
+                                    )
+                                }
+                            }
+                        })
+                    }
+                })
+            })
+            setAllIngredients(allIngredientsFromStore)
         }
     }, [])
 

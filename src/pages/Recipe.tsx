@@ -13,6 +13,7 @@ import { useApi } from "../hooks/useApi"
 import { setIngredientSlice } from "../store/ingredientSlice"
 import { useSnackbar } from "../context/SnackbarContext"
 import { useNavigate } from "react-router"
+import RecipeFormValidation from "../components/recipeForm/RecipeFormValidation"
 
 
 const RecipePage = () => {
@@ -118,6 +119,10 @@ const RecipePage = () => {
     
                             {currentStep === 3 && (
                                 <RecipeFormFermentation />
+                            )}
+
+                            {currentStep === 4 && (
+                                <RecipeFormValidation />
                             )}
                         </Box>
                     </Box>

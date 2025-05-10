@@ -14,7 +14,8 @@ export type RecipeIngredientType = {
     name: string,
     measureUnit: string,
     dryHoping?: boolean,
-    uuid?: string
+    uuid?: string,
+    sugar?: boolean
 }
 
 export type RecipeIngredientList = {
@@ -42,7 +43,7 @@ export interface FermentingSteps extends TemperatureAndDuration {
 }
 
 export type BoilingStep = {
-    id?: string
+    id: string
     whenToAdd: number
     duration: number
     postBoiling?: boolean

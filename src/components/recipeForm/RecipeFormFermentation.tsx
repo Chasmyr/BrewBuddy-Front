@@ -8,8 +8,10 @@ import { FermentingSteps, SelectedIngredient } from "../../type/recipeObject"
 import { useSnackbar } from "../../context/SnackbarContext"
 import RecipeOptions from "./recipeFormComponents/RecipeOptions"
 import { IngredientType } from "../../type/ingredient"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../../store/store"
+import { setBeerFermentingSteps, setBeerIngredientsFermenting,  } from "../../store/recipeFormSlice"
+import { transformAllIngredientsIntoDesiredObjectFermentation } from "../../utils/dataTransformRecipe"
 
 const RecipeFormFermentation = () => {
 
@@ -20,7 +22,9 @@ const RecipeFormFermentation = () => {
     const [fermentingSteps, setFermentingSteps] = useState<FermentingSteps[] | any>([])
 
     const { showSnackbar } = useSnackbar()
+    const dispatch = useDispatch()
     const ingredients = useSelector((state: RootState) => state.ingredient.ingredients)
+    const currentRecipe = useSelector((state: RootState) => state.recipeForm.recipe)
 
     const checkIfFormComplete = () => {
 
@@ -51,14 +55,13 @@ const RecipeFormFermentation = () => {
                 showSnackbar(`Merci de renseigner les valeurs de toutes les fermentations`, 'error')
                 return false
             }
-
             let fermentationName
 
-            if (step.name = "primary") {
+            if (step.name === "primary") {
                 fermentationName = "Primaire"
-            } else if (step.name = "secondary") {
+            } else if (step.name === "secondary") {
                 fermentationName = "Secondaire"
-            } else if (step.name = "refermenting") {
+            } else if (step.name === "refermenting") {
                 fermentationName = "Refermentation"
             }
 
@@ -82,8 +85,10 @@ const RecipeFormFermentation = () => {
         return true
     }
 
-    const handleNext = () => {
+    const handleNext = () => { 
         if(checkIfFormComplete()) {
+            dispatch(setBeerFermentingSteps(fermentingSteps))
+            dispatch(setBeerIngredientsFermenting(transformAllIngredientsIntoDesiredObjectFermentation(allIngredients)))
             return true
         } else {
             return false
@@ -95,6 +100,38 @@ const RecipeFormFermentation = () => {
             setIngredientsLevuresList(ingredients.filter((ingredient) => ingredient.category === "levures"))
             setIngredientsSucresList(ingredients.filter((ingredient) => ingredient.category === "sucres"))
             setIngredientsHoublonsList(ingredients.filter((ingredient) => ingredient.category === "houblons"))
+        }
+
+        if(currentRecipe.steps.fermenting.steps.length > 0) {
+            setFermentingSteps(currentRecipe.steps.fermenting.steps)
+        }
+
+        if(currentRecipe.recipeIngredients.length > 0) {
+            let allIngredientsFromStore: SelectedIngredient[] = []
+            currentRecipe.recipeIngredients.map((ingredientCategory) => {
+                ingredientCategory.ingredients.map((ingredient) => {
+
+                    if(ingredientCategory.category === "levures") {
+                        const foundIngredient = ingredients.find((ingredientToFind) => ingredientToFind.id === ingredient.ingredientID)
+
+                        if(foundIngredient) {
+                            allIngredientsFromStore.push({id: ingredient.uuid || "", ingredient: foundIngredient})
+                        }
+                    }
+
+                    if(ingredientCategory.category === "houblons" || ingredientCategory.category === "sucres") {
+
+                        if(ingredient.dryHoping || ingredient.sugar) {
+                            const foundIngredient = ingredients.find((ingredientToFind) => ingredientToFind.id === ingredient.ingredientID)
+    
+                            if(foundIngredient) {
+                                allIngredientsFromStore.push({id: ingredient.uuid || "", ingredient: foundIngredient})
+                            }
+                        }
+                    }
+                })
+            })
+            setAllIngredients(allIngredientsFromStore)
         }
     }, [])
 

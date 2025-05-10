@@ -1,5 +1,4 @@
-import { BoilingStepCurrent } from "../components/recipeForm/RecipeFormBoiling"
-import { RecipeIngredientList, RecipeIngredientType, SelectedIngredient } from "../type/recipeObject"
+import { BoilingStep, RecipeIngredientList, RecipeIngredientType, SelectedIngredient } from "../type/recipeObject"
 
 export const removeId = (objectWithId: any[]): any[] => {
     let newArrayWithoutIdInIt: any[] = []
@@ -12,7 +11,7 @@ export const removeId = (objectWithId: any[]): any[] => {
     return newArrayWithoutIdInIt
 }
 
-export const transformAllIngredientsIntoDesiredObject = (selectedIngredients: SelectedIngredient[], boilingSteps: BoilingStepCurrent[]): RecipeIngredientList[] => {
+export const transformAllIngredientsIntoDesiredObjectBoiling = (selectedIngredients: SelectedIngredient[], boilingSteps: BoilingStep[]): RecipeIngredientList[] => {
     const selectedMap = new Map<string, SelectedIngredient>()
     selectedIngredients.forEach((sel) => selectedMap.set(sel.id, sel))
 
@@ -35,17 +34,62 @@ export const transformAllIngredientsIntoDesiredObject = (selectedIngredients: Se
         }
 
         if (category === 'houblons') {
-        ingredient.dryHoping = step.postBoiling === true
+            ingredient.dryHoping = false
+        }
+
+        if (category === 'sucres') {
+            ingredient.sugar = false
         }
 
         if (!groupedMap.has(category)) {
-        groupedMap.set(category, [])
+            groupedMap.set(category, [])
         }
 
         groupedMap.get(category)?.push(ingredient)
     })
 
     // Convertir en tableau
+    return Array.from(groupedMap.entries()).map(([category, ingredients]) => ({
+        category,
+        ingredients
+    }))
+}
+
+export const transformAllIngredientsIntoDesiredObjectFermentation = (selectedIngredients: SelectedIngredient[]): RecipeIngredientList[] => {
+    const groupedMap = new Map<string, RecipeIngredientType[]>()
+
+    selectedIngredients.forEach((sel) => {
+        const {id: uuid, ingredient} = sel
+        const {
+            id: ingredientID,
+            name,
+            measureUnit,
+            category
+        } = ingredient
+
+        const item: RecipeIngredientType = {
+            uuid,
+            ingredientID,
+            name,
+            measureUnit,
+            quantity: 0
+        }
+
+        if(category == "houblons") {
+            item.dryHoping = true
+        }
+
+        if(category == "sucres") {
+            item.sugar = true
+        }
+
+        if (!groupedMap.has(category)) {
+            groupedMap.set(category, [])
+        }
+
+        groupedMap.get(category)?.push(item)
+    })
+
     return Array.from(groupedMap.entries()).map(([category, ingredients]) => ({
         category,
         ingredients
