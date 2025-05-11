@@ -246,10 +246,10 @@ const LoginForm = () => {
                     fullWidth
                     variant="contained"
                     sx={{
-                        backgroundColor: "#F99926",
-                        fontWeight: "bold",
+                        backgroundColor: "#E97C4C",
                         borderRadius: 3,
-                        boxShadow: 1
+                        boxShadow: 1,
+                        color: "background.default"
                     }}
                     onClick={handleSubmit}
                 >

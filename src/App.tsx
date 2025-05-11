@@ -5,6 +5,8 @@ import { useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { setUserSlice } from "./store/userSlice"
 import { SnackbarProvider } from "./context/SnackbarContext"
+import { ThemeProvider } from "@emotion/react"
+import theme from "./themes/theme"
 
 const App = () => {
 
@@ -26,11 +28,13 @@ const App = () => {
   }, [])
 
   return (
-    <SnackbarProvider>
-      <BrowserRouter>
-        <AppRouter />
-      </BrowserRouter>
-    </SnackbarProvider>
+    <ThemeProvider theme={theme}>
+      <SnackbarProvider>
+        <BrowserRouter>
+          <AppRouter />
+        </BrowserRouter>
+      </SnackbarProvider>
+    </ThemeProvider>
   )
 }
 

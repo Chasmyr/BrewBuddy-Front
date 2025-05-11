@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"
-import Footer from "../layout/Footer"
-import Header from "../layout/Header"
-import { RootState } from "../store/store"
+import Footer from "../../layout/Footer"
+import Header from "../../layout/Header"
+import { RootState } from "../../store/store"
 import { useEffect } from "react"
 import { useNavigate } from "react-router"
 

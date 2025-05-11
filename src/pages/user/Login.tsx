@@ -1,7 +1,7 @@
 import { Box } from "@mui/material"
-import LoginForm from "../components/LoginForm"
-import Footer from "../layout/Footer"
-import Header from "../layout/Header"
+import LoginForm from "../../components/LoginForm"
+import Footer from "../../layout/Footer"
+import Header from "../../layout/Header"
 
 const LoginPage = () => {
 
@@ -11,7 +11,7 @@ const LoginPage = () => {
             <Box sx={{
                 background: "#FFFCF2",
                 height: "100vh",
-                width: "100vw",
+                width: "100%",
                 display: "flex",
                 justifyContent: {
                     xs: "center",

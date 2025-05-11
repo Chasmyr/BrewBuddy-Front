@@ -1,7 +1,7 @@
 import { Box } from "@mui/material"
-import Footer from "../layout/Footer"
-import Header from "../layout/Header"
-import RegisterForm from "../components/RegisterForm"
+import Footer from "../../layout/Footer"
+import Header from "../../layout/Header"
+import RegisterForm from "../../components/RegisterForm"
 
 const RegisterPage = () => {
 
@@ -11,7 +11,7 @@ const RegisterPage = () => {
                 <Box sx={{
                     background: "#FFFCF2",
                     height: "100vh",
-                    width: "100vw",
+                    width: "100%",
                     display: "flex",
                     justifyContent: {
                         xs: "center",
