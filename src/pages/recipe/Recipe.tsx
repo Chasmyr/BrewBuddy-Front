@@ -14,6 +14,7 @@ import { setIngredientSlice } from "../../store/ingredientSlice"
 import { useSnackbar } from "../../context/SnackbarContext"
 import { useNavigate } from "react-router"
 import RecipeFormValidation from "../../components/recipeForm/RecipeFormValidation"
+import Footer from "../../layout/Footer"
 
 
 const RecipePage = () => {
@@ -127,6 +128,7 @@ const RecipePage = () => {
                         </Box>
                     </Box>
                 </Box>
+                <Footer />
             </>
         )
     }

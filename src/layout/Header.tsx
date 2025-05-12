@@ -1,9 +1,10 @@
-import { AppBar, Box, Toolbar, Typography } from "@mui/material"
+import { AppBar, Box, Toolbar } from "@mui/material"
 import { useNavigate } from "react-router"
 import Logo from "../components/Logo"
 import { useSelector } from "react-redux"
 import { RootState } from "../store/store"
 import { useEffect, useState } from "react"
+import NavItem from "../components/NavItem"
 
 const Header = () => {
 
@@ -36,22 +37,16 @@ const Header = () => {
                     </Box>
                     <Box sx={{display: "flex"}}>
                         {isUserAuth ?
-                                <p>tt</p>
+                                <Box>
+                                    <NavItem to="/account" label="Compte"/>
+                                    <NavItem to="/recipe" label="Recettes"/>
+                                    <NavItem to="/" label="L'application"/>
+                                </Box>
                             :
-                                <>
-                                    <Typography variant="h3" component="div" 
-                                        sx={{flexGrow: 1, color: "secondary.main", fontSize: 18, cursor: "pointer", mr: 3 }}
-                                        onClick={() => navigate('/login')}
-                                    >
-                                        Connexion
-                                    </Typography>
-                                    <Typography variant="h3" component="div" 
-                                        sx={{color: "secondary.main", flexGrow: 1, fontSize: 18, cursor: "pointer", mr: 3 }}
-                                        onClick={() => navigate('/')}
-                                    >
-                                        L'appli
-                                    </Typography>
-                                </>
+                                <Box>
+                                    <NavItem to="/login" label="Connexion"/>
+                                    <NavItem to="/" label="L'application"/>
+                                </Box>
                         }
                     </Box>
                 </Toolbar>
