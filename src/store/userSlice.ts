@@ -1,13 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export interface User {
-    token: string | null
+    accessToken: string | null
     id: number | null
     role: string | null
 }
 
 const initialState: User = {
-    token: null,
+    accessToken: null,
     id: null,
     role: null
 }
@@ -18,7 +18,7 @@ export const userSlice = createSlice({
     reducers: {
         setUserSlice: (state, action: PayloadAction<any>) => {
             if(action.payload.accessToken) {
-                state.token = action.payload.accessToken
+                state.accessToken = action.payload.accessToken
             }
             if(action.payload.id) {
                 state.id = action.payload.id
@@ -28,7 +28,7 @@ export const userSlice = createSlice({
             }
         },
         logout: (state) => {
-            state.token = null
+            state.accessToken = null
         }
     }
 })

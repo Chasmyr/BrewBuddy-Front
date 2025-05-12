@@ -102,7 +102,8 @@ const RecipePage = () => {
                                 width: "100%",
                                 mb: 6,
                                 mt: {xs: 10, sm: 0},
-                                height: "100%"
+                                height: "100%",
+                                boxShadow: 2
                             }}
                         >   
                             <RecipeBreadcrumb />

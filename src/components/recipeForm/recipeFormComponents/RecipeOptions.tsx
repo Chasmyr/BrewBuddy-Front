@@ -60,6 +60,7 @@ const RecipeOptions: React.FC<RecipeOptionsProps> = ({handleNext}) => {
             {currentStep < recipeSteps.length - 1 && (
                 <Button
                     onClick={handleNextButton}
+                    variant="outlined"
                 >
                     Suivant
                 </Button>

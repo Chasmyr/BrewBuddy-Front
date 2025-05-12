@@ -114,9 +114,10 @@ const RegisterForm = () => {
     useEffect(() => {
         if(userDetails) {
             dispatch(setUserSlice(userDetails))
-            userDetails.token && localStorage.setItem("accessToken", userDetails.token)
+            userDetails.accessToken && localStorage.setItem("accessToken", userDetails.accessToken)
             userDetails.id && localStorage.setItem("id", userDetails.id.toString())
             userDetails.role && localStorage.setItem("role", userDetails.role)
+            showSnackbar("Bienvenue !", "success")
             navigate("/")
         }
     }, [userDetails])

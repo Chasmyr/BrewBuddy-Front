@@ -31,7 +31,7 @@ const LoginForm = () => {
     const navigate = useNavigate()
     const { showSnackbar } = useSnackbar()
 
-    const {data, error, isLoading, fetchData} = useApi()
+    const {error, isLoading, fetchData} = useApi()
     
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -81,6 +81,10 @@ const LoginForm = () => {
                     }
                 }
                 const userInfo = await fetchData("/api/checkMe", axiosConfig2)
+                console.log({
+                    ...loginResponse,
+                    ...userInfo
+                })
                 setUserDetails({
                     ...loginResponse,
                     ...userInfo
@@ -91,12 +95,13 @@ const LoginForm = () => {
 
     useEffect(() => {
         if(userDetails) {
-            dispatch(setUserSlice(data))
+            dispatch(setUserSlice(userDetails))
             if(rememberMe) { 
-                userDetails.token && localStorage.setItem("accessToken", userDetails.token)
+                userDetails.accessToken && localStorage.setItem("accessToken", userDetails.accessToken)
                 userDetails.id && localStorage.setItem("id", userDetails.id.toString())
-                userDetails.role && localStorage.setItem("accessToken", userDetails.role)
+                userDetails.role && localStorage.setItem("role", userDetails.role)
             }
+            showSnackbar("Bon retour parmi nous !", "success")
             navigate("/")
         }
     }, [userDetails])

@@ -3,7 +3,7 @@ import LandingPage from "../pages/Landing"
 import AccountPage from "../pages/user/Account"
 import LoginPage from "../pages/user/Login"
 import RegisterPage from "../pages/user/Register"
-import RecipePage from "../pages/recipe/Recipe"
+import RecipePage from "../pages/recipe/RecipeCreateForm"
 import ErrorPage from "../pages/Error"
 
 const AppRouter = () => {
