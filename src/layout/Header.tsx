@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar } from "@mui/material"
+import { AppBar, Box, Container, Toolbar } from "@mui/material"
 import { useNavigate } from "react-router"
 import Logo from "../components/Logo"
 import { useSelector } from "react-redux"
@@ -10,7 +10,7 @@ const Header = () => {
 
     const [isUserAuth, setIsUserAuth] = useState(false)
 
-    const userToken = useSelector((state: RootState) => state.user.token)
+    const userToken = useSelector((state: RootState) => state.user.accessToken)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -22,9 +22,9 @@ const Header = () => {
     }, [])
 
     return (
-        <Box>
-            <AppBar>
-                <Toolbar sx={{ bgcolor: "background.default", boxShadow: 1, display: "flex", justifyContent: "space-between", textAlign: "center"}}>
+        <AppBar sx={{ bgcolor: "background.default" }}>
+            <Container maxWidth="xl">
+                <Toolbar sx={{ bgcolor: "background.default", display: "flex", justifyContent: "space-between", textAlign: "center"}}>
                     <Box
                         sx={{
                             width: "110px",
@@ -50,8 +50,8 @@ const Header = () => {
                         }
                     </Box>
                 </Toolbar>
-            </AppBar>
-        </Box>
+            </Container>
+        </AppBar>
     )
 }
 
