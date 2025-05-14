@@ -46,7 +46,7 @@ const UserDetail: React.FC<UserDetailProps> = ({user}) => {
                 </Box>
 
                 <Divider sx={{ width: '100%', my: 2 }} />
-                <Chip label={user.role} color="primary" variant="outlined" sx={{mt:1, minWidth: "40px"}}/>
+                <Chip label={user.role} color="primary" variant="outlined" sx={{minWidth: "40px"}}/>
                 <Divider sx={{ width: '100%', my: 2 }} />
                 
                 <Button

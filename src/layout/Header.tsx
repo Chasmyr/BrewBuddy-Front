@@ -38,14 +38,16 @@ const Header = () => {
                     <Box sx={{display: "flex"}}>
                         {isUserAuth ?
                                 <Box>
-                                    <NavItem to="/account" label="Compte"/>
-                                    <NavItem to="/recipe" label="Recettes"/>
-                                    <NavItem to="/" label="L'application"/>
+                                    <NavItem to="/account" label="COMPTE"/>
+                                    <NavItem to="/recipe" label="RECETTES"/>
+                                    <NavItem to="/" label="L'APPLICATION"/>
+                                    <NavItem to="/" label="CONTACT"/>
                                 </Box>
                             :
                                 <Box>
-                                    <NavItem to="/login" label="Connexion"/>
-                                    <NavItem to="/" label="L'application"/>
+                                    <NavItem to="/login" label="CONNEXION"/>
+                                    <NavItem to="/" label="L'APPLICATION"/>
+                                    <NavItem to="/" label="CONTACT"/>
                                 </Box>
                         }
                     </Box>

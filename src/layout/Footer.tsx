@@ -18,19 +18,6 @@ const Footer = () => {
         >
         <Container maxWidth="xl">
             <Box display="flex" justifyContent="center" alignItems="center">
-                {/* 
-                <Typography variant="body2" align="center" sx={{mr:2}}>
-                    FAQ
-                </Typography>
-                <Typography variant="body2" align="center" sx={{mr:2}}>
-                    CGV
-                </Typography>
-                <Typography variant="body2" align="center" sx={{mr:2}}>
-                    Mentions Légales
-                </Typography>
-                <Typography variant="body2" align="center" sx={{mr:2}}>
-                    Contact
-                </Typography> */}
                 <Grid container spacing={3} padding={3}>
                     <Grid size={{xs: 12, sm: 4}}>
                         <Box
@@ -60,16 +47,36 @@ const Footer = () => {
                                 }
                             }}
                         >
-                            <Typography variant="body2" align="center" sx={{cursor: "pointer"}}>
+                            <Typography variant="body2" align="center" sx={{
+                                cursor: "pointer", 
+                                textDecoration: 'none',
+                                '&:hover': {
+                                    textDecoration: 'underline',
+                            }}}>
                                 FAQ
                             </Typography>
-                            <Typography variant="body2" align="center" sx={{cursor: "pointer"}}>
+                            <Typography variant="body2" align="center" sx={{
+                                cursor: "pointer", 
+                                textDecoration: 'none',
+                                '&:hover': {
+                                    textDecoration: 'underline',
+                            }}}>
                                 Contact
                             </Typography>
-                            <Typography variant="body2" align="center" sx={{cursor: "pointer"}}>
+                            <Typography variant="body2" align="center" sx={{
+                                cursor: "pointer", 
+                                textDecoration: 'none',
+                                '&:hover': {
+                                    textDecoration: 'underline',
+                            }}}>
                                 CGV
                             </Typography>
-                            <Typography variant="body2" align="center" sx={{cursor: "pointer"}}>
+                            <Typography variant="body2" align="center" sx={{
+                                cursor: "pointer", 
+                                textDecoration: 'none',
+                                '&:hover': {
+                                    textDecoration: 'underline',
+                            }}}>
                                 Mentions Légales
                             </Typography>
                         </Box>
