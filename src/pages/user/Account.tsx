@@ -72,7 +72,7 @@ const AccountPage = () => {
                     justifyContent: "flex-start",
                     flexDirection: "column",
                     bgcolor: {
-                        xs: "#F99926"
+                        xs: "#4A403A"
                     },
                 }}
             >

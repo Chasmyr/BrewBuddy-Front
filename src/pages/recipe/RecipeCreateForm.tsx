@@ -33,7 +33,7 @@ const RecipePage = () => {
                 let axiosConfig = {
                     method: 'get'
                 }
-                const ingredientResponse = await fetchData("/api/ingredients/all", axiosConfig)
+                const ingredientResponse = await fetchData("/api/ingredients", axiosConfig)
                 if(ingredientResponse) {
                     dispatch(setIngredientSlice(ingredientResponse))
                     setIsFormLoading(false)
@@ -65,7 +65,7 @@ const RecipePage = () => {
                         justifyContent: "flex-start",
                         flexDirection: "column",
                         bgcolor: {
-                            xs: "#F99926"
+                            xs: "#4A403A"
                         },
                     }}
                 >
@@ -88,7 +88,7 @@ const RecipePage = () => {
                             sx={{
                                 mb: 2,
                                 mt: 16,
-                                color: '#FFFCF2',
+                                color: 'background.default',
                                 width: "100%",
                                 display: { xs: 'none', sm: 'block' }
                             }}
