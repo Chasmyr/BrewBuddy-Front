@@ -41,9 +41,7 @@ const LoginPage = () => {
                 </Box>
                 <Box sx={{
                     width: {sm: "100%", lg: "50%"},
-                    backgroundImage: "url('/assets/login.png')",
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
+                    bgcolor: "#FCF7EB",
                     height: {
                         sm: "100%",
                         lg: "auto"

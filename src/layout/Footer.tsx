@@ -1,6 +1,6 @@
 import { Box, Typography, Container, Grid } from "@mui/material"
 import { useNavigate } from "react-router"
-import Logo from "../components/Logo"
+import Logo from "../components/svg/Logo"
 
 const Footer = () => {
 
@@ -10,7 +10,7 @@ const Footer = () => {
         <Box
         component="footer"
         sx={{
-            bgcolor: "background.default",
+            bgcolor: "#FCF7EB",
             color: "text.primary",
             mt: "auto",
             borderTop: "1px solid #e0e0e0"
@@ -26,7 +26,10 @@ const Footer = () => {
                                 height: "50px",
                                 cursor: "pointer",
                             }}
-                            onClick={() => navigate('/')}
+                            onClick={() => {
+                                window.scrollTo(0, 0)
+                                navigate('/')
+                            }}
                         >
                             <Logo />
                         </Box>
@@ -52,7 +55,12 @@ const Footer = () => {
                                 textDecoration: 'none',
                                 '&:hover': {
                                     textDecoration: 'underline',
-                            }}}>
+                            }}}
+                                onClick={() => {
+                                    window.scrollTo(0, 0)
+                                    navigate('/faq')
+                                }}
+                            >
                                 FAQ
                             </Typography>
                             <Typography variant="body2" align="center" sx={{
@@ -60,15 +68,25 @@ const Footer = () => {
                                 textDecoration: 'none',
                                 '&:hover': {
                                     textDecoration: 'underline',
-                            }}}>
-                                Contact
+                            }}}
+                                onClick={() => {
+                                    window.scrollTo(0, 0)
+                                    navigate('/dico')
+                                }}
+                            >
+                                Dico
                             </Typography>
                             <Typography variant="body2" align="center" sx={{
                                 cursor: "pointer", 
                                 textDecoration: 'none',
                                 '&:hover': {
                                     textDecoration: 'underline',
-                            }}}>
+                            }}}
+                                onClick={() => {
+                                    window.scrollTo(0, 0)
+                                    navigate('/cgv')
+                                }}
+                            >
                                 CGV
                             </Typography>
                             <Typography variant="body2" align="center" sx={{
@@ -76,7 +94,12 @@ const Footer = () => {
                                 textDecoration: 'none',
                                 '&:hover': {
                                     textDecoration: 'underline',
-                            }}}>
+                            }}}
+                                onClick={() => {
+                                    window.scrollTo(0, 0)
+                                    navigate('/cgu')
+                                }}
+                            >
                                 Mentions Légales
                             </Typography>
                         </Box>

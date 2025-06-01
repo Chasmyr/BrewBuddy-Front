@@ -81,16 +81,13 @@ const LoginForm = () => {
                     }
                 }
                 const userInfo = await fetchData("/api/checkMe", axiosConfig2)
-                console.log({
-                    ...loginResponse,
-                    ...userInfo
-                })
                 setUserDetails({
                     ...loginResponse,
                     ...userInfo
                 })
             } else {
                 showSnackbar("Une erreur est survenue, merci de revenir plus tard.", "error")
+                window.scrollTo(0, 0)
                 navigate('/')
             }
         }
@@ -105,6 +102,7 @@ const LoginForm = () => {
                 userDetails.role && localStorage.setItem("role", userDetails.role)
             }
             showSnackbar("Bon retour parmi nous !", "success")
+            window.scrollTo(0, 0)
             navigate("/")
         }
     }, [userDetails])
@@ -132,7 +130,6 @@ const LoginForm = () => {
                     lg: "100%"
                 },
                 maxWidth: "650px",
-                height: "100%",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
@@ -278,7 +275,7 @@ const LoginForm = () => {
                         cursor: "pointer",
                     }}
                 >
-                    <Link to="/register" style={{color: "black"}}>Je n'ai pas de compte</Link>
+                    <Link to="/register" style={{color: "black"}} onClick={() => window.scrollTo(0, 0)}>Je n'ai pas de compte</Link>
                 </Typography>
             </Box>
         </Box>

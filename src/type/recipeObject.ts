@@ -72,3 +72,8 @@ export type SelectedIngredient = {
     id: string // UUID unique par sélection d'ingrédient
     ingredient: IngredientType
 }
+
+export interface RecipeFromBase extends CreateRecipe {
+    _id: string
+    __v: number
+}

@@ -14,7 +14,7 @@ const RecipeFormSkeleton = () => {
               justifyContent: "flex-start",
               flexDirection: "column",
               bgcolor: {
-                  xs: "#F99926"
+                  xs: "#FCF7EB"
               },
           }}
       >

@@ -40,6 +40,8 @@ export default function BoilingIngredientCard({ ingredientName, quantity, whenTo
         flexDirection: "column",
         gap: 2,
         p: 2,
+        bgcolor: "#FFFCF2",
+        border: "1px solid #4A403A"
       }}
     >
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>

@@ -10,7 +10,7 @@ const theme = createTheme({
             main: '#232019', // Marron foncé
         },
         background: {
-            default: '#FFFCF2', // Blanc cassé
+            default: '#FCF7EB', // Blanc cassé
         },
     },
     typography: {

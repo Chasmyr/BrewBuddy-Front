@@ -195,7 +195,7 @@ const RecipeFormMashing = () => {
                         md: "calc(100% - 96px)",
                         sm: "calc(100% - 48px)"
                     },
-                    bgcolor: "#FFFCF2",
+                    bgcolor: "#FFFBF2",
                     p: {
                         xs: 3,
                         md: 6

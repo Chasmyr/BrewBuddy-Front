@@ -136,146 +136,148 @@ const RecipeFormFermentation = () => {
     }, [])
 
     return (
-        <Box
-            sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignContent: "center",
-                flexDirection: "column",
-                width: {
-                    md: "calc(100% - 96px)",
-                    sm: "calc(100% - 48px)"
-                },
-                bgcolor: "#FFFCF2",
-                p: {
-                    xs: 3,
-                    md: 6
-                },
-            }}
-        >
-            <Box sx={{ mb: 2, width: "100%", display: "flex", justifyContent: "center" }}>
-                <Typography variant="h3"
-                    fontSize={{
-                        xs: 20,
-                        sm: 22
-                    }}
-                >
-                Fermentation
-                </Typography>
-            </Box>
-            <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
-                <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignContent: "center"
-                    }}
-                >
-                    <Typography variant="h4" fontSize={22}>
-                    Ingrédients
-                    </Typography>
-                    <Tooltip
-                        placement="top"
-                        arrow
-                        enterTouchDelay={0}
-                        title={fermentationIngredientToolTipContent}
-                    >
-                        <IconButton size="small">
-                            <InfoOutlineRounded color="action" />
-                        </IconButton>
-                    </Tooltip>
-                </Box>
-                <Box sx={{ display: "flex", width: "100%", my: 2, flexDirection: "column" }}>
-                    <SelectMultipleIngredients
-                        title="Levure(s)*"
-                        allIngredients={allIngredients}
-                        setAllIngredients={setAllIngredients}
-                        options={ingredientsLevuresList}
-                        category="levures"
-                    />
-                    <SelectMultipleIngredients
-                        title="Sucre(s)*"
-                        allIngredients={allIngredients}
-                        setAllIngredients={setAllIngredients}
-                        options={ingredientsSucresList}
-                        category="sucres"
-                    />
-                    <SelectMultipleIngredients
-                        title="Houblon(s)"
-                        allIngredients={allIngredients}
-                        setAllIngredients={setAllIngredients}
-                        options={ingredientsHoublonsList}
-                        category="houblons"
-                    />
-                </Box>
-            </Box>
+        <>
             <Box
-                    sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignContent: "center",
-                        flexDirection: "column",
-                        mb: 4
-                    }}
-            >
-                <Typography
                 sx={{
-                    mb:2
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center",
+                    flexDirection: "column",
+                    width: {
+                        md: "calc(100% - 96px)",
+                        sm: "calc(100% - 48px)"
+                    },
+                    bgcolor: "#FFFBF2",
+                    p: {
+                        xs: 3,
+                        md: 6
+                    },
                 }}
-                    variant="h4"
-                    fontSize={22}
-                >
+            >
+                <Box sx={{ mb: 2, width: "100%", display: "flex", justifyContent: "center" }}>
+                    <Typography variant="h3"
+                        fontSize={{
+                            xs: 20,
+                            sm: 22
+                        }}
+                    >
                     Fermentation
-                </Typography>
-                {allIngredients.length === 0 ?
-                        <Box
-                            sx={{
-                                display: "flex",
-                                justifyContent: "center",
-                                alignContent: "center",
-                                flexDirection: "column",
-                                minHeight: "214px"
-                            }}
+                    </Typography>
+                </Box>
+                <Box sx={{ width: "100%", display: "flex", flexDirection: "column" }}>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignContent: "center"
+                        }}
+                    >
+                        <Typography variant="h4" fontSize={22}>
+                        Ingrédients
+                        </Typography>
+                        <Tooltip
+                            placement="top"
+                            arrow
+                            enterTouchDelay={0}
+                            title={fermentationIngredientToolTipContent}
                         >
-                            <Typography color="text.disabled" sx={{ fontStyle: 'italic', my: 5, textAlign: "center" }}>Veuillez sélectionner au moins un ingrédient.</Typography>
-                        </Box>
-                    :
-                        <Box
-                            sx={{
-                                display: "flex",
-                                flexDirection: "column",
-                                width: "100%",
-                                justifyContent: "center",
-                                alignContent: "center",
-                                gap: 2
-                            }}
-                        >
-                            <TempAndDuration 
-                                title="Primaire" 
-                                setTemperatureAndDuration={setFermentingSteps} 
-                                temperatureAndDuration={fermentingSteps} 
-                                index={0}
-                                isFermenting={true}
-                            />
-                            <TempAndDuration 
-                                title="Secondaire"
-                                setTemperatureAndDuration={setFermentingSteps}
-                                temperatureAndDuration={fermentingSteps}
-                                index={1}
-                                isFermenting={true}
-                            />
-                            <TempAndDuration 
-                                title="Refermentation"
-                                setTemperatureAndDuration={setFermentingSteps}
-                                temperatureAndDuration={fermentingSteps}
-                                index={2}
-                                isFermenting={true}
-                            />
-                        </Box> 
-                }
+                            <IconButton size="small">
+                                <InfoOutlineRounded color="action" />
+                            </IconButton>
+                        </Tooltip>
+                    </Box>
+                    <Box sx={{ display: "flex", width: "100%", my: 2, flexDirection: "column" }}>
+                        <SelectMultipleIngredients
+                            title="Levure(s)*"
+                            allIngredients={allIngredients}
+                            setAllIngredients={setAllIngredients}
+                            options={ingredientsLevuresList}
+                            category="levures"
+                        />
+                        <SelectMultipleIngredients
+                            title="Sucre(s)*"
+                            allIngredients={allIngredients}
+                            setAllIngredients={setAllIngredients}
+                            options={ingredientsSucresList}
+                            category="sucres"
+                        />
+                        <SelectMultipleIngredients
+                            title="Houblon(s)"
+                            allIngredients={allIngredients}
+                            setAllIngredients={setAllIngredients}
+                            options={ingredientsHoublonsList}
+                            category="houblons"
+                        />
+                    </Box>
+                </Box>
+                <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            alignContent: "center",
+                            flexDirection: "column",
+                            mb: 4
+                        }}
+                >
+                    <Typography
+                    sx={{
+                        mb:2
+                    }}
+                        variant="h4"
+                        fontSize={22}
+                    >
+                        Fermentation
+                    </Typography>
+                    {allIngredients.length === 0 ?
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignContent: "center",
+                                    flexDirection: "column",
+                                    minHeight: "214px"
+                                }}
+                            >
+                                <Typography color="text.disabled" sx={{ fontStyle: 'italic', my: 5, textAlign: "center" }}>Veuillez sélectionner au moins un ingrédient.</Typography>
+                            </Box>
+                        :
+                            <Box
+                                sx={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                    width: "100%",
+                                    justifyContent: "center",
+                                    alignContent: "center",
+                                    gap: 2
+                                }}
+                            >
+                                <TempAndDuration 
+                                    title="Primaire" 
+                                    setTemperatureAndDuration={setFermentingSteps} 
+                                    temperatureAndDuration={fermentingSteps} 
+                                    index={0}
+                                    isFermenting={true}
+                                />
+                                <TempAndDuration 
+                                    title="Secondaire"
+                                    setTemperatureAndDuration={setFermentingSteps}
+                                    temperatureAndDuration={fermentingSteps}
+                                    index={1}
+                                    isFermenting={true}
+                                />
+                                <TempAndDuration 
+                                    title="Refermentation"
+                                    setTemperatureAndDuration={setFermentingSteps}
+                                    temperatureAndDuration={fermentingSteps}
+                                    index={2}
+                                    isFermenting={true}
+                                />
+                            </Box> 
+                    }
+                </Box>
             </Box>
             <RecipeOptions handleNext={handleNext} />
-        </Box>
+        </>
     )
 }
 

@@ -39,6 +39,7 @@ const RecipePage = () => {
                     setIsFormLoading(false)
                 } else {
                     showSnackbar("Une erreur est survenue, merci de revenir plus tard.", "error")
+                    window.scrollTo(0, 0)
                     navigate('/')
                 }
             }
@@ -65,19 +66,13 @@ const RecipePage = () => {
                         justifyContent: "flex-start",
                         flexDirection: "column",
                         bgcolor: {
-                            xs: "#4A403A"
+                            xs: "#FCF7EB"
                         },
                     }}
                 >
                     <Box
                         sx={{
-                            width: {
-                                xl: "45%",
-                                lg: "60%",
-                                md: "70%",
-                                sm: "90%",
-                                xs: "95%"
-                            },
+                            width: {xs: "95%", sm: "90%", md: "85%", lg: "1000px"},
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
@@ -88,7 +83,6 @@ const RecipePage = () => {
                             sx={{
                                 mb: 2,
                                 mt: 16,
-                                color: 'background.default',
                                 width: "100%",
                                 display: { xs: 'none', sm: 'block' }
                             }}

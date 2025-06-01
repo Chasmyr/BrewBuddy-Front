@@ -109,6 +109,7 @@ const RegisterForm = () => {
                 }
             } else {
                 showSnackbar("Une erreur est survenue, merci de revenir plus tard.", "error")
+                window.scrollTo(0, 0)
                 navigate('/')
             }
         }
@@ -121,6 +122,7 @@ const RegisterForm = () => {
             userDetails.id && localStorage.setItem("id", userDetails.id.toString())
             userDetails.role && localStorage.setItem("role", userDetails.role)
             showSnackbar("Bienvenue !", "success")
+            window.scrollTo(0, 0)
             navigate("/")
         }
     }, [userDetails])
@@ -149,7 +151,6 @@ const RegisterForm = () => {
                     lg: "100%"
                 },
                 maxWidth: "680px",
-                height: "100%",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
@@ -357,7 +358,7 @@ const RegisterForm = () => {
                         cursor: "pointer",
                     }}
                 >
-                    <Link to="/login" style={{color: "black"}}>J'ai déjà un compte</Link>
+                    <Link to="/login" style={{color: "black"}} onClick={() => window.scrollTo(0, 0)}>J'ai déjà un compte</Link>
                 </Typography>
             </Box>
         </Box>

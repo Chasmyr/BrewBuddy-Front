@@ -1,17 +1,19 @@
 
 import { Box } from '@mui/material'
+import React, { ReactElement } from 'react';
 import { Link } from 'react-router';
 
-const NavItem = ({ to, label }: {to: string, label: string}) => {
+const NavItem = ({ to, children }: {to: string, children: ReactElement}) => {
 
   return (
     <Box
       component={Link}
       to={to}
       sx={{
-        fontSize: 18,
+        fontSize: 20,
+        fontWeight: 500,
         paddingBottom: 1,
-        fontFamily: 'sans-serif',
+        fontFamily: 'antonio',
         color: 'secondary.main',
         textDecoration: 'none',
         '&:hover': {
@@ -19,8 +21,9 @@ const NavItem = ({ to, label }: {to: string, label: string}) => {
         },
         mr: 3
       }}
+      onClick={() => window.scrollTo(0, 0)}
     >
-      {label}
+      {React.cloneElement(children)}
     </Box>
   )
 }

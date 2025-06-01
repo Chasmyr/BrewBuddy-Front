@@ -4,33 +4,110 @@ import { UserInfo } from "../../type/user"
 import { formattedDate } from "../../utils/date"
 import { useState } from "react"
 import UserEditModal from "./UserEditModal"
+import { useDispatch, useSelector } from "react-redux"
+import { logout } from "../../store/userSlice"
+import { useNavigate } from "react-router"
+import { RootState } from "../../store/store"
+import { useApi } from "../../hooks/useApi"
+import { useSnackbar } from "../../context/SnackbarContext"
+import { checkEmailConstraints, checkPasswordConstraints } from "../../utils/constraintsFormatter"
 
 type  UserDetailProps = {
     user: UserInfo
+    setUserData: any
 }
 
-const UserDetail: React.FC<UserDetailProps> = ({user}) => {
+const UserDetail: React.FC<UserDetailProps> = ({user, setUserData}) => {
 
     const [openEditDetailModal, setOpenEditDetailModal] = useState(false)
     const [openEditPasswordlModal, setOpenEditPasswordModal] = useState(false)
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    const userId = useSelector((state: RootState) => state.user.id)
+    const userToken = useSelector((state: RootState) => state.user.accessToken)
+    const { showSnackbar } = useSnackbar()
+    const {fetchData} = useApi()
 
     const [formValues, setFormValues] = useState({
         username: '',
         email: '',
-    })
-
-    const [formPassword, setFormPassword] = useState({
-        password: ''
+        password: '',
+        confirmPassword: ''
     })
 
     const handleChange = (field: string, value: string) => {
         setFormValues((prev) => ({ ...prev, [field]: value }))
     }
 
-    const handleSubmit = () => {
-        console.log('Form submitted:', formValues)
-        // Appel à l'API ou mise à jour store ici
+    const handleSubmit = async () => {
+        let dataToUpdate: {pseudo?: string, email?: string, password?: string} = {}
+        if(formValues.username.length > 0) {
+            dataToUpdate.pseudo = formValues.username
+        }
+        if(formValues.email.length > 0) {
+            if(checkEmailConstraints(formValues.email)) {
+                dataToUpdate.email = formValues.email
+            } else {
+                showSnackbar("Le format du mail n'est pas correct.", "error")
+                return
+            }
+        }
+        if(formValues.password.length > 0) {
+            if(checkPasswordConstraints(formValues.password)) {
+                if(formValues.confirmPassword === formValues.password) {
+                    dataToUpdate.password = formValues.password
+                } else {
+                    showSnackbar("Les mots de passe ne sont pas identiques.", "error")
+                    return
+                }
+            } else {
+                showSnackbar("Le mot de passe ne correspond pas à nos normes de sécurité.", "error")
+                return
+            }
+        }
+        console.log(dataToUpdate)
+        const axiosConfig = {
+            method: 'put',
+            headers: {
+                Authorization: `Bearer ${userToken}`
+            },
+            data: dataToUpdate
+        }
+        const updateUserResponse = await fetchData(`/api/users/${userId}`, axiosConfig)
+        if(updateUserResponse) {
+            const axiosConfig2 = {
+                method: 'get',
+                headers: {
+                    Authorization: `Bearer ${userToken}`
+                }
+            }
+            const userData = await fetchData(`/api/users/${userId}`, axiosConfig2)
+            setUserData(userData)
+        }
+        dataToUpdate = {}
         setOpenEditDetailModal(false)
+    }
+
+    const handleLogout = () => {
+        dispatch(logout())
+        window.scrollTo(0, 0)
+        navigate('/')
+    }
+
+    const handleDelete = async () => {
+        const axiosConfig = {
+            method: 'delete',
+            headers: {
+                Authorization: `Bearer ${userToken}`
+            }
+        }
+        try {
+            await fetchData(`/api/users/${userId}`, axiosConfig)
+            handleLogout()
+            showSnackbar('Compte supprimer avec succès.', "success")
+        } catch (error) {
+            showSnackbar('Une erreur est survenue merci de réessayer plus tard.', "error")
+        }
     }
     
     return (
@@ -72,10 +149,20 @@ const UserDetail: React.FC<UserDetailProps> = ({user}) => {
                 <Button
                     variant="contained"
                     color="error"
+                    sx={{ mb: 1 }}
                     fullWidth
                     endIcon={<Delete />}
+                    onClick={() => handleDelete()}
                 >
                     Supprimer mon compte
+                </Button>
+                <Button
+                    variant="outlined"
+                    fullWidth
+                    sx={{fontWeight: 500}}
+                    onClick={() => handleLogout()}
+                >
+                    Se deconnecter
                 </Button>
 
                 <UserEditModal

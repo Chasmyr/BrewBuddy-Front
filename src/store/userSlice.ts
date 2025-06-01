@@ -29,6 +29,9 @@ export const userSlice = createSlice({
         },
         logout: (state) => {
             state.accessToken = null
+            state.id = null
+            state.role = null
+            localStorage.clear()
         }
     }
 })

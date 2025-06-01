@@ -24,7 +24,7 @@ const RecipeBreadcrumb = () => {
                     md: "calc(100% - 96px)",
                     sm: "calc(100% - 48px)"
                 },
-                bgcolor: "#FFFCF2",
+                bgcolor: "#FFFBF2   ",
                 px: {
                     xs: 3,
                     md: 6

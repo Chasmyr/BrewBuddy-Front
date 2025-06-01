@@ -35,6 +35,7 @@ const AccountPage = () => {
 
         const init = async () => {
             if(!user.accessToken) {
+                window.scrollTo(0, 0)
                 navigate('/login')
             } else if (user.id) {
                 try {
@@ -45,6 +46,7 @@ const AccountPage = () => {
                     }
                 } catch (error) {
                     showSnackbar("Une erreur est survenue, merci de réessayer plus tard.", "error")
+                    window.scrollTo(0, 0)
                     navigate('/')
                 }
                 
@@ -72,19 +74,13 @@ const AccountPage = () => {
                     justifyContent: "flex-start",
                     flexDirection: "column",
                     bgcolor: {
-                        xs: "#4A403A"
+                        xs: "#FCF7EB"
                     },
                 }}
             >
                 <Box
                     sx={{
-                        width: {
-                            xl: "45%",
-                            lg: "60%",
-                            md: "70%",
-                            sm: "90%",
-                            xs: "95%"
-                        },
+                        width: {xs: "80%", sm: "85%", md: "85%", lg: "1000px"},
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
@@ -120,7 +116,7 @@ const AccountPage = () => {
                             }}
                         >
                             <Grid container spacing={4} padding={4}>
-                                {userData && <UserDetail user={userData} />}
+                                {userData && <UserDetail user={userData} setUserData={setUserData} />}
                                 <UserHistory />
                             </Grid>
                         </Box>
