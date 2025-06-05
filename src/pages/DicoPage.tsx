@@ -74,7 +74,6 @@ const DicoPage: React.FC = () => {
                                 },
                                 borderRadius: 2,
                                 mt: {xs: 0, sm: 12},
-                                boxShadow: 2
                             }}
                         >
                             <Typography variant="h3" gutterBottom fontSize={{xs: "32px", md: "50px"}}>

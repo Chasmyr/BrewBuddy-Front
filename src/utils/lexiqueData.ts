@@ -86,7 +86,7 @@ export const lexiqueData = [
       ],
     },
     {
-      title: '5. Mesure & Contrôle',
+      title: '3. Mesure & Contrôle',
       entries: [
         {
           title: 'Densité',
@@ -111,7 +111,7 @@ export const lexiqueData = [
       ],
     },
     {
-      title: '6. Conditionnement & Finition',
+      title: '4. Conditionnement & Finition',
       entries: [
         {
           title: 'Soutirage',
@@ -136,7 +136,7 @@ export const lexiqueData = [
       ],
     },
     {
-      title: '7. Styles & Types de Bières',
+      title: '5. Styles & Types de Bières',
       entries: [
         {
           title: 'Ale',
@@ -181,7 +181,7 @@ export const lexiqueData = [
       ],
     },
     {
-      title: '8. Généralités & Autres',
+      title: '6. Généralités & Autres',
       entries: [
         {
           title: 'Brassin',

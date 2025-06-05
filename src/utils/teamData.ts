@@ -1,7 +1,7 @@
 export const team = [
   {
     name: 'Yannick Graffi',
-    role: 'Fondateur & CEO',
+    role: 'CEO',
     description: `Brasseur depuis 6 ans, membre du CRAB à Rennes, Yannick cultive rigueur et esprit communautaire.`,
   },
   {

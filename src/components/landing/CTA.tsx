@@ -45,6 +45,10 @@ const CTA = () => {
                             color: "#FFFBF2",
                             mr: 2,
                         }}
+                        onClick={() => {
+                            window.scrollTo(0, 0)
+                            navigate('/application')
+                        }}
                     >
                         Découvrir l'appplication
                     </Button>

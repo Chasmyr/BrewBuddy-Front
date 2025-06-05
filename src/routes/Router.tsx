@@ -11,6 +11,7 @@ import FaqPage from "../pages/Faq"
 import DicoPage from "../pages/DicoPage"
 import CguPage from "../pages/CguPage"
 import CgvPage from "../pages/CgvPage"
+import MobileAppPage from "../pages/MobileApp"
 
 const AppRouter = () => {
 
@@ -27,6 +28,7 @@ const AppRouter = () => {
             <Route path="/dico" element={<DicoPage />} />
             <Route path="/cgu" element={<CguPage />} />
             <Route path="/cgv" element={<CgvPage />} />
+            <Route path="/application" element={<MobileAppPage />} />
             <Route path="*" element={<ErrorPage />} />
         </Routes>
     )

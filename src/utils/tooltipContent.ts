@@ -4,5 +4,5 @@ export const boilingIngredientToolTipContent = "Il s'agit des ingrédients à aj
 export const postBoilingTooltipContent = "Ajout d'ingrédients après l'ébullition, hors du feu, pour préserver les arômes."
 export const multiPalierTooltipContent = "Méthode où la température de brassage change par étapes, pour une meilleure extraction des sucres et contrôler le profil aromatique de la bière."
 export const mashoutTooltipContent = "Dernière étape, facultative, de l'empâtage : on chauffe le mélange entre 75°C et 77°C pour stopper l’activité enzymatique et améliorer la « fermentabilité » du moût."
-export const fermentationIngredientToolTipContent = "Test fermentation"
+export const fermentationIngredientToolTipContent = "Levures* : Souche(s) utilisé(es) pour la fermentation de la bière\nSucre* : Ingrédient qui servira au resucrage\nHoublons : Les houblons ajoutés ici servent au dry-hoping. Il s’agit d’une méthode pour récupérer les arômes du houblon"
 export const fermentationIngredientDiversTooltipContent = "Test Divers"
