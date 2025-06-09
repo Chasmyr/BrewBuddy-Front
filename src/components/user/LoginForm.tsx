@@ -1,13 +1,13 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material"
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, IconButton, InputAdornment, TextField, Typography } from "@mui/material"
+import { Box, Button, Checkbox, CircularProgress, FormControlLabel, FormGroup, IconButton, InputAdornment, TextField, Typography } from "@mui/material"
 import { ChangeEvent, useEffect, useState } from "react"
-import { useApi } from "../hooks/useApi"
+import { useApi } from "../../hooks/useApi"
 import { useDispatch } from "react-redux"
-import { setUserSlice, User } from "../store/userSlice"
+import { setUserSlice, User } from "../../store/userSlice"
 import { Link, useNavigate } from "react-router"
 import { AxiosError } from "axios"
-import { useSnackbar } from "../context/SnackbarContext"
-import { checkEmailConstraints } from "../utils/constraintsFormatter"
+import { useSnackbar } from "../../context/SnackbarContext"
+import { checkEmailConstraints } from "../../utils/constraintsFormatter"
 
 interface LoginFormData {
     email: string
@@ -27,6 +27,7 @@ const LoginForm = () => {
     })
     const [rememberMe, setRememberMe] = useState(false)
     const [userDetails, setUserDetails] = useState<User | null>(null)
+    const [isFormLoading, setIsFormLoading] = useState(false)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { showSnackbar } = useSnackbar()
@@ -67,6 +68,7 @@ const LoginForm = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
+        setIsFormLoading(true)
         const axiosConfig = {
             data: formData,
             method: 'post'
@@ -85,12 +87,9 @@ const LoginForm = () => {
                     ...loginResponse,
                     ...userInfo
                 })
-            } else {
-                showSnackbar("Une erreur est survenue, merci de revenir plus tard.", "error")
-                window.scrollTo(0, 0)
-                navigate('/')
             }
         }
+        setIsFormLoading(false)
     }
 
     useEffect(() => {
@@ -102,6 +101,7 @@ const LoginForm = () => {
                 userDetails.role && localStorage.setItem("role", userDetails.role)
             }
             showSnackbar("Bon retour parmi nous !", "success")
+            setIsFormLoading(false)
             window.scrollTo(0, 0)
             navigate("/")
         }
@@ -111,14 +111,20 @@ const LoginForm = () => {
         if(error) {
             const axiosError = error as AxiosError<ApiErrorResponse>
             if(axiosError.response) {
+                console.log(axiosError.response?.data.error)
                 if(axiosError.response?.data.error === "InvalidCredentials") {
                     showSnackbar("Mail ou mot de passe incorrect.","error")
+                } else if (axiosError.response?.data.error === "Unverified") {
+                    showSnackbar("Votre compte n'est pas validé, un code vous a été envoyé par mail.","error")
+                } else if (axiosError.response?.data.error === "Expired code") {
+                    showSnackbar("Votre code de confirmation est expiré, un nouveau code vous a été envoyé.","error")
                 } else if (axiosError.response?.data.error === "Not Found") {
                     showSnackbar("Impossible de joindre le serveur.","error")
                 } else {
                     showSnackbar("Une erreur est survenue.","error")
                 }
             }
+            setIsFormLoading(false)
         }
     }, [error])
 
@@ -137,8 +143,13 @@ const LoginForm = () => {
                 bgcolor: "#FFFCF2",
                 paddingTop: {
                     xs: 0,
-                    sm: 0,
+                    sm: 4,
                     lg: 8
+                },
+                paddingBottom : {
+                    xs: 2,
+                    sm: 8,
+                    lg: 0
                 },
                 boxShadow: {
                     xs: 0,
@@ -160,8 +171,7 @@ const LoginForm = () => {
                 }}
                 sx={{
                     mb: {
-                        xs: 4,
-                        sm: 2,
+                        xs: 2,
                         lg: 4
                     },
                 }}
@@ -247,19 +257,34 @@ const LoginForm = () => {
                         onChange={handleCheckBox}
                     />
                 </FormGroup>
-                <Button
-                    fullWidth
-                    variant="contained"
-                    sx={{
-                        backgroundColor: "#E97C4C",
-                        borderRadius: 3,
-                        boxShadow: 1,
-                        color: "background.default"
-                    }}
-                    onClick={handleSubmit}
-                >
-                    Se connecter
-                </Button>
+                {isFormLoading ?
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{
+                            backgroundColor: "#E97C4C",
+                            borderRadius: 3,
+                            boxShadow: 1,
+                            color: "background.default"
+                        }}
+                    >
+                        <CircularProgress size={25} sx={{color: "background.default"}} />
+                    </Button>
+                :
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{
+                            backgroundColor: "#E97C4C",
+                            borderRadius: 3,
+                            boxShadow: 1,
+                            color: "background.default"
+                        }}
+                        onClick={handleSubmit}
+                    >
+                        Se connecter
+                    </Button>
+                }
             </Box>
             <Box
                 sx={{

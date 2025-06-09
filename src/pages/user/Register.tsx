@@ -1,7 +1,8 @@
 import { Box } from "@mui/material"
 import Footer from "../../layout/Footer"
 import Header from "../../layout/Header"
-import RegisterForm from "../../components/RegisterForm"
+import RegisterForm from "../../components/user/RegisterForm"
+import FormSVG from "../../components/svg/Form"
 
 const RegisterPage = () => {
 
@@ -10,7 +11,7 @@ const RegisterPage = () => {
             <Header />
                 <Box sx={{
                     background: "#FFFCF2",
-                    height: "100vh",
+                    minHeight: "100vh",
                     width: "100%",
                     display: "flex",
                     justifyContent: {
@@ -28,12 +29,16 @@ const RegisterPage = () => {
                 }}>
                 <Box sx={{
                     width: {xs: "100%", lg: "50%"},
-                    height: {xs: "80%", lg: "100%"},
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                     zIndex: {
                         xs: 2,
+                        lg: 0
+                    },
+                    pt: {
+                        xs: 0,
+                        sm: 2,
                         lg: 0
                     }
                 }}>
@@ -52,9 +57,12 @@ const RegisterPage = () => {
                     },
                     display: {
                         xs: "none",
-                        sm: "block"
-                    }
+                        lg: "flex"
+                    },
+                    justifyContent: "center",
+                    alignItems: "center"
                 }}>
+                    <FormSVG />
                 </Box>
             </Box>
             <Footer />

@@ -1,7 +1,8 @@
 import { Box } from "@mui/material"
-import LoginForm from "../../components/LoginForm"
+import LoginForm from "../../components/user/LoginForm"
 import Footer from "../../layout/Footer"
 import Header from "../../layout/Header"
+import FormSVG from "../../components/svg/Form"
 
 const LoginPage = () => {
 
@@ -10,7 +11,7 @@ const LoginPage = () => {
             <Header />
             <Box sx={{
                 background: "#FFFCF2",
-                height: "100vh",
+                minHeight: "100vh",
                 width: "100%",
                 display: "flex",
                 justifyContent: {
@@ -28,14 +29,13 @@ const LoginPage = () => {
             }}>
                 <Box sx={{
                     width: {xs: "100%", lg: "50%"},
-                    height: {xs: "70%", lg: "100%"},
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
                     zIndex: {
                         xs: 2,
                         lg: 0
-                    }
+                    },
                 }}>
                     <LoginForm />
                 </Box>
@@ -52,9 +52,12 @@ const LoginPage = () => {
                     },
                     display: {
                         xs: "none",
-                        sm: "block"
-                    }
+                        lg: "flex"
+                    },
+                    justifyContent: "center",
+                    alignItems: "center"
                 }}>
+                    <FormSVG />
                 </Box>
             </Box>
             <Footer />

@@ -11,6 +11,8 @@ import FaqPage from "../pages/Faq"
 import DicoPage from "../pages/DicoPage"
 import CguPage from "../pages/CguPage"
 import CgvPage from "../pages/CgvPage"
+import ConfirmationPage from "../pages/user/Confirmation"
+import ContactPage from "../pages/Contact"
 import MobileAppPage from "../pages/MobileApp"
 
 const AppRouter = () => {
@@ -21,6 +23,7 @@ const AppRouter = () => {
             <Route path="/account" element={<AccountPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
+            <Route path="/confirmation/:email" element={<ConfirmationPage />} />
             <Route path="/recipes/create" element={<RecipePage />} />
             <Route path="/recipes" element={<RecipeGaleryPage />} />
             <Route path="/recipes/:id" element={<RecipeDetails />} />
@@ -28,6 +31,7 @@ const AppRouter = () => {
             <Route path="/dico" element={<DicoPage />} />
             <Route path="/cgu" element={<CguPage />} />
             <Route path="/cgv" element={<CgvPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/application" element={<MobileAppPage />} />
             <Route path="*" element={<ErrorPage />} />
         </Routes>
