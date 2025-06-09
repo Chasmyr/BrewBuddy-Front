@@ -13,6 +13,7 @@ import CguPage from "../pages/CguPage"
 import CgvPage from "../pages/CgvPage"
 import ConfirmationPage from "../pages/user/Confirmation"
 import ContactPage from "../pages/Contact"
+import MobileAppPage from "../pages/MobileApp"
 
 const AppRouter = () => {
 
@@ -31,6 +32,7 @@ const AppRouter = () => {
             <Route path="/cgu" element={<CguPage />} />
             <Route path="/cgv" element={<CgvPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/application" element={<MobileAppPage />} />
             <Route path="*" element={<ErrorPage />} />
         </Routes>
     )
