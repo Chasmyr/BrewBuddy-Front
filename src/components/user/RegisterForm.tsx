@@ -1,13 +1,11 @@
 import { Visibility, VisibilityOff } from "@mui/icons-material"
-import { Box, Button, IconButton, InputAdornment, TextField, Typography } from "@mui/material"
+import { Box, Button, CircularProgress, IconButton, InputAdornment, TextField, Typography } from "@mui/material"
 import { ChangeEvent, useEffect, useState } from "react"
-import { useApi } from "../hooks/useApi"
-import { useDispatch } from "react-redux"
-import { setUserSlice, User } from "../store/userSlice"
+import { useApi } from "../../hooks/useApi"
 import { Link, useNavigate } from "react-router"
-import { checkEmailConstraints, checkPasswordConstraints } from "../utils/constraintsFormatter"
+import { checkEmailConstraints, checkPasswordConstraints } from "../../utils/constraintsFormatter"
 import { AxiosError } from "axios"
-import { useSnackbar } from "../context/SnackbarContext"
+import { useSnackbar } from "../../context/SnackbarContext"
 
 interface RegisterFormData {
     email: string
@@ -29,8 +27,7 @@ const RegisterForm = () => {
         pseudo: "",
         passwordCheck: ""
     })
-    const [userDetails, setUserDetails] = useState<User | null>(null)
-    const dispatch = useDispatch()
+    const [isFormLoading, setIsFormLoading] = useState(false)
     const navigate = useNavigate()
     const { showSnackbar } = useSnackbar()
     
@@ -78,6 +75,7 @@ const RegisterForm = () => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault()
+        setIsFormLoading(true)
 
         if(!isLoading && checkIfFormComplete()) {
             const axiosConfig = {
@@ -86,46 +84,15 @@ const RegisterForm = () => {
             }
             const createUserResponse = await fetchData("/api/users", axiosConfig)
             if(createUserResponse) {
-                let response = null
-                if(!isLoading) {
-                    const axiosConfig = {
-                        data: formData,
-                        method: 'post'
-                    }
-                    response = await fetchData("/api/login", axiosConfig)
-                }
-                if(response) {
-                    const axiosConfig = {
-                        method: 'get',
-                        headers: {
-                            Authorization: `Bearer ${response.accessToken}`
-                        }
-                    }
-                    const userInfo = await fetchData("/api/checkMe", axiosConfig)
-                    setUserDetails({
-                        ...response,
-                        ...userInfo
-                    })
-                }
+                showSnackbar("Compte créé ! Un code de vérification vous a été envoyé par mail.", "success")
+                window.scrollTo(0, 0)
+                navigate(`/confirmation/${encodeURIComponent(formData.email)}`)
             } else {
                 showSnackbar("Une erreur est survenue, merci de revenir plus tard.", "error")
-                window.scrollTo(0, 0)
-                navigate('/')
             }
         }
+        setIsFormLoading(false)
     }
-
-    useEffect(() => {
-        if(userDetails) {
-            dispatch(setUserSlice(userDetails))
-            userDetails.accessToken && localStorage.setItem("accessToken", userDetails.accessToken)
-            userDetails.id && localStorage.setItem("id", userDetails.id.toString())
-            userDetails.role && localStorage.setItem("role", userDetails.role)
-            showSnackbar("Bienvenue !", "success")
-            window.scrollTo(0, 0)
-            navigate("/")
-        }
-    }, [userDetails])
 
     useEffect(() => {
         if(error) {
@@ -139,6 +106,7 @@ const RegisterForm = () => {
                     showSnackbar("Une erreur est survenue.", "error")
                 }
             }
+            setIsFormLoading(false)
         }
     }, [error])
 
@@ -172,7 +140,12 @@ const RegisterForm = () => {
                     lg: 0
                 },
                 mt: {
-                    sm: 3,
+                    xs: 8,
+                    lg: 0
+                },
+                mb: {
+                    xs: 0,
+                    sm: 4,
                     lg: 0
                 }
             }}
@@ -185,8 +158,7 @@ const RegisterForm = () => {
                 }}
                 sx={{
                     mb: {
-                        xs: 4,
-                        sm: 2,
+                        xs: 2,
                         lg: 3
                     },
                     mt: {
@@ -332,19 +304,34 @@ const RegisterForm = () => {
                         }}
                     />
                 </Box>
-                <Button
-                    fullWidth
-                    variant="contained"
-                    sx={{
-                        backgroundColor: "#E97C4C",
-                        borderRadius: 3,
-                        boxShadow: 1,
-                        color: "background.default"
-                    }}
-                    onClick={handleSubmit}
-                >
-                    Créer un compte
-                </Button>
+                {isFormLoading ?
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{
+                            backgroundColor: "#E97C4C",
+                            borderRadius: 3,
+                            boxShadow: 1,
+                            color: "background.default"
+                        }}
+                    >
+                        <CircularProgress size={25} sx={{color: "background.default"}} />
+                    </Button>
+                    :
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{
+                            backgroundColor: "#E97C4C",
+                            borderRadius: 3,
+                            boxShadow: 1,
+                            color: "background.default"
+                        }}
+                        onClick={handleSubmit}
+                    >
+                        Créer un compte
+                    </Button>
+                }
             </Box>
             <Box
                 sx={{

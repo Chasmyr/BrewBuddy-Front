@@ -52,7 +52,7 @@ const RecipeFullDetails: React.FC<RecipeFullDetailsProps> = ({recipe}) => {
                                     </Typography>
                                     <Box>
                                         {ingredientCategory.ingredients.map((ingredient, index) => {
-                                            if(ingredientCategory.category === "levures") {
+                                            if(ingredientCategory.category === "levures" || ingredientCategory.category === "sucres") {
                                                 return (
                                                     <Typography variant="body2" sx={{mt: 1}} key={index}>
                                                         - {ingredient.name}

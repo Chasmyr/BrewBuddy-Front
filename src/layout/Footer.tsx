@@ -102,6 +102,19 @@ const Footer = () => {
                             >
                                 Mentions Légales
                             </Typography>
+                            <Typography variant="body2" align="center" sx={{
+                                cursor: "pointer", 
+                                textDecoration: 'none',
+                                '&:hover': {
+                                    textDecoration: 'underline',
+                            }}}
+                                onClick={() => {
+                                    window.scrollTo(0, 0)
+                                    navigate('/contact')
+                                }}
+                            >
+                                Contact
+                            </Typography>
                         </Box>
                     </Grid>
                     <Grid size={12}>
