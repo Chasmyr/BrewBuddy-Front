@@ -111,7 +111,6 @@ const LoginForm = () => {
         if(error) {
             const axiosError = error as AxiosError<ApiErrorResponse>
             if(axiosError.response) {
-                console.log(axiosError.response?.data.error)
                 if(axiosError.response?.data.error === "InvalidCredentials") {
                     showSnackbar("Mail ou mot de passe incorrect.","error")
                 } else if (axiosError.response?.data.error === "Unverified") {

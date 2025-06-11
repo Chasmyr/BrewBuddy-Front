@@ -5,7 +5,7 @@ const AboutTeam = () => {
 
 
     return (
-        <Grid container spacing={4} maxWidth={{xs: "80%", sm: "85%", md: "85%", lg: "1150px"}} sx={{mt: {xs: 10, md: 0}, py: 9}}>
+        <Grid container spacing={4} maxWidth={{xs: "80%", sm: "85%", md: "85%", lg: "1150px"}} sx={{py: 6}}>
             <Grid size={{xs: 12}} 
                 sx={{
                     display: "flex",
@@ -14,8 +14,11 @@ const AboutTeam = () => {
                     alignItems: "center",
                 }}
             >
-                <Typography variant="h4" color="#405344" fontWeight="600" fontSize={{xs: "40px", md: "50px"}} fontFamily="roboto" textAlign="center">
+                <Typography variant="h4" color="#405344" fontWeight="500" fontSize={{xs: "40px", md: "50px"}} fontFamily="sans-serif" textAlign="center" sx={{display: {xs: "none", sm: "block"}}}>
                     Une équipe passionnée, au service des brasseurs
+                </Typography>
+                <Typography variant="h4" color="#405344" fontWeight="500" fontSize={{xs: "40px", md: "50px"}} fontFamily="sans-serif" textAlign="center" sx={{display: {xs: "block", sm: "none"}}}>
+                    Une équipe passionnée
                 </Typography>
             </Grid>
             <Grid container spacing={3} justifyContent="center" sx={{ mt: 4 }}>

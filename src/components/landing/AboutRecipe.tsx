@@ -22,8 +22,6 @@ const AboutRecipe = () => {
             if(recipesResponse) {
                 setBeerRecipesList(recipesResponse.slice(-6))
                 setIsLoading(false)
-            } else {
-                console.log("Une erreur est survenue, merci de revenir plus tard.")
             }
         }
         fetchRecipes()
@@ -31,7 +29,7 @@ const AboutRecipe = () => {
 
 
     return (
-        <Grid container spacing={4} maxWidth={{xs: "80%", sm: "85%", md: "85%", lg: "1150px"}} sx={{mt: {xs: 10, md: 0}, py: 9}}>
+        <Grid container spacing={4} maxWidth={{xs: "80%", sm: "85%", md: "85%", lg: "1150px"}} sx={{ py: 6}}>
             <Grid size={{xs: 12}} 
                 sx={{
                     display: "flex",
@@ -40,7 +38,7 @@ const AboutRecipe = () => {
                     alignItems: "start",
                 }}
             >
-                <Typography variant="h2" color="#405344" fontWeight="600" fontSize={{xs: "40px", md: "50px"}} fontFamily="roboto">
+                <Typography variant="h2" color="#405344" fontWeight="500" fontSize={{xs: "40px", md: "50px"}} fontFamily="sans-serif">
                     Les dernières recettes
                 </Typography>
             </Grid>

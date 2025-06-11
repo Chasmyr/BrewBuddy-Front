@@ -2,13 +2,14 @@ import { Comment, Favorite, Settings, SportsBar } from "@mui/icons-material"
 import { Box, Button, Divider, Grid, Typography } from "@mui/material"
 import IconWrapper from "./IconWrapper"
 import { useNavigate } from "react-router"
+import Man from "../svg/Man"
 
 const AboutBrewBuddy = () => {
 
     const navigate = useNavigate()
 
     return (
-        <Grid container spacing={4} maxWidth={{xs: "80%", sm: "85%", md: "85%", lg: "1150px"}} sx={{mt: {xs: 10, md: 0}, py: 9}}>
+        <Grid container spacing={4} maxWidth={{xs: "80%", sm: "85%", md: "85%", lg: "1150px"}} sx={{ py: 6}}>
             <Grid size={{xs: 12, md: 7}} 
                 sx={{
                     display: "flex",
@@ -18,7 +19,7 @@ const AboutBrewBuddy = () => {
                 }}
             >
                 <Box>
-                    <Typography variant="h2" color="#405344" fontWeight="600" fontSize={{xs: "40px", md: "50px"}} fontFamily="roboto">
+                    <Typography variant="h2" color="#405344" fontWeight="500" fontSize={{xs: "40px", md: "50px"}} fontFamily="sans-serif">
                         Qu'est ce que Brew Buddy ?
                     </Typography>
                 </Box>
@@ -94,7 +95,7 @@ const AboutBrewBuddy = () => {
                             Rejoindre une communauté dynamique
                         </Typography>
                 </Box>
-                <Box sx={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center", mt: 1 }}>
+                <Box sx={{width: "100%", display: "flex", justifyContent: "center", alignItems: "center", mt: 4 }}>
                         <Button
                         variant="contained"
                         sx={{
@@ -115,15 +116,12 @@ const AboutBrewBuddy = () => {
                 <Box
                     sx={{
                         height: "100%",
-                        display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        backgroundImage: "url(landing2.png)",
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        backgroundRepeat: 'no-repeat',
+                        display: {xs: "none", md: "flex"}
                     }}
                 >
+                    <Man />
                 </Box>
             </Grid>
         </Grid>
