@@ -37,10 +37,12 @@ const ConfirmationForm: React.FC<ConfirmationFormProps> = ({email}) => {
                 method: 'post'
             }
             if(!isLoading) {
-                await fetchData("/api/users/confirmation/" + encodeURIComponent(email), axiosConfig)
-                showSnackbar("Comtpe validé ! Veuillez vous connecter.", "success")
-                window.scrollTo(0, 0)
-                navigate(`/login`)
+                const result = await fetchData("/api/users/confirmation/" + encodeURIComponent(email), axiosConfig)
+                if(result.status && result.status === 200) {
+                    showSnackbar("Comtpe validé ! Veuillez vous connecter.", "success")
+                    window.scrollTo(0, 0)
+                    navigate(`/login`)
+                }
             }
         } else {
             showSnackbar("Veuillez saisir les 6 chiffres du code.", "error")
