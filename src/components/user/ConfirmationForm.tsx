@@ -52,9 +52,6 @@ const ConfirmationForm: React.FC<ConfirmationFormProps> = ({email}) => {
         if(error) {
             const axiosError = error as AxiosError<ApiErrorResponse>
             if(axiosError.response) {
-                console.log('error')
-                console.log(axiosError.response?.data.error)
-                console.log('-------------')
                 if(axiosError.response?.data.error === "UserNotFound") {
                     showSnackbar("Cet utilisateur n'éxiste pas.","error")
                 } else if (axiosError.response?.data.error === "Invalid code") {

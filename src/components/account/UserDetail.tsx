@@ -65,7 +65,6 @@ const UserDetail: React.FC<UserDetailProps> = ({user, setUserData}) => {
                 return
             }
         }
-        console.log(dataToUpdate)
         const axiosConfig = {
             method: 'put',
             headers: {

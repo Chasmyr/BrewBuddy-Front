@@ -7,7 +7,7 @@ const CTA = () => {
     const navigate = useNavigate()
 
     return (
-        <Grid container spacing={4} maxWidth={{xs: "80%", sm: "85%", md: "85%", lg: "1150px"}} sx={{mt: {xs: 10, md: 0}, py: 9}}>
+        <Grid container spacing={4} maxWidth={{xs: "80%", sm: "85%", md: "85%", lg: "1150px"}} sx={{mt: {xs: 10, md: 0}, pt: 9, pb: 6}}>
             <Grid size={{xs: 12, md: 5}} 
                 sx={{
                     display: "flex",
@@ -17,7 +17,7 @@ const CTA = () => {
                 }}
             >
                 <Box>
-                    <Typography variant="h1" color="#405344" fontWeight="600" fontSize={{xs: "40px", md: "65px"}} fontFamily="antonio">
+                    <Typography variant="h1" color="#405344" fontWeight="500" fontSize={{xs: "40px", md: "60px"}} fontFamily="sans-serif">
                         L'innovation au service du brassage maison
                     </Typography>
                 </Box>
@@ -35,6 +35,8 @@ const CTA = () => {
                     sx={{
                         width: "100%",
                         display: "flex",
+                        flexDirection: {xs: "column", sm: "row"},
+                        mt: {xs: 2, md: 0}
                     }}
                 >
                     <Button
@@ -43,7 +45,8 @@ const CTA = () => {
                             borderRadius: 8,
                             bgcolor: "#405344",
                             color: "#FFFBF2",
-                            mr: 2,
+                            mr: {xs: 0, sm:2},
+                            mb: {xs: 2, sm:0},
                         }}
                         onClick={() => {
                             window.scrollTo(0, 0)
@@ -72,7 +75,7 @@ const CTA = () => {
                 <Box
                     sx={{
                         height: "100%",
-                        display: "flex",
+                        display: {xs: "none", md: "flex"},
                         justifyContent: "center",
                         alignItems: "center"
                     }}
