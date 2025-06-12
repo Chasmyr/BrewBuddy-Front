@@ -198,7 +198,7 @@ const LoginForm = () => {
                         variant="h6" 
                         fontWeight="semi-bold"
                     > 
-                        Addresse mail
+                        Adresse mail
                     </Typography>
                     <TextField 
                         placeholder="mail@example.com"
