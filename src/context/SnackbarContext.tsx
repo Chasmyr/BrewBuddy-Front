@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react'
-import { Snackbar, Alert, LinearProgress, Box } from '@mui/material'
+import { Snackbar, Alert, LinearProgress, Box, useTheme, useMediaQuery } from '@mui/material'
 
 type SnackbarContextType = {
   showSnackbar: (message: string, severity?: 'success' | 'error' | 'warning' | 'info') => void
@@ -12,6 +12,9 @@ export const SnackbarProvider = ({ children }: { children: React.ReactNode }) =>
   const [message, setMessage] = useState('')
   const [severity, setSeverity] = useState<'success' | 'error' | 'warning' | 'info'>('success')
   const [progress, setProgress] = useState(100)
+
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
   const duration = 4000
 
@@ -45,19 +48,23 @@ export const SnackbarProvider = ({ children }: { children: React.ReactNode }) =>
         open={open}
         autoHideDuration={duration}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: 'top', horizontal: isMobile ? 'center' : 'right' }}
         sx={{
-            mr: {
-                lg: 6,
-                sm: 4,
-                xs: 6
-            },
+            mr: isMobile ? 0 : 6,
             mt: {
-                lg: 0,
-                md: 2,
-                sm: 4,
-                xs: 8
-            }
+              lg: 0,
+              md: 2,
+              sm: 4,
+              xs: 8
+            },
+            // Pour centrer parfaitement sur mobile si nécessaire
+            left: isMobile ? '50%' : undefined,
+            transform: isMobile ? 'translateX(calc(-50% - 16px))' : undefined,
+            width: {
+              xs: '90%',
+              sm: '80%',
+              md: 'auto'
+            },
         }}
       >
         <Box 

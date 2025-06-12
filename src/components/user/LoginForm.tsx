@@ -87,6 +87,8 @@ const LoginForm = () => {
                     ...loginResponse,
                     ...userInfo
                 })
+            } else {
+                showSnackbar("Une erreur est survenue, merci de revenir plus tard.", "error")
             }
         }
         setIsFormLoading(false)

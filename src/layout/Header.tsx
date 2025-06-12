@@ -24,7 +24,7 @@ const Header = () => {
     }, [])
 
     return (
-        <AppBar sx={{ bgcolor: "#FCF7EB", borderBottom: "1px solid #e0e0e0" }}>
+        <AppBar sx={{ bgcolor: "#FCF7EB", boxShadow: 1 }}>
             <Container sx={{ maxWidth: {xs: "95%", sm: "90%", md: "85%", lg: "1150px"}}} disableGutters>
                 <Toolbar sx={{ bgcolor: "#FCF7EB", display: "flex", justifyContent: "space-between"}} disableGutters>
                     <Box
