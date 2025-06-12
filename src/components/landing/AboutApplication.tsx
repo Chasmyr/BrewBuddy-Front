@@ -62,7 +62,7 @@ const AboutApplication = () => {
                                     <SmartToy />
                                 </IconWrapper>
                                 <Typography variant="body1" color="secondary.main" fontWeight="500" fontFamily="roboto" fontSize={24} textAlign="center" sx={{p: 2}}>
-                                    Intéragir avec le boitier IOT
+                                    Intéragir avec le boîtier connecté
                                 </Typography>
                             </Box>
                         </ApplicationDetailsWrapper>
@@ -86,7 +86,7 @@ const AboutApplication = () => {
                                     <People />
                                 </IconWrapper>
                                 <Typography variant="body1" color="secondary.main" fontWeight="500" fontFamily="roboto" fontSize={24} textAlign="center" sx={{p: 2}}>
-                                    Echanger avec la communauté
+                                    Échanger avec la communauté
                                 </Typography>
                             </Box>
                         </ApplicationDetailsWrapper>
@@ -122,7 +122,7 @@ const AboutApplication = () => {
                                     <FitnessCenter />
                                 </IconWrapper>
                                 <Typography variant="body1" color="secondary.main" fontWeight="500" fontFamily="roboto" fontSize={24} textAlign="center" sx={{p: 2}}>
-                                    S'entrainer à créer des recettes
+                                    S'entraîner à créer des recettes
                                 </Typography>
                             </Box>
                         </ApplicationDetailsWrapper>

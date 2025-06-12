@@ -36,7 +36,14 @@ return (
                     <Typography>{item.question}</Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>{item.answer}</Typography>
+                    <Typography>
+                    {item.answer.split('\n').map((line, i) => (
+                        <React.Fragment key={i}>
+                        {line}
+                        <br />
+                        </React.Fragment>
+                    ))}
+                    </Typography>
                 </AccordionDetails>
             </Accordion>
         ))}

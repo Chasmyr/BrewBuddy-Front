@@ -28,7 +28,7 @@ const CTA = () => {
                     }}
                 >
                     <Typography variant="body1" color="secondary.main" fontWeight="400" fontFamily="roboto" fontSize="24px">
-                        Un compagnon connecté qui vous guide pas à pas pour réaliser votre bière en toute simplcité !
+                        Un compagnon connecté qui vous guide pas à pas pour réaliser votre bière en toute simplicité !
                     </Typography>
                 </Box>
                 <Box

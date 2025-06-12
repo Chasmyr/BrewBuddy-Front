@@ -4,8 +4,7 @@ export const faqData = [
         items: [
         {
             question: 'À qui s’adresse l’application ?',
-            answer: `BrewBuddy est faite pour tout le monde : \n
-• Simple curieux : Pour découvrir le brassage de bière amateur sans prise de tête.\n
+            answer: `BrewBuddy est fait pour tout le monde :\n \n• Simple curieux : Pour découvrir le brassage de bière amateur sans prise de tête.\n
     • Débutants : Pour se lancer facilement dans le brassage maison avec des guides pas à pas.\n
     • Brasseurs confirmés : Pour approfondir leurs techniques et partager leur expertise avec la communauté.`,
         },
@@ -33,7 +32,7 @@ export const faqData = [
         items: [
         {
             question: 'Comment trouver des recettes adaptées à mon niveau ?',
-            answer: `Utilisez les filtres intégrés dans la recherche pour sélectionner le niveau de difficulté, le type de bière.`,
+            answer: `Utilisez les filtres intégrés dans la recherche pour sélectionner le niveau de difficulté ou le type de bière.`,
         },
         {
             question: 'Qu’est-ce qu’une recette certifiée BrewBuddy ?',
@@ -84,7 +83,7 @@ export const faqData = [
         },
         {
             question: 'J’ai une question non couverte ici, où demander de l’aide ?',
-            answer: `Contactez-nous via le formulaire dans l’application directement via le [formulaire de contact :lien vers formulaire]. Notre équipe vous répondra le plus rapidement possible.`,
+            answer: `Contactez-nous via le formulaire. Notre équipe vous répondra le plus rapidement possible.`,
         },
         {
             question: 'Une suggestion ?',
