@@ -33,7 +33,6 @@ const AppRouter = () => {
             <Route path="/cgv" element={<CgvPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/application" element={<MobileAppPage />} />
-            <Route path="*" element={<ErrorPage />} />
         </Routes>
     )
 }
